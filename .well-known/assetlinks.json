@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.pastikaalois_cloud.twa",
+        "sha256_cert_fingerprints": ["E0:2C:1B:1F:64:9B:71:A4:0C:5D:3D:7F:90:0A:F3:5C:D1:6B:C8:C4:5F:83:0A:C0:B8:FB:C4:5B:DE:23:21:8C"]
+      }
+    }]
