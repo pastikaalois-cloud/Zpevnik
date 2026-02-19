@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "io.github.pastikaalois_cloud.twa",
-        "sha256_cert_fingerprints": ["E0:2C:1B:1F:64:9B:71:A4:0C:5D:3D:7F:90:0A:F3:5C:D1:6B:C8:C4:5F:83:0A:C0:B8:FB:C4:5B:DE:23:21:8C"]
+        "sha256_cert_fingerprints": ["D5:15:6D:3D:41:BC:A2:79:F9:DB:05:EC:DE:D0:02:8E:73:B7:8D:6A:9F:2F:80:FB:C3:A7:34:77:F7:2B:23:C0"]
       }
     }]
