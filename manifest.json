@@ -2,7 +2,7 @@
   "name": "Hospodský Zpěvník",
   "short_name": "Zpěvník",
   "start_url": "./index.html",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#1a1208",
   "theme_color": "#ff6b00",
   "icons": [
