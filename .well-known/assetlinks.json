@@ -2,7 +2,8 @@
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
-        "package_name": "io.github.pastikaalois_cloud.twa",
-        "sha256_cert_fingerprints": ["D5:15:6D:3D:41:BC:A2:79:F9:DB:05:EC:DE:D0:02:8E:73:B7:8D:6A:9F:2F:80:FB:C3:A7:34:77:F7:2B:23:C0"]
+        "package_name": "app.netlify.app_69977780e25ed475b7470ca9__melodious_kitsune_ccca1f.twa",
+        "sha256_cert_fingerprints": ["13:59:2A:5C:BD:1B:59:7C:98:A7:AD:EA:E9:37:A9:BF:39:AA:97:85:E1:83:04:79:A2:CB:D1:A6:10:25:C0:2F"]
       }
     }]
+
