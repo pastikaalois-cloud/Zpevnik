@@ -1,0 +1,15 @@
+{
+  "name": "Hospodský Zpěvník",
+  "short_name": "Zpěvník",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a1208",
+  "theme_color": "#ff6b00",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3844/3844721.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
