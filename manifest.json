@@ -1,7 +1,7 @@
 {
   "name": "Hospodský Zpěvník",
   "short_name": "Zpěvník",
-  "start_url": "./index.html",
+  "start_url": "https://pastikaalois-cloud.github.io/Zpevnik/",
   "display": "fullscreen",
   "background_color": "#1a1208",
   "theme_color": "#ff6b00",
