@@ -69,10 +69,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-
 .cbtn:active{background:var(--bg3)}
 .cbtn.on{border-color:var(--accent);color:var(--accent)}
 .song-body{flex:1;overflow-y:auto;padding:18px 18px 6px;-webkit-overflow-scrolling:touch}
-.line{display:flex;flex-wrap:wrap;align-items:flex-end;margin-bottom:4px;min-height:1.8em}
-.ch{display:inline-block;color:var(--chord);background:var(--chord-bg);font-family:monospace;font-size:.75em;font-weight:800;border-radius:5px;padding:1px 6px;margin-right:2px;align-self:flex-start;line-height:1.7;cursor:pointer}
-.lyr{display:inline;line-height:2.6}
-.blank{height:12px}
+.line{position:relative;margin-bottom:2px;font-family:monospace}
+.chord-row{display:block;min-height:1.3em;white-space:pre;color:var(--chord);font-weight:800;font-size:.85em;line-height:1.3}.chord-row:empty{display:none}.text-row{display:block;white-space:pre;line-height:1.5}
+.ch{display:inline;color:var(--chord);font-weight:800;font-size:1em;cursor:pointer}.ch.active{background:var(--chord-bg);border-radius:4px;outline:2px solid var(--accent)}
+.lyr{display:inline;white-space:pre}.blank{height:10px}
 .scbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1.5px solid var(--border);background:var(--bg);flex-shrink:0}
 .scbtn{background:var(--bg2);border:1.5px solid var(--border);color:var(--text);border-radius:12px;height:44px;padding:0 16px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap}
 .scbtn:active{background:var(--bg3)}
@@ -603,40 +603,8 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 .modal.open { display: block; }
 .modal-hdr { margin-bottom: 14px; font-size: 16px; }
 
-/* CHORD EDIT */
-.ch.selected { background: var(--accent); color: #fff; }
-.ch-wrap {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  vertical-align: bottom;
-  position: relative;
-}
-.ch-move-bar {
-  display: none;
-  position: absolute;
-  bottom: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg);
-  border: 1.5px solid var(--accent);
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  z-index: 20;
-  flex-direction: row;
-  align-items: center;
-  overflow: hidden;
-}
-.ch-wrap.selected .ch-move-bar { display: flex; }
-.ch-mv-btn {
-  background: none; border: none; color: var(--accent);
-  font-size: 16px; font-weight: 800;
-  width: 36px; height: 34px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-family: inherit; flex-shrink: 0;
-}
-.ch-mv-btn:active { background: var(--chord-bg); }
-
+/* CHORD SELECT */
+.ch.active { background: var(--chord-bg); border-radius: 4px; outline: 2px solid var(--accent); }
 /* NL floating button */
 .nl-fab {
   position: fixed; bottom: 24px; right: 20px;
@@ -762,7 +730,7 @@ function enterApp() {
   show('screen-home');
   renderList();
 }
-function showHome() { stopScroll(); if(selectedWrap){selectedWrap.classList.remove("selected");selectedWrap=null;} show('screen-home'); renderList(); }
+function showHome() { stopScroll(); if(selectedChord){selectedChord.classList.remove("active");selectedChord=null;hideMoveBar();} show('screen-home'); renderList(); }
 function showAdd() {
   ['f-title','f-artist','f-key','f-content'].forEach(id => document.getElementById(id).value = '');
   show('screen-add');
@@ -845,7 +813,7 @@ function renderList() {
 }
 
 // ════════════════════════════════════════════════════════
-// RENDER SONG with clickable chords
+// RENDER SONG with above-text chords (like PDF songbook)
 // ════════════════════════════════════════════════════════
 function renderSong() {
   if (!cur) return;
@@ -854,58 +822,111 @@ function renderSong() {
   const lines = cur.content.split('\n');
   body.innerHTML = lines.map((line, li) => {
     if (!line.trim()) return '<div class="blank"></div>';
-    const parts = [];
+
+    // Tokenize line into chords and text
+    const tokens = [];
     let i = 0, ci = 0;
     while (i < line.length) {
       const ob = line.indexOf('[', i);
-      if (ob === -1) { parts.push({type:'text', val:line.slice(i)}); break; }
-      if (ob > i) parts.push({type:'text', val:line.slice(i, ob)});
+      if (ob === -1) { tokens.push({type:'text', val:line.slice(i)}); break; }
+      if (ob > i) tokens.push({type:'text', val:line.slice(i, ob)});
       const cb = line.indexOf(']', ob);
-      if (cb === -1) { parts.push({type:'text', val:line.slice(ob)}); break; }
-      parts.push({type:'chord', val:line.slice(ob+1, cb), li, ci: ci++});
+      if (cb === -1) { tokens.push({type:'text', val:line.slice(ob)}); break; }
+      tokens.push({type:'chord', val:line.slice(ob+1, cb), li, ci: ci++});
       i = cb + 1;
     }
-    const html = parts.map(p => {
-      if (p.type === 'chord') {
-        if (!showChords) return '';
-        return `<span class="ch-wrap" data-li="${p.li}" data-ci="${p.ci}">` +
-          `<span class="ch-move-bar">` +
-          `<button class="ch-mv-btn" onpointerdown="event.stopPropagation();mvChord(${p.li},${p.ci},-1)">←</button>` +
-          `<button class="ch-mv-btn" onpointerdown="event.stopPropagation();mvChord(${p.li},${p.ci},1)">→</button>` +
-          `</span>` +
-          `<span class="ch" onclick="selectChordWrap(this.parentNode)">${esc(p.val)}</span>` +
-          `</span>`;
+
+    // Collect text and chord positions
+    let textOnly = '';
+    const chordEntries = [];
+    for (const t of tokens) {
+      if (t.type === 'text') {
+        textOnly += t.val;
+      } else {
+        chordEntries.push({pos: textOnly.length, val: t.val, li: t.li, ci: t.ci});
       }
-      return `<span class="lyr">${esc(p.val)}</span>`;
-    }).join('');
-    return `<div class="line">${html}</div>`;
+    }
+
+    if (!showChords) {
+      return `<div class="line" data-li="${li}"><div class="text-row"><span class="lyr">${esc(textOnly)}</span></div></div>`;
+    }
+
+    if (chordEntries.length === 0) {
+      return `<div class="line" data-li="${li}"><div class="text-row"><span class="lyr">${esc(textOnly)}</span></div></div>`;
+    }
+
+    // Build chord-row: place each chord at the character position it falls on
+    let chordRowHtml = '';
+    let curPos = 0;
+    for (const ce of chordEntries) {
+      const pad = Math.max(0, ce.pos - curPos);
+      if (pad > 0) chordRowHtml += esc(' '.repeat(pad));
+      chordRowHtml += `<span class="ch" data-li="${ce.li}" data-ci="${ce.ci}" onclick="selectChord(this)">${esc(ce.val)}</span>`;
+      curPos = ce.pos + ce.val.length;
+    }
+
+    return `<div class="line" data-li="${li}">` +
+      `<div class="chord-row">${chordRowHtml}</div>` +
+      `<div class="text-row"><span class="lyr">${esc(textOnly)}</span></div>` +
+      `</div>`;
   }).join('');
 }
-
 // ════════════════════════════════════════════════════════
-// CHORD MOVE — popup toolbar on chord
+// CHORD MOVE — click chord to show ←→ buttons
 // ════════════════════════════════════════════════════════
-let selectedWrap = null;
+let selectedChord = null;
 
-function selectChordWrap(wrap) {
-  if (selectedWrap && selectedWrap !== wrap) {
-    selectedWrap.classList.remove('selected');
+function selectChord(el) {
+  if (selectedChord && selectedChord !== el) {
+    selectedChord.classList.remove('active');
   }
-  if (selectedWrap === wrap) {
-    wrap.classList.remove('selected');
-    selectedWrap = null;
+  if (selectedChord === el) {
+    el.classList.remove('active');
+    selectedChord = null;
+    hideMoveBar();
     return;
   }
-  selectedWrap = wrap;
-  wrap.classList.add('selected');
+  selectedChord = el;
+  el.classList.add('active');
+  showMoveBar(el);
 }
 
-// Close popup when tapping elsewhere
+function showMoveBar(el) {
+  let bar = document.getElementById('chord-move-bar');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'chord-move-bar';
+    bar.innerHTML = '<button onpointerdown="event.stopPropagation();moveSelected(-1)">← posun</button>' +
+      '<button onpointerdown="event.stopPropagation();moveSelected(1)">posun →</button>';
+    document.body.appendChild(bar);
+  }
+  const rect = el.getBoundingClientRect();
+  bar.style.cssText = `position:fixed;top:${Math.max(4,rect.top-44)}px;left:${Math.max(4,rect.left-20)}px;` +
+    'background:var(--bg);border:1.5px solid var(--accent);border-radius:10px;' +
+    'box-shadow:0 4px 16px rgba(0,0,0,0.2);display:flex;z-index:100;overflow:hidden';
+  bar.querySelectorAll('button').forEach(b => {
+    b.style.cssText = 'background:none;border:none;color:var(--accent);font-size:14px;font-weight:800;padding:6px 14px;cursor:pointer;font-family:inherit';
+  });
+}
+
+function hideMoveBar() {
+  const bar = document.getElementById('chord-move-bar');
+  if (bar) bar.style.display = 'none';
+}
+
+function moveSelected(dir) {
+  if (!selectedChord) return;
+  const li = parseInt(selectedChord.dataset.li);
+  const ci = parseInt(selectedChord.dataset.ci);
+  mvChord(li, ci, dir);
+}
+
 document.getElementById('song-body').addEventListener('pointerdown', e => {
-  if (!selectedWrap) return;
-  if (!selectedWrap.contains(e.target)) {
-    selectedWrap.classList.remove('selected');
-    selectedWrap = null;
+  if (!selectedChord) return;
+  if (!selectedChord.contains(e.target)) {
+    selectedChord.classList.remove('active');
+    selectedChord = null;
+    hideMoveBar();
   }
 });
 
@@ -1043,8 +1064,8 @@ function mvChord(li, ci, dir) {
   persist();
   renderSong();
   setTimeout(() => {
-    const w = document.querySelector(`.ch-wrap[data-li="${newLi}"][data-ci="${newCi}"]`);
-    if (w) { selectedWrap = w; w.classList.add('selected'); }
+    const w = document.querySelector(`.ch[data-li="${newLi}"][data-ci="${newCi}"]`);
+    if (w) { selectedChord = w; w.classList.add('active'); showMoveBar(w); }
   }, 0);
 }
 
