@@ -68,11 +68,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-
 .cbtn{background:var(--bg2);border:1.5px solid var(--border);color:var(--text2);border-radius:12px;height:44px;padding:0 18px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .cbtn:active{background:var(--bg3)}
 .cbtn.on{border-color:var(--accent);color:var(--accent)}
-.song-body{flex:1;overflow-y:auto;padding:18px 18px 6px;-webkit-overflow-scrolling:touch}
-.line{position:relative;margin-bottom:2px;font-family:monospace}
-.chord-row{display:block;min-height:1.3em;white-space:pre;color:var(--chord);font-weight:800;font-size:.85em;line-height:1.3}.chord-row:empty{display:none}.text-row{display:block;white-space:pre;line-height:1.5}
+.song-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 6px;-webkit-overflow-scrolling:touch}
+.line{position:relative;margin-bottom:2px;font-family:monospace;overflow-x:hidden}
+.chord-row{display:block;min-height:1.3em;white-space:pre-wrap;word-break:break-word;color:var(--chord);font-weight:800;font-size:.85em;line-height:1.3}.chord-row:empty{display:none}.text-row{display:block;white-space:pre-wrap;word-break:break-word;line-height:1.5}
 .ch{display:inline;color:var(--chord);font-weight:800;font-size:1em;cursor:pointer}.ch.active{background:var(--chord-bg);border-radius:4px;outline:2px solid var(--accent)}
-.lyr{display:inline;white-space:pre}.blank{height:10px}
+.lyr{display:inline;white-space:pre-wrap;word-break:break-word}.blank{height:10px}
 .scbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1.5px solid var(--border);background:var(--bg);flex-shrink:0}
 .scbtn{background:var(--bg2);border:1.5px solid var(--border);color:var(--text);border-radius:12px;height:44px;padding:0 16px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap}
 .scbtn:active{background:var(--bg3)}
@@ -863,7 +863,7 @@ function renderSong() {
     for (const ce of chordEntries) {
       const pad = Math.max(0, ce.pos - curPos);
       if (pad > 0) chordRowHtml += esc(' '.repeat(pad));
-      chordRowHtml += `<span class="ch" data-li="${ce.li}" data-ci="${ce.ci}" onpointerdown="chordPointerDown(event,this)" onclick="selectChord(this)">${esc(ce.val)}</span>`;
+      chordRowHtml += `<span class="ch" data-li="${ce.li}" data-ci="${ce.ci}" onpointerdown="chordPointerDown(event,this)">${esc(ce.val)}</span>`;
       curPos = ce.pos + ce.val.length;
     }
 
@@ -923,53 +923,61 @@ function hideMoveBar() {
 let dragState = null;
 
 function chordPointerDown(e, el) {
-  // Only start drag on admin mode (edit enabled) when chords visible
   if (!isAdmin) return;
+  e.preventDefault();
   e.stopPropagation();
 
   const startX = e.clientX;
   const startY = e.clientY;
   let dragging = false;
-
-  // Ghost element
   let ghost = null;
+  let moved = false;
+
+  el.setPointerCapture(e.pointerId);
 
   function onMove(ev) {
     const dx = ev.clientX - startX;
     const dy = ev.clientY - startY;
-    if (!dragging && Math.abs(dx) > 6) {
+    moved = true;
+
+    if (!dragging && Math.abs(dx) > 8) {
       dragging = true;
-      // Create ghost
+      // Dismiss existing selection
+      if (selectedChord && selectedChord !== el) {
+        selectedChord.classList.remove('active');
+        hideMoveBar();
+      }
+      selectedChord = null;
+      // Ghost
       ghost = document.createElement('span');
       ghost.textContent = el.textContent;
-      ghost.style.cssText = 'position:fixed;pointer-events:none;z-index:200;background:var(--accent);color:#fff;' +
-        'font-family:monospace;font-weight:800;font-size:' + fontSize + 'px;border-radius:6px;padding:2px 8px;opacity:0.9;';
+      ghost.style.cssText = 'position:fixed;pointer-events:none;z-index:200;' +
+        'background:var(--accent);color:#fff;font-family:monospace;font-weight:800;' +
+        'font-size:' + fontSize + 'px;border-radius:6px;padding:2px 8px;opacity:0.85;';
       document.body.appendChild(ghost);
       el.style.opacity = '0.3';
-      dragState = {el, li: parseInt(el.dataset.li), ci: parseInt(el.dataset.ci)};
     }
     if (dragging && ghost) {
-      ghost.style.left = (ev.clientX - ghost.offsetWidth/2) + 'px';
-      ghost.style.top = (ev.clientY - ghost.offsetHeight - 8) + 'px';
+      ghost.style.left = (ev.clientX - ghost.offsetWidth / 2) + 'px';
+      ghost.style.top = (ev.clientY - ghost.offsetHeight - 10) + 'px';
     }
   }
 
   function onUp(ev) {
-    document.removeEventListener('pointermove', onMove);
-    document.removeEventListener('pointerup', onUp);
+    el.removeEventListener('pointermove', onMove);
+    el.removeEventListener('pointerup', onUp);
     el.style.opacity = '';
     if (ghost) { ghost.remove(); ghost = null; }
 
-    if (!dragging || !dragState) {
-      dragState = null;
+    if (!dragging) {
+      // It was a tap/click — select chord
+      selectChord(el);
       return;
     }
 
-    // Find drop target: which line and which character position
-    const li = dragState.li;
-    const ci = dragState.ci;
-
-    // Find the line div
+    // Find drop target line and char position
+    const li = parseInt(el.dataset.li);
+    const ci = parseInt(el.dataset.ci);
     const lineDivs = document.querySelectorAll('.line[data-li]');
     let targetLi = li;
     let targetCharPos = null;
@@ -978,12 +986,10 @@ function chordPointerDown(e, el) {
       const rect = div.getBoundingClientRect();
       if (ev.clientY >= rect.top && ev.clientY <= rect.bottom) {
         targetLi = parseInt(div.dataset.li);
-        // Find char position based on X in the text-row
         const textRow = div.querySelector('.text-row');
         if (textRow) {
           const textRect = textRow.getBoundingClientRect();
-          // Estimate char width using monospace font size
-          const charWidth = fontSize * 0.6; // monospace approximation
+          const charWidth = fontSize * 0.601; // monospace char width
           targetCharPos = Math.max(0, Math.round((ev.clientX - textRect.left) / charWidth));
         }
         break;
@@ -993,11 +999,10 @@ function chordPointerDown(e, el) {
     if (targetCharPos !== null) {
       moveChordToPos(li, ci, targetLi, targetCharPos);
     }
-    dragState = null;
   }
 
-  document.addEventListener('pointermove', onMove);
-  document.addEventListener('pointerup', onUp);
+  el.addEventListener('pointermove', onMove);
+  el.addEventListener('pointerup', onUp);
 }
 
 function moveChordToPos(fromLi, fromCi, toLi, toCharPos) {
