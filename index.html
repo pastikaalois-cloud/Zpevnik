@@ -73,10 +73,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-
 .cbtn:active{background:var(--bg3)}
 .cbtn.on{border-color:var(--accent);color:var(--accent)}
 .song-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 6px;-webkit-overflow-scrolling:touch}
-.line-wrap{display:block;font-family:monospace;margin-bottom:2px;overflow-x:hidden}
-.seg{display:inline-block;vertical-align:top;white-space:normal;max-width:100%}
-.seg-chord{display:block;min-height:1.2em;line-height:1.3;color:var(--chord);font-weight:800;white-space:pre;overflow:hidden}
-.seg-text{display:block;line-height:1.6;white-space:pre;overflow-wrap:break-word;word-break:break-word}
+.line-wrap{display:block;font-family:monospace;margin-bottom:2px;overflow-x:hidden;overflow-wrap:break-word;word-break:break-word}
+.seg{display:inline-block;vertical-align:top;white-space:normal;max-width:100%;overflow-wrap:break-word;word-break:break-word}
+.seg-chord{display:block;min-height:1.2em;line-height:1.3;color:var(--chord);font-weight:800;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-all}
+.seg-text{display:block;line-height:1.6;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-word}
 .ch{display:inline;color:var(--chord);font-weight:800;cursor:pointer;touch-action:none;user-select:none}.ch.active{background:var(--chord-bg);border-radius:3px;outline:2px solid var(--accent)}
 .lyr{display:inline}.blank{height:10px}
 .scbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1.5px solid var(--border);background:var(--bg);flex-shrink:0}
