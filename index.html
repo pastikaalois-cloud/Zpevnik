@@ -6,10 +6,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="ZpÄvnÃ­k">
+<meta name="apple-mobile-web-app-title" content="Zpěvník">
 <meta name="theme-color" id="theme-color" content="#ff6b00">
 <link rel="manifest" href="manifest.json">
-<title>ZpÄvnÃ­k</title>
+<title>Zpěvník</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -26,7 +26,7 @@ body.dark{
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
 
-/* ââ SCREENS ââ */
+/* ── SCREENS ── */
 .screen{display:none;flex-direction:column;height:100dvh}
 .screen.active{display:flex}
 
@@ -277,9 +277,9 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
           <circle cx="70" cy="20" r="3" fill="#8a5200"/>
         </svg>
       </div>
-      <div class="splash-title">ZpÄvnÃ­k</div>
-      <div class="splash-sub">OtevÅi a zahraj</div>
-      <button class="splash-btn" onclick="enterApp()">Vstoupit â</button>
+      <div class="splash-title">Zpěvník</div>
+      <div class="splash-sub">Otevři a zahraj</div>
+      <button class="splash-btn" onclick="enterApp()">Vstoupit →</button>
     </div>
   </div>
 </div>
@@ -287,20 +287,20 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <!-- HOME -->
 <div class="screen" id="screen-home">
   <div class="home-top">
-    <div class="logo logo-clickable" onclick="logoClick()" title="Admin pÅihlÃ¡Å¡enÃ­">âª ZpÄvnÃ­k<span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span></div>
+    <div class="logo logo-clickable" onclick="logoClick()" title="Admin přihlášení">♪ Zpěvník<span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span></div>
     <div class="hdr-r">
-      <button class="ibtn" id="theme-btn" onclick="toggleTheme()">ð</button>
-      <button class="add-btn" id="add-btn" onclick="showAdd()" style="display:none">+ PÅidat</button>
-      <button class="add-btn" id="update-btn" onclick="showGithubUpdate()" style="display:none;background:#333;border:none;margin-left:4px">âï¸ UloÅ¾it</button>
+      <button class="ibtn" id="theme-btn" onclick="toggleTheme()">🌙</button>
+      <button class="add-btn" id="add-btn" onclick="showAdd()" style="display:none">+ Přidat</button>
+      <button class="add-btn" id="update-btn" onclick="showGithubUpdate()" style="display:none;background:#333;border:none;margin-left:4px">☁️ Uložit</button>
     </div>
   </div>
   <div class="srch">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input id="srch-inp" type="search" placeholder="Hledat nÃ¡zev, interpret, textâ¦" oninput="renderList()" autocomplete="off">
+    <input id="srch-inp" type="search" placeholder="Hledat název, interpret, text…" oninput="renderList()" autocomplete="off">
   </div>
   <div class="cnt" id="cnt"></div>
   <div class="list" id="list"></div>
-  <button class="nl-fab" onclick="openNL()" title="NÃ¡pojovÃ½ lÃ­stek">ðº</button>
+  <button class="nl-fab" onclick="openNL()" title="Nápojový lístek">🍺</button>
 </div>
 
 <!-- SONG -->
@@ -309,7 +309,7 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
     <div class="song-top">
       <button class="back-btn" onclick="showHome()">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-        ZpÄt
+        Zpět
       </button>
       <div class="song-info">
         <h2 id="v-title"></h2>
@@ -317,19 +317,19 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
       </div>
     </div>
     <div class="ctrls">
-      <button class="cbtn" onclick="changeFontSize(-2)">Aâ</button>
+      <button class="cbtn" onclick="changeFontSize(-2)">A−</button>
       <button class="cbtn" onclick="changeFontSize(2)">A+</button>
-      <button class="cbtn on" id="chord-btn" onclick="toggleChords()">Akordy â</button>
-      <button class="cbtn" id="edit-btn" onclick="showEdit()" style="display:none">âï¸ Upravit</button>
-      <button class="cbtn" onclick="transposeAll(-1)">â­ â1</button>
-      <button class="cbtn" onclick="transposeAll(1)">â¯ +1</button>
+      <button class="cbtn on" id="chord-btn" onclick="toggleChords()">Akordy ✓</button>
+      <button class="cbtn" id="edit-btn" onclick="showEdit()" style="display:none">✏️ Upravit</button>
+      <button class="cbtn" onclick="transposeAll(-1)">♭ −1</button>
+      <button class="cbtn" onclick="transposeAll(1)">♯ +1</button>
     </div>
   </div>
   <div class="song-body" id="song-body"></div>
   <div class="scbar">
-    <button class="scbtn" id="sc-toggle" onclick="toggleScroll()">â¶ Scroll</button>
-    <button class="spdbtn" onclick="changeSpeed(-1)">â</button>
-    <span class="spdlbl" id="spdlbl">Ã1</span>
+    <button class="scbtn" id="sc-toggle" onclick="toggleScroll()">▶ Scroll</button>
+    <button class="spdbtn" onclick="changeSpeed(-1)">−</button>
+    <span class="spdlbl" id="spdlbl">×1</span>
     <button class="spdbtn" onclick="changeSpeed(1)">+</button>
   </div>
 </div>
@@ -337,50 +337,50 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <!-- ADD -->
 <div class="screen" id="screen-add">
   <div class="form-hdr">
-    <h2>PÅidat pÃ­seÅ</h2>
-    <button class="cancbtn" onclick="showHome()">ZruÅ¡it</button>
+    <h2>Přidat píseň</h2>
+    <button class="cancbtn" onclick="showHome()">Zrušit</button>
   </div>
   <div class="fbody">
-    <div class="hint">Akordy piÅ¡ pÅÃ­mo v textu do hranatÃ½ch zÃ¡vorek:<br><code>[Am]Text pÃ­snÄ [F]pokraÄovÃ¡nÃ­</code></div>
-    <div class="fld"><label>NÃ¡zev *</label><input class="inp" id="f-title" type="text" placeholder="NÃ¡zev pÃ­snÄ"></div>
-    <div class="fld"><label>Interpret</label><input class="inp" id="f-artist" type="text" placeholder="JmÃ©no interpreta"></div>
-    <div class="fld"><label>TÃ³nina</label><input class="inp" id="f-key" type="text" placeholder="G, Am, Câ¦" style="max-width:120px"></div>
-    <div class="fld"><label>Text s akordy *</label><textarea class="inp" id="f-content" placeholder="[G]KdyÅ¾ se s vinem probouzÃ­ denâ¦"></textarea></div>
+    <div class="hint">Akordy piš přímo v textu do hranatých závorek:<br><code>[Am]Text písně [F]pokračování</code></div>
+    <div class="fld"><label>Název *</label><input class="inp" id="f-title" type="text" placeholder="Název písně"></div>
+    <div class="fld"><label>Interpret</label><input class="inp" id="f-artist" type="text" placeholder="Jméno interpreta"></div>
+    <div class="fld"><label>Tónina</label><input class="inp" id="f-key" type="text" placeholder="G, Am, C…" style="max-width:120px"></div>
+    <div class="fld"><label>Text s akordy *</label><textarea class="inp" id="f-content" placeholder="[G]Když se s vinem probouzí den…"></textarea></div>
   </div>
-  <div class="ffoot"><button class="savebtn" onclick="saveSong()">UloÅ¾it pÃ­seÅ</button></div>
+  <div class="ffoot"><button class="savebtn" onclick="saveSong()">Uložit píseň</button></div>
 </div>
 
 <!-- EDIT SONG (same structure as ADD) -->
 <div class="screen" id="screen-edit">
   <div class="form-hdr">
-    <h2>Upravit pÃ­seÅ</h2>
-    <button class="cancbtn" onclick="cancelEdit()">ZruÅ¡it</button>
+    <h2>Upravit píseň</h2>
+    <button class="cancbtn" onclick="cancelEdit()">Zrušit</button>
   </div>
   <div class="fbody">
-    <div class="hint">Akordy piÅ¡ pÅÃ­mo v textu do hranatÃ½ch zÃ¡vorek:<br><code>[Am]Text pÃ­snÄ [F]pokraÄovÃ¡nÃ­</code><br><br>
-    <strong>PÅesun akordu:</strong> klikni na akord v nÃ¡hledu â pak â â posunout</div>
-    <div class="fld"><label>NÃ¡zev *</label><input class="inp" id="e-title" type="text"></div>
+    <div class="hint">Akordy piš přímo v textu do hranatých závorek:<br><code>[Am]Text písně [F]pokračování</code><br><br>
+    <strong>Přesun akordu:</strong> klikni na akord v náhledu → pak ← → posunout</div>
+    <div class="fld"><label>Název *</label><input class="inp" id="e-title" type="text"></div>
     <div class="fld"><label>Interpret</label><input class="inp" id="e-artist" type="text"></div>
-    <div class="fld"><label>TÃ³nina</label><input class="inp" id="e-key" type="text" style="max-width:120px"></div>
+    <div class="fld"><label>Tónina</label><input class="inp" id="e-key" type="text" style="max-width:120px"></div>
     <div class="fld"><label>Text s akordy *</label><textarea class="inp" id="e-content"></textarea></div>
   </div>
-  <div class="ffoot"><button class="savebtn" onclick="saveEdit()">UloÅ¾it zmÄny</button></div>
+  <div class="ffoot"><button class="savebtn" onclick="saveEdit()">Uložit změny</button></div>
 </div>
 
 <!-- NAPOJOVY LISTEK -->
 <div class="nl-overlay" id="nl-overlay" onclick="closeNL()"></div>
 <div class="nl-panel" id="nl-panel">
   <div class="nl-hdr">
-    <span class="nl-title">ðº NÃ¡pojovÃ½ lÃ­stek</span>
+    <span class="nl-title">🍺 Nápojový lístek</span>
     <div style="display:flex;gap:8px">
-      <button class="nl-addbtn" onclick="showAddDrink()">+ NÃ¡poj</button>
-      <button class="nl-closebtn" onclick="closeNL()">â</button>
+      <button class="nl-addbtn" onclick="showAddDrink()">+ Nápoj</button>
+      <button class="nl-closebtn" onclick="closeNL()">✕</button>
     </div>
   </div>
   <div class="nl-body" id="nl-body"></div>
   <div class="nl-footer">
     <div id="nl-total" style="text-align:center;font-size:15px;font-weight:700;color:var(--accent);padding:6px 0 10px;display:none"></div>
-    <button class="nl-resetbtn" onclick="resetAll()">Vynulovat vÅ¡e</button>
+    <button class="nl-resetbtn" onclick="resetAll()">Vynulovat vše</button>
   </div>
 </div>
 
@@ -388,12 +388,12 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <div class="admin-overlay" id="admin-overlay" onclick="closeAdminModal()"></div>
 <div class="admin-overlay" id="admin-modal-wrap" style="display:none">
   <div class="admin-modal" onclick="event.stopPropagation()">
-    <h3>ð Admin pÅihlÃ¡Å¡enÃ­</h3>
-    <p>Zadej heslo pro pÅÃ­stup k admin funkcÃ­m.</p>
-    <input class="inp" id="admin-pwd" type="password" placeholder="Hesloâ¦" autocomplete="off">
+    <h3>🔐 Admin přihlášení</h3>
+    <p>Zadej heslo pro přístup k admin funkcím.</p>
+    <input class="inp" id="admin-pwd" type="password" placeholder="Heslo…" autocomplete="off">
     <div class="admin-modal-btns">
-      <button class="savebtn" onclick="doAdminLogin()">PÅihlÃ¡sit</button>
-      <button class="cancbtn" onclick="closeAdminModal()">ZruÅ¡it</button>
+      <button class="savebtn" onclick="doAdminLogin()">Přihlásit</button>
+      <button class="cancbtn" onclick="closeAdminModal()">Zrušit</button>
     </div>
     <div id="admin-err" style="color:#e05a00;font-size:13px;margin-top:10px;text-align:center;min-height:18px"></div>
   </div>
@@ -403,15 +403,15 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <div class="gh-overlay" id="gh-overlay" onclick="closeGhModal()"></div>
 <div class="gh-overlay" id="gh-modal-wrap" style="display:none">
   <div class="gh-modal" onclick="event.stopPropagation()">
-    <h3>âï¸ Aktualizovat zpÄvnÃ­k</h3>
-    <p>Tato akce uloÅ¾Ã­ aktuÃ¡lnÃ­ seznam pÃ­snÃ­ na GitHub. Po ~1â2 minutÃ¡ch uvidÃ­ zmÄny vÅ¡ichni uÅ¾ivatelÃ©.</p>
+    <h3>☁️ Aktualizovat zpěvník</h3>
+    <p>Tato akce uloží aktuální seznam písní na GitHub. Po ~1–2 minutách uvidí změny všichni uživatelé.</p>
     <input class="inp" id="gh-token-inp" type="password" placeholder="GitHub token (ghp_...)" autocomplete="off" style="margin-bottom:8px">
     <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);margin-bottom:12px;cursor:pointer">
       <input type="checkbox" id="gh-remember" style="width:16px;height:16px;cursor:pointer">
-      Zapamatovat token v tomto zaÅÃ­zenÃ­
+      Zapamatovat token v tomto zařízení
     </label>
-    <button class="savebtn" id="gh-confirm-btn" onclick="doGithubUpdate()">UloÅ¾it na GitHub</button>
-    <button class="cancbtn" onclick="closeGhModal()">ZruÅ¡it</button>
+    <button class="savebtn" id="gh-confirm-btn" onclick="doGithubUpdate()">Uložit na GitHub</button>
+    <button class="cancbtn" onclick="closeGhModal()">Zrušit</button>
     <div class="gh-status" id="gh-status"></div>
   </div>
 </div>
@@ -419,25 +419,25 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <!-- ADD DRINK MODAL -->
 <div class="modal-overlay" id="drink-overlay" onclick="closeDrinkModal()"></div>
 <div class="modal" id="drink-modal">
-  <div class="modal-hdr"><strong>PÅidat nÃ¡poj</strong></div>
+  <div class="modal-hdr"><strong>Přidat nápoj</strong></div>
   <div class="quick-grid">
-    <button class="qbtn" onclick="quickDrink('Pivo velkÃ© 12Â°')">ðº VelkÃ© 12Â°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo malÃ© 12Â°')">ðº MalÃ© 12Â°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo velkÃ© 11Â°')">ðº VelkÃ© 11Â°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo malÃ© 11Â°')">ðº MalÃ© 11Â°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo velkÃ© 10Â°')">ðº VelkÃ© 10Â°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo malÃ© 10Â°')">ðº MalÃ© 10Â°</button>
-    <button class="qbtn" onclick="quickDrink('VÃ­no bÃ­lÃ©')">ð¥ VÃ­no bÃ­lÃ©</button>
-    <button class="qbtn" onclick="quickDrink('VÃ­no ÄervenÃ©')">ð· VÃ­no ÄervenÃ©</button>
-    <button class="qbtn" onclick="quickDrink('Slivovice malÃ¡')">ð¥ Slivka malÃ¡</button>
-    <button class="qbtn" onclick="quickDrink('Slivovice velkÃ¡')">ð¥ Slivka velkÃ¡</button>
+    <button class="qbtn" onclick="quickDrink('Pivo velké 12°')">🍺 Velké 12°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo malé 12°')">🍺 Malé 12°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo velké 11°')">🍺 Velké 11°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo malé 11°')">🍺 Malé 11°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo velké 10°')">🍺 Velké 10°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo malé 10°')">🍺 Malé 10°</button>
+    <button class="qbtn" onclick="quickDrink('Víno bílé')">🥂 Víno bílé</button>
+    <button class="qbtn" onclick="quickDrink('Víno červené')">🍷 Víno červené</button>
+    <button class="qbtn" onclick="quickDrink('Slivovice malá')">🥃 Slivka malá</button>
+    <button class="qbtn" onclick="quickDrink('Slivovice velká')">🥃 Slivka velká</button>
   </div>
-  <div class="modal-divider" id="modal-divider-or">nebo vlastnÃ­</div>
-  <input class="inp" id="drink-inp" type="text" placeholder="NÃ¡zev nÃ¡pojeâ¦" style="margin-bottom:8px">
-  <input class="inp" id="drink-price" type="number" min="0" step="1" placeholder="Cena (KÄ) â nepovinnÃ©" style="margin-bottom:12px">
+  <div class="modal-divider" id="modal-divider-or">nebo vlastní</div>
+  <input class="inp" id="drink-inp" type="text" placeholder="Název nápoje…" style="margin-bottom:8px">
+  <input class="inp" id="drink-price" type="number" min="0" step="1" placeholder="Cena (Kč) — nepovinné" style="margin-bottom:12px">
   <div style="display:flex;gap:8px">
-    <button class="savebtn" style="flex:1" onclick="addDrink()">PÅidat</button>
-    <button class="cancbtn" onclick="closeDrinkModal()">ZruÅ¡it</button>
+    <button class="savebtn" style="flex:1" onclick="addDrink()">Přidat</button>
+    <button class="cancbtn" onclick="closeDrinkModal()">Zrušit</button>
   </div>
 </div>
 
@@ -929,17 +929,17 @@ const DEFAULTS = [
 </script>
 
 <script>
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // STORAGE KEYS
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 const STORAGE_KEY = 'zpevnik_v1';
 const STORAGE_SEEDED = 'zpevnik_seeded_v1';
 const STORAGE_NL = 'zpevnik_nl_v1';
 const STORAGE_THEME = 'zp_theme';
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// SONGS â load from localStorage, seed DEFAULTS only once
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
+// SONGS — load from localStorage, seed DEFAULTS only once
+// ════════════════════════════════════════════════════════
 function loadSongs() {
   try {
     const r = localStorage.getItem(STORAGE_KEY);
@@ -952,27 +952,27 @@ function persist() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(song
 // Seed defaults only if never seeded before
 let songs = loadSongs();
 if (!songs) {
-  // Load DEFAULTS from inline data â only runs ONCE ever
+  // Load DEFAULTS from inline data — only runs ONCE ever
   songs = (typeof DEFAULTS !== 'undefined') ? DEFAULTS.map(s=>({...s})) : [];
   persist();
   try { localStorage.setItem(STORAGE_SEEDED, '1'); } catch(e) {}
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // STATE
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 let cur = null, showChords = true, fontSize = 17;
 let scrolling = false, scrollLevel = 2, raf = null;
 const SPEEDS = [0.2, 0.5, 1.0, 1.8, 3.0];
 let isDark = false;
 
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // THEME
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 function applyTheme() {
   document.body.classList.toggle('dark', isDark);
-  document.getElementById('theme-btn').textContent = isDark ? 'âï¸' : 'ð';
+  document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
 }
 function toggleTheme() {
   isDark = !isDark;
@@ -981,9 +981,9 @@ function toggleTheme() {
 }
 (()=>{ try { if (localStorage.getItem(STORAGE_THEME)==='1') isDark=true; } catch(e){} applyTheme(); })();
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // NAVIGATION
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -1020,7 +1020,7 @@ function openSong(id) {
   document.getElementById('v-artist').textContent = cur.artist || '';
   stopScroll();
   const sc = document.getElementById('sc-toggle');
-  sc.textContent = 'â¶ Scroll'; sc.classList.remove('on');
+  sc.textContent = '▶ Scroll'; sc.classList.remove('on');
   renderSong();
   show('screen-song');
   document.getElementById('song-body').scrollTop = 0;
@@ -1037,9 +1037,9 @@ function showEdit() {
 }
 function cancelEdit() { if (cur) openSong(cur.id); else showHome(); }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // RENDER LIST
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function renderList() {
@@ -1064,7 +1064,7 @@ function renderList() {
           const raw = plain.slice(start, end).replace(/\n/g, ' ').trim();
           // Highlight match
           const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
-          snippet = (start > 0 ? 'â¦' : '') + raw.replace(re, '<mark>$1</mark>') + (end < plain.length ? 'â¦' : '');
+          snippet = (start > 0 ? '…' : '') + raw.replace(re, '<mark>$1</mark>') + (end < plain.length ? '…' : '');
         }
       }
       acc.push({song: s, snippet});
@@ -1072,26 +1072,26 @@ function renderList() {
     }, []);
   }
   const n = f.length;
-  document.getElementById('cnt').textContent = n===0 ? 'Å½Ã¡dnÃ© vÃ½sledky' : n===1 ? '1 pÃ­seÅ' : n<5 ? n+' pÃ­snÄ' : n+' pÃ­snÃ­';
+  document.getElementById('cnt').textContent = n===0 ? 'Žádné výsledky' : n===1 ? '1 píseň' : n<5 ? n+' písně' : n+' písní';
   const el = document.getElementById('list');
-  if (!f.length) { el.innerHTML = '<div class="empty">Nic nenalezeno ð</div>'; return; }
+  if (!f.length) { el.innerHTML = '<div class="empty">Nic nenalezeno 🔍</div>'; return; }
   el.innerHTML = f.map(({song: s, snippet}) => `
     <div class="card" onclick="openSong(${s.id})">
       <div style="flex:1;min-width:0">
         <div class="card-t">${esc(s.title)}</div>
-        <div class="card-a">${esc(s.artist || 'NeznÃ¡mÃ½')}</div>
+        <div class="card-a">${esc(s.artist || 'Neznámý')}</div>
         ${snippet ? `<div class="card-snippet">${snippet}</div>` : ''}
       </div>
       <div class="card-r">
         ${s.key ? `<span class="kbdg">${esc(s.key)}</span>` : ''}
-        ${isAdmin ? `<button class="delbtn" onclick="event.stopPropagation();deleteSong(${s.id})">ð</button>` : ''}
+        ${isAdmin ? `<button class="delbtn" onclick="event.stopPropagation();deleteSong(${s.id})">🗑</button>` : ''}
       </div>
     </div>`).join('');
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // RENDER SONG with above-text chords (like PDF songbook)
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 function renderSong() {
   if (!cur) return;
   const body = document.getElementById('song-body');
@@ -1138,9 +1138,9 @@ function renderSong() {
   }).join('');
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// CHORD MOVE â click chord to show ââ buttons
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
+// CHORD MOVE — click chord to show ←→ buttons
+// ════════════════════════════════════════════════════════
 let selectedChord = null;
 
 function selectChord(el) {
@@ -1163,8 +1163,8 @@ function showMoveBar(el) {
   if (!bar) {
     bar = document.createElement('div');
     bar.id = 'chord-move-bar';
-    bar.innerHTML = '<button onpointerdown="event.stopPropagation();moveSelected(-1)">â posun</button>' +
-      '<button onpointerdown="event.stopPropagation();moveSelected(1)">posun â</button>';
+    bar.innerHTML = '<button onpointerdown="event.stopPropagation();moveSelected(-1)">← posun</button>' +
+      '<button onpointerdown="event.stopPropagation();moveSelected(1)">posun →</button>';
     document.body.appendChild(bar);
   }
   const rect = el.getBoundingClientRect();
@@ -1182,9 +1182,9 @@ function hideMoveBar() {
   if (bar) bar.style.display = 'none';
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // DRAG & DROP chords
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 let dragState = null;
 
 function chordPointerDown(e, el) {
@@ -1415,7 +1415,7 @@ function mvChord(li, ci, dir) {
       else tokens.splice(tokenIdx+1, 0, {type:'text', val:ch});
       lines[li] = tokensToLine(tokens);
     } else if (li > 0) {
-      // At start of line â move chord to END of previous line
+      // At start of line — move chord to END of previous line
       tokens.splice(tokenIdx, 1); // remove chord from current line
       lines[li] = tokensToLine(tokens);
       // Rebuild chord count for new position
@@ -1467,7 +1467,7 @@ function mvChord(li, ci, dir) {
       else tokens.splice(tokenIdx, 0, {type:'text', val:ch});
       lines[li] = tokensToLine(tokens);
     } else if (li < lines.length - 1) {
-      // At end of line â move chord to START of next line
+      // At end of line — move chord to START of next line
       const origLine = cur.content.split('\n')[li];
       const origTokens = tokenizeLine(origLine);
       let cc2 = 0; let chordV = '';
@@ -1507,9 +1507,9 @@ function mvChord(li, ci, dir) {
   }, 0);
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // TRANSPOSE
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 const CHROMATIC = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const ENHARMONIC = {'Db':'C#','Eb':'D#','Gb':'F#','Ab':'G#','Bb':'A#'};
 
@@ -1539,13 +1539,13 @@ function transposeAll(steps) {
   renderSong();
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // SONG CONTROLS
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 function toggleChords() {
   showChords = !showChords;
   const b = document.getElementById('chord-btn');
-  b.textContent = showChords ? 'Akordy â' : 'Akordy';
+  b.textContent = showChords ? 'Akordy ✓' : 'Akordy';
   b.classList.toggle('on', showChords);
   renderSong();
 }
@@ -1554,13 +1554,13 @@ function changeFontSize(d) {
   if (cur) document.getElementById('song-body').style.fontSize = fontSize+'px';
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // AUTOSCROLL
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 function toggleScroll() {
   const b = document.getElementById('sc-toggle');
-  if (scrolling) { stopScroll(); b.textContent='â¶ Scroll'; b.classList.remove('on'); }
-  else { startScroll(); b.textContent='â¸ Scroll'; b.classList.add('on'); }
+  if (scrolling) { stopScroll(); b.textContent='▶ Scroll'; b.classList.remove('on'); }
+  else { startScroll(); b.textContent='⏸ Scroll'; b.classList.add('on'); }
 }
 function startScroll() {
   scrolling = true;
@@ -1572,7 +1572,7 @@ function startScroll() {
     if (acc >= 1) { const px=Math.floor(acc); el.scrollTop+=px; acc-=px; }
     if (el.scrollTop + el.clientHeight >= el.scrollHeight - 2) {
       stopScroll();
-      document.getElementById('sc-toggle').textContent='â¶ Scroll';
+      document.getElementById('sc-toggle').textContent='▶ Scroll';
       document.getElementById('sc-toggle').classList.remove('on');
       return;
     }
@@ -1583,16 +1583,16 @@ function startScroll() {
 function stopScroll() { scrolling=false; if(raf){cancelAnimationFrame(raf);raf=null;} }
 function changeSpeed(d) {
   scrollLevel = Math.max(0, Math.min(4, scrollLevel+d));
-  document.getElementById('spdlbl').textContent = ['Ã1','Ã2','Ã3','Ã4','Ã5'][scrollLevel];
+  document.getElementById('spdlbl').textContent = ['×1','×2','×3','×4','×5'][scrollLevel];
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // SAVE / EDIT SONG
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 function saveSong() {
   const t = document.getElementById('f-title').value.trim();
   const c = document.getElementById('f-content').value.trim();
-  if (!t||!c) { alert('VyplÅ nÃ¡zev a text!'); return; }
+  if (!t||!c) { alert('Vyplň název a text!'); return; }
   const id = Date.now();
   songs.unshift({id, title:t, artist:document.getElementById('f-artist').value.trim(), key:document.getElementById('f-key').value.trim(), content:c});
   persist(); showHome();
@@ -1600,7 +1600,7 @@ function saveSong() {
 function saveEdit() {
   const t = document.getElementById('e-title').value.trim();
   const c = document.getElementById('e-content').value.trim();
-  if (!t||!c) { alert('VyplÅ nÃ¡zev a text!'); return; }
+  if (!t||!c) { alert('Vyplň název a text!'); return; }
   const idx = songs.findIndex(s => s.id === cur.id);
   if (idx === -1) return;
 
@@ -1631,15 +1631,15 @@ function saveEdit() {
 function deleteSong(id) {
   const s = songs.find(s => s.id === id);
   if (!s) return;
-  if (!confirm(`Smazat pÃ­seÅ "${s.title}"?`)) return;
+  if (!confirm(`Smazat píseň "${s.title}"?`)) return;
   songs = songs.filter(s => s.id !== id);
   persist();
   renderList();
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// NÃPOJOVÃ LÃSTEK
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
+// NÁPOJOVÝ LÍSTEK
+// ════════════════════════════════════════════════════════
 let drinks = [];
 function loadDrinks() {
   try { const r = localStorage.getItem(STORAGE_NL); if(r) drinks=JSON.parse(r); } catch(e) {}
@@ -1664,7 +1664,7 @@ function tally(n) {
   let s = '';
   const full = Math.floor(n/5);
   const rem = n%5;
-  for (let i=0;i<full;i++) s += 'ð¸ '; // or just use text
+  for (let i=0;i<full;i++) s += '𝍸 '; // or just use text
   // Use simple I marks
   s = '';
   for (let i=0;i<full;i++) s += 'IIIII ';
@@ -1675,43 +1675,43 @@ function tally(n) {
 function timeAgo(ts) {
   if (!ts) return '';
   const mins = Math.floor((Date.now() - ts) / 60000);
-  if (mins < 1) return 'PrÃ¡vÄ teÄ';
-  if (mins === 1) return 'PÅed 1 minutou';
-  if (mins < 5) return `PÅed ${mins} minutami`;
-  if (mins < 60) return `PÅed ${mins} min`;
+  if (mins < 1) return 'Právě teď';
+  if (mins === 1) return 'Před 1 minutou';
+  if (mins < 5) return `Před ${mins} minutami`;
+  if (mins < 60) return `Před ${mins} min`;
   const hrs = Math.floor(mins / 60);
   const rem = mins % 60;
-  if (rem === 0) return `PÅed ${hrs} hod`;
-  return `PÅed ${hrs} hod ${rem} min`;
+  if (rem === 0) return `Před ${hrs} hod`;
+  return `Před ${hrs} hod ${rem} min`;
 }
 
 function renderDrinks() {
   const el = document.getElementById('nl-body');
   if (!drinks.length) {
-    el.innerHTML = '<div class="nl-empty">Å½Ã¡dnÃ© nÃ¡poje.<br>PÅidej prvnÃ­! ðº</div>';
+    el.innerHTML = '<div class="nl-empty">Žádné nápoje.<br>Přidej první! 🍺</div>';
     document.getElementById('nl-total').style.display = 'none';
     return;
   }
   el.innerHTML = drinks.map((d,i) => `
     <div class="nl-item">
       <div style="flex:1;min-width:0">
-        <div class="nl-item-name">${esc(d.name)}${d.price ? `<span style="color:var(--text3);font-size:12px;font-weight:500;margin-left:6px">${d.price} KÄ/ks</span>` : ''}</div>
+        <div class="nl-item-name">${esc(d.name)}${d.price ? `<span style="color:var(--text3);font-size:12px;font-weight:500;margin-left:6px">${d.price} Kč/ks</span>` : ''}</div>
         ${d.lastAt ? `<div class="nl-time">${timeAgo(d.lastAt)}</div>` : ''}
         <div class="nl-tally">${tally(d.count)}</div>
-        ${d.price && d.count ? `<div style="font-size:12px;color:var(--accent);font-weight:700">${d.count * d.price} KÄ</div>` : ''}
+        ${d.price && d.count ? `<div style="font-size:12px;color:var(--accent);font-weight:700">${d.count * d.price} Kč</div>` : ''}
       </div>
       <div style="display:flex;align-items:center;gap:4px;margin-left:8px">
-        <button class="nl-btn" onclick="changeDrink(${i},-1)">â</button>
+        <button class="nl-btn" onclick="changeDrink(${i},-1)">−</button>
         <span class="nl-count">${d.count}</span>
         <button class="nl-btn plus" onclick="changeDrink(${i},1)">+</button>
-        <button class="nl-delbtn" onclick="deleteDrink(${i})">ð</button>
+        <button class="nl-delbtn" onclick="deleteDrink(${i})">🗑</button>
       </div>
     </div>`).join('');
   const total = drinks.reduce((sum, d) => sum + (d.price ? d.count * d.price : 0), 0);
   const totalEl = document.getElementById('nl-total');
   const hasPrices = drinks.some(d => d.price);
   if (hasPrices) {
-    totalEl.textContent = `CelkovÃ¡ Ãºtrata: ${total} KÄ`;
+    totalEl.textContent = `Celková útrata: ${total} Kč`;
     totalEl.style.display = '';
   } else {
     totalEl.style.display = 'none';
@@ -1727,19 +1727,19 @@ function changeDrink(i, d) {
   scheduleDrinkTimer();
 }
 function deleteDrink(i) {
-  if (!confirm('Smazat nÃ¡poj?')) return;
+  if (!confirm('Smazat nápoj?')) return;
   drinks.splice(i,1);
   persistDrinks();
   renderDrinks();
 }
 function resetAll() {
-  if (!confirm('Vynulovat vÅ¡echny ÄÃ¡rky?')) return;
+  if (!confirm('Vynulovat všechny čárky?')) return;
   drinks.forEach(d => { d.count=0; delete d.lastAt; });
   persistDrinks();
   renderDrinks();
 }
 
-// Live timer â refresh time labels every 30s while NL panel is open
+// Live timer — refresh time labels every 30s while NL panel is open
 let drinkTimer = null;
 function scheduleDrinkTimer() {
   if (drinkTimer) return;
@@ -1755,11 +1755,11 @@ function scheduleDrinkTimer() {
 
 function quickDrink(name) {
   if (drinks.find(d => d.name === name)) {
-    // NÃ¡poj uÅ¾ existuje â jen zavÅi modal
+    // Nápoj už existuje — jen zavři modal
     closeDrinkModal();
     return;
   }
-  // NÃ¡poj neexistuje â pÅedvyplÅ nÃ¡zev a nech zadat cenu
+  // Nápoj neexistuje — předvyplň název a nech zadat cenu
   document.getElementById('drink-inp').value = name;
   document.getElementById('drink-price').value = '';
   document.getElementById('modal-divider-or').style.display = 'none';
@@ -1791,15 +1791,15 @@ document.getElementById('drink-inp').addEventListener('keydown', e => {
   if (e.key === 'Enter') addDrink();
 });
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // ADMIN AUTH
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 const ADMIN_PWD = 'Zpevnik1.!:::';
 let isAdmin = false;
 
 function logoClick() {
   if (isAdmin) {
-    if (confirm('Jsi pÅihlÃ¡Å¡en jako admin. ChceÅ¡ se odhlÃ¡sit?')) {
+    if (confirm('Jsi přihlášen jako admin. Chceš se odhlásit?')) {
       isAdmin = false;
       applyAdminUI();
     }
@@ -1823,7 +1823,7 @@ function doAdminLogin() {
     closeAdminModal();
     applyAdminUI();
   } else {
-    document.getElementById('admin-err').textContent = 'â Å patnÃ© heslo';
+    document.getElementById('admin-err').textContent = '❌ Špatné heslo';
     document.getElementById('admin-pwd').value = '';
     document.getElementById('admin-pwd').focus();
   }
@@ -1840,9 +1840,9 @@ function applyAdminUI() {
   renderList();
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // GITHUB UPDATE
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 const GH_TOKEN = '';
 const GH_REPO = 'pastikaalois-cloud/Zpevnik';
 const GH_FILE = 'index.html';
@@ -1853,7 +1853,7 @@ function showGithubUpdate() {
   document.getElementById('gh-status').textContent = '';
   document.getElementById('gh-status').className = 'gh-status';
   document.getElementById('gh-confirm-btn').disabled = false;
-  document.getElementById('gh-confirm-btn').textContent = 'UloÅ¾it na GitHub';
+  document.getElementById('gh-confirm-btn').textContent = 'Uložit na GitHub';
   // Load saved token if exists
   const saved = localStorage.getItem('zp_gh_token');
   document.getElementById('gh-token-inp').value = saved || '';
@@ -1868,7 +1868,7 @@ async function doGithubUpdate() {
   const status = document.getElementById('gh-status');
   const token = document.getElementById('gh-token-inp').value.trim();
   if (!token) {
-    status.textContent = 'â Zadej GitHub token!';
+    status.textContent = '❌ Zadej GitHub token!';
     status.className = 'gh-status err';
     return;
   }
@@ -1879,26 +1879,26 @@ async function doGithubUpdate() {
     localStorage.removeItem('zp_gh_token');
   }
   btn.disabled = true;
-  btn.textContent = 'â³ NahrÃ¡vÃ¡mâ¦';
-  status.textContent = 'NaÄÃ­tÃ¡m soubor z GitHubuâ¦';
+  btn.textContent = '⏳ Nahrávám…';
+  status.textContent = 'Načítám soubor z GitHubu…';
   status.className = 'gh-status';
   try {
     const getResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
       headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
-    if (!getResp.ok) throw new Error('Chyba naÄtenÃ­: ' + getResp.status);
+    if (!getResp.ok) throw new Error('Chyba načtení: ' + getResp.status);
     const fileData = await getResp.json();
     const sha = fileData.sha;
     const currentContent = atob(fileData.content.replace(/\n/g,''));
-    status.textContent = 'Aktualizuji pÃ­snÄâ¦';
+    status.textContent = 'Aktualizuji písně…';
     const newDefaults = JSON.stringify(songs, null, 2).replace(/</g,'\\u003c').replace(/>/g,'\\u003e');
     const newContent = currentContent.replace(
       /const DEFAULTS = \[[\s\S]*?\];\s*\n<\/script>/,
       `const DEFAULTS = ${newDefaults};\n<\/script>`
     );
-    if (newContent === currentContent) throw new Error('NepodaÅilo se najÃ­t sekci DEFAULTS.');
+    if (newContent === currentContent) throw new Error('Nepodařilo se najít sekci DEFAULTS.');
     const encoded = btoa(unescape(encodeURIComponent(newContent)));
-    status.textContent = 'NahrÃ¡vÃ¡m na GitHubâ¦';
+    status.textContent = 'Nahrávám na GitHub…';
     const putResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
       method: 'PUT',
       headers: {
@@ -1907,27 +1907,27 @@ async function doGithubUpdate() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        message: `ZpÄvnÃ­k: aktualizace pÃ­snÃ­ (${new Date().toLocaleDateString('cs-CZ')})`,
+        message: `Zpěvník: aktualizace písní (${new Date().toLocaleDateString('cs-CZ')})`,
         content: encoded,
         sha,
         branch: GH_BRANCH
       })
     });
     if (!putResp.ok) { const err = await putResp.json(); throw new Error('GitHub: ' + (err.message || putResp.status)); }
-    status.textContent = 'â Hotovo! Za 1â2 min uvidÃ­ zmÄny vÅ¡ichni.';
+    status.textContent = '✅ Hotovo! Za 1–2 min uvidí změny všichni.';
     status.className = 'gh-status ok';
-    btn.textContent = 'â UloÅ¾eno';
+    btn.textContent = '✅ Uloženo';
   } catch(e) {
-    status.textContent = 'â ' + e.message;
+    status.textContent = '❌ ' + e.message;
     status.className = 'gh-status err';
     btn.disabled = false;
-    btn.textContent = 'UloÅ¾it na GitHub';
+    btn.textContent = 'Uložit na GitHub';
   }
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 // INIT
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════
 renderList();
 </script>
 </body>
