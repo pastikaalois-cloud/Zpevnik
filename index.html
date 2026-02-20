@@ -69,10 +69,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-
 .cbtn:active{background:var(--bg3)}
 .cbtn.on{border-color:var(--accent);color:var(--accent)}
 .song-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 6px;-webkit-overflow-scrolling:touch}
-.line-wrap{display:block;font-family:monospace;margin-bottom:2px;white-space:nowrap;overflow-x:auto}
+.line-wrap{display:block;font-family:monospace;margin-bottom:2px;word-break:break-word}
 .seg{display:inline-block;vertical-align:top;white-space:pre}
-.seg-chord{display:block;min-height:1.2em;line-height:1.3;color:var(--chord);font-weight:800;white-space:pre}
-.seg-text{display:block;line-height:1.6;white-space:pre}
+.seg-chord{display:block;min-height:1.2em;line-height:1.3;color:var(--chord);font-weight:800;white-space:pre-wrap;word-break:break-all}
+.seg-text{display:block;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 .ch{display:inline;color:var(--chord);font-weight:800;cursor:pointer;touch-action:none;user-select:none}.ch.active{background:var(--chord-bg);border-radius:3px;outline:2px solid var(--accent)}
 .lyr{display:inline}.blank{height:10px}
 .scbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1.5px solid var(--border);background:var(--bg);flex-shrink:0}
@@ -279,7 +279,7 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
       </div>
       <div class="splash-title">Zpěvník</div>
       <div class="splash-sub">Otevři a zahraj</div>
-      <button class="splash-btn" onclick="enterApp()">Tož idem na to!</button>
+      <button class="splash-btn" onclick="enterApp()">Vstoupit →</button>
     </div>
   </div>
 </div>
@@ -300,7 +300,6 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
   </div>
   <div class="cnt" id="cnt"></div>
   <div class="list" id="list"></div>
-
   <button class="nl-fab" onclick="openNL()" title="Nápojový lístek">🍺</button>
 </div>
 
@@ -621,7 +620,6 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
   z-index: 50;
 }
 .nl-fab:active { background: var(--accent2); }
-
 </style>
 <!-- DEFAULTS: only used on first install to seed localStorage. After that ignored. -->
 <script id="defaults-data">
@@ -706,8 +704,8 @@ if (!songs) {
 // STATE
 // ════════════════════════════════════════════════════════
 let cur = null, showChords = true, fontSize = 17;
-let scrolling = false, scrollLevel = 0, raf = null;
-const SPEEDS = [0.1, 0.25, 0.5, 1.0, 2.0];
+let scrolling = false, scrollLevel = 2, raf = null;
+const SPEEDS = [0.2, 0.5, 1.0, 1.8, 3.0];
 let isDark = false;
 
 
@@ -741,6 +739,7 @@ function show(id) {
 window.addEventListener('popstate', function(e) {
   const active = document.querySelector('.screen.active');
   if (!active || active.id === 'screen-home') return;
+  // Go back to home or previous screen
   if (active.id === 'screen-song') { showHome(); }
   else if (active.id === 'screen-add') { showHome(); }
   else if (active.id === 'screen-edit') { showHome(); }
@@ -1487,7 +1486,7 @@ function renderDrinks() {
     let html = '';
     if (hasPrices) html += `Celková útrata: ${total} Kč`;
     if (hasPrices && noPriceDrinks.length > 0) html += ' + ';
-    if (noPriceDrinks.length > 0) html += noPriceDrinks.map(d => `${d.name} × ${d.count}`).join(', ');
+    if (noPriceDrinks.length > 0) html += noPriceDrinks.map(d => d.name).join(', ');
     html += '<br><span style="font-size:11px;font-weight:400;color:var(--text3)">(nejedná se o nutně reálnou cenu, známe svoje lidi!)</span>';
     totalEl.innerHTML = html;
     totalEl.style.display = '';
@@ -1708,9 +1707,5 @@ async function doGithubUpdate() {
 // ════════════════════════════════════════════════════════
 renderList();
 </script>
-
-
-
-
 </body>
 </html>
