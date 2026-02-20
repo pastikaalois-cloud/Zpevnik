@@ -1,6 +1,10 @@
 <!DOCTYPE html>
+<!-- BUILD: 202602202333 -->
 <html lang="cs">
 <head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
@@ -690,8 +694,11 @@ const STORAGE_NL = 'zpevnik_nl_v1';
 const STORAGE_THEME = 'zp_theme';
 
 // ════════════════════════════════════════════════════════
-// SONGS — load from localStorage, seed DEFAULTS only once
+// SONGS — load from localStorage, merge DEFAULTS on version change
 // ════════════════════════════════════════════════════════
+const DATA_VERSION = '202602202333';
+const STORAGE_VERSION = 'zp_data_ver';
+
 function loadSongs() {
   try {
     const r = localStorage.getItem(STORAGE_KEY);
@@ -701,14 +708,32 @@ function loadSongs() {
 }
 function persist() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(songs)); } catch(e) {} }
 
-// Seed defaults only if never seeded before
 let songs = loadSongs();
+const savedVersion = localStorage.getItem(STORAGE_VERSION);
+
 if (!songs) {
-  // Load DEFAULTS from inline data — only runs ONCE ever
+  // První spuštění — načti DEFAULTS
   songs = (typeof DEFAULTS !== 'undefined') ? DEFAULTS.map(s=>({...s})) : [];
   persist();
-  try { localStorage.setItem(STORAGE_SEEDED, '1'); } catch(e) {}
+} else if (savedVersion !== DATA_VERSION) {
+  // Nová verze dat — přidej/aktualizuj písničky z DEFAULTS
+  // Zachovej uživatelské úpravy (pozice akordů) pokud existují
+  const existingIds = new Set(songs.map(s => s.id));
+  const defaults = (typeof DEFAULTS !== 'undefined') ? DEFAULTS : [];
+  // Update existing songs content from DEFAULTS
+  defaults.forEach(def => {
+    const idx = songs.findIndex(s => s.id === def.id);
+    if (idx === -1) {
+      songs.push({...def}); // nová písnička
+    } else {
+      // Aktualizuj jen pokud se obsah změnil
+      songs[idx] = {...def, ...songs[idx], content: def.content, title: def.title, artist: def.artist, key: def.key};
+    }
+  });
+  persist();
 }
+// Ulož aktuální verzi
+try { localStorage.setItem(STORAGE_VERSION, DATA_VERSION); } catch(e) {}
 
 // ════════════════════════════════════════════════════════
 // STATE
