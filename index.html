@@ -69,10 +69,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-
 .cbtn:active{background:var(--bg3)}
 .cbtn.on{border-color:var(--accent);color:var(--accent)}
 .song-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 6px;-webkit-overflow-scrolling:touch}
-.line-wrap{display:block;font-family:monospace;margin-bottom:4px;line-height:2.6}
-ruby{display:inline ruby;white-space:pre}
-rt{display:block;font-size:.85em;font-weight:800;color:var(--chord);line-height:1;text-align:left;white-space:pre}
-.plain-text{white-space:pre-wrap;word-break:break-word;line-height:1.8;display:block}
+.line-wrap{display:block;font-family:monospace;margin-bottom:2px}
+.chord-row{display:block;min-height:1.2em;line-height:1.3;white-space:pre-wrap;word-break:break-all;color:var(--chord);font-weight:800}
+.text-row{display:block;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 .ch{display:inline;color:var(--chord);font-weight:800;cursor:pointer;touch-action:none;user-select:none}.ch.active{background:var(--chord-bg);border-radius:3px;outline:2px solid var(--accent)}
 .lyr{display:inline}.blank{height:10px}
 .scbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1.5px solid var(--border);background:var(--bg);flex-shrink:0}
@@ -855,45 +854,57 @@ function renderSong() {
       i = cb + 1;
     }
 
-    const hasChords = showChords && tokens.some(t => t.type === 'chord');
-
-    if (!hasChords) {
-      const txt = tokens.map(t => esc(t.val)).join('');
-      return `<div class="line-wrap" data-li="${li}"><span class="plain-text">${txt}</span></div>`;
-    }
-
-    // Build ruby segments: chord above text
-    // Each <ruby> = one chord + text that follows it until next chord
-    let html = '';
-    let pendingChord = null;
-    let pendingText = '';
-
-    function flushRuby() {
-      if (pendingChord === null && pendingText === '') return;
-      if (pendingChord === null) {
-        // text before first chord - no ruby, just text
-        html += esc(pendingText);
-      } else {
-        const chSpan = `<span class="ch" data-li="${pendingChord.li}" data-ci="${pendingChord.ci}" onpointerdown="chordPointerDown(event,this)">${esc(pendingChord.val)}</span>`;
-        html += `<ruby>${esc(pendingText)}<rt>${chSpan}</rt></ruby>`;
-      }
-      pendingChord = null;
-      pendingText = '';
-    }
-
-    // Process tokens: text AFTER chord goes with that chord
-    // So we need to pair: chord → text_after
+    // Build plain text and chord positions
+    let textOnly = '', chordEntries = [];
     for (const t of tokens) {
-      if (t.type === 'chord') {
-        flushRuby();
-        pendingChord = t;
-      } else {
-        pendingText += t.val;
-      }
+      if (t.type === 'text') textOnly += t.val;
+      else chordEntries.push({pos: textOnly.length, val: t.val, li: t.li, ci: t.ci});
     }
-    flushRuby();
 
-    return `<div class="line-wrap" data-li="${li}">${html}</div>`;
+    if (!showChords || chordEntries.length === 0) {
+      return `<div class="line-wrap" data-li="${li}"><div class="chord-row"></div><div class="text-row">${esc(textOnly)}</div></div>`;
+    }
+
+    // Build chord row: spaces to position chords, same total length as text
+    // so word-break wraps both rows at same point
+    let chordStr = '';
+    let curPos = 0;
+    for (const ce of chordEntries) {
+      const pad = Math.max(0, ce.pos - curPos);
+      chordStr += ' '.repeat(pad);
+      // placeholder marker for chord span - we'll replace after
+      const marker = '«' + chordEntries.indexOf(ce) + '»';
+      chordStr += marker;
+      curPos = ce.pos + ce.val.length;
+    }
+    // Pad chord row to same length as text so wrapping is consistent
+    if (chordStr.length < textOnly.length) {
+      chordStr += ' '.repeat(textOnly.length - chordStr.replace(/«\d+»/g,'').length);
+    }
+
+    // Replace markers with actual chord spans
+    let chordHtml = esc(chordStr);
+    // Actually build properly without markers
+    chordHtml = '';
+    curPos = 0;
+    for (const ce of chordEntries) {
+      const pad = Math.max(0, ce.pos - curPos);
+      if (pad > 0) chordHtml += esc(' '.repeat(pad));
+      chordHtml += `<span class="ch" data-li="${ce.li}" data-ci="${ce.ci}" onpointerdown="chordPointerDown(event,this)">${esc(ce.val)}</span>`;
+      curPos = ce.pos + ce.val.length;
+    }
+    // Pad to text length so both rows wrap at same point
+    const chordPlainLen = chordEntries.reduce((sum, ce) => {
+      return Math.max(sum, ce.pos + ce.val.length);
+    }, 0);
+    if (textOnly.length > chordPlainLen) {
+      chordHtml += esc(' '.repeat(textOnly.length - chordPlainLen));
+    }
+
+    return `<div class="line-wrap" data-li="${li}">` +
+      `<div class="chord-row">${chordHtml}</div>` +
+      `<div class="text-row">${esc(textOnly)}</div>` +
+      `</div>`;
   }).join('');
 }
 
