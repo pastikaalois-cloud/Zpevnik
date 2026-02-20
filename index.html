@@ -69,12 +69,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-
 .cbtn:active{background:var(--bg3)}
 .cbtn.on{border-color:var(--accent);color:var(--accent)}
 .song-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 6px;-webkit-overflow-scrolling:touch}
-.line{display:flex;flex-wrap:wrap;align-items:flex-end;margin-bottom:2px;font-family:monospace}
-.seg{display:inline-flex;flex-direction:column;align-items:flex-start}
-.chord-row{display:block;min-height:1.2em;line-height:1.2}
+.line{margin-bottom:0;font-family:monospace}
+
+.chord-row{display:block;min-height:1.2em;line-height:1.3;white-space:pre;color:var(--chord);font-weight:800;font-size:1em}
 .text-row{display:block;line-height:1.6;white-space:pre}
-.ch{display:inline-block;color:var(--chord);font-weight:800;font-size:.85em;cursor:grab;touch-action:none;user-select:none;white-space:nowrap}.ch:active{cursor:grabbing}.ch.active{background:var(--chord-bg);border-radius:4px;outline:2px solid var(--accent)}
-.lyr{display:inline;white-space:pre}.blank{height:10px}
+.ch{display:inline;color:var(--chord);font-weight:800;cursor:pointer;touch-action:none;user-select:none}.ch.active{background:var(--chord-bg);border-radius:3px;outline:2px solid var(--accent)}
+.lyr{display:inline}.blank{height:10px}
 .scbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1.5px solid var(--border);background:var(--bg);flex-shrink:0}
 .scbtn{background:var(--bg2);border:1.5px solid var(--border);color:var(--text);border-radius:12px;height:44px;padding:0 16px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap}
 .scbtn:active{background:var(--bg3)}
@@ -639,7 +639,7 @@ const DEFAULTS = [
   {id:13,title:"Zatanči",artist:"",key:"Em",content:"[Emi]Zatanči, má milá, zatanči pro mé oči, [G] [D] [Emi]\nzatanči a vetkni nůž do mých zad,\nať tvůj šat, má milá, ať tvůj šat na zemi skončí,\nať tvůj šat, má milá, rázem je sňat. [G] [D] [Emi]\n\n[Emi]Zatanči, jako se okolo ohně tančí, [G] [D] [Emi]\nzatanči jako na vodě loď,\nzatanči jako to slunce mezi pomeranči,\nzatanči, a pak ke mně pojď. [G] [D] [Emi]\n\n[Emi]Polož dlaň, má milá, polož dlaň na má prsa, [G] [D] [Emi]\npolož dlaň nestoudně na moji hruď,\nobejmi, má milá, obejmi moje bedra,\nobejmi je pevně a moji buď. [G] [D] [Emi]\n\n[Emi]Nový den než začne, má milá, nežli začne, [G] [D] [Emi]\nnový den než začne, nasyt můj hlad,\nzatanči, má milá, pro moje oči lačné,\nzatanči a já budu ti hrát. [G] [D] [Emi]"},
   {id:14,title:"Igelit",artist:"",key:"G",content:"[G]Ukrytý v stínu lesa, igelit, to kdyby přišel k ránu déšt, [D] [C] [G]\npod hlavou boty, nůž, tátovu bundu šitou z maskáčů,\nk ránu se mlhy zvednou a ptáci volaj': hele, lidi, svítá,\npak větvičky si nalámou na oheň, aby uvařili čaj.\n\nR: [Emi]A všichni se znaj', znaj', znaj' a bláznějí a zpívaj' [D7] [G] [C] [G]\na po cestách dál, dál, dál hledaj' normální svět.\n\n[G]Ukrytý v stínu lesa, k večeru znavený nohy skládaj', [D] [C] [G]\nkytara zpívá o tom, jak dřív bylo líp,\nta chvilka, co máš na život, ti uplyne jak od ohýnku dým.\n\nRefrén"},
   {id:15,title:"Zabili",artist:"",key:"D",content:"[D]Zabili zabili, chlapa z koločavy [G] [Emi] [G] [D]\nřekněte hrobaři, kde je pochovaný\n\nRef: [D]Bylo tu není tu, havrani na plotu [G]\n[D]bylo vino v sudě, teď tam voda bude [G]\n[G]není není tu [D]\n\n[D]Špatně ho zabili špatně pochovali [G] [Emi] [G] [D]\nvlci ho pojedli ptáci rozklovali\n\nRef:\n\n[D]Kráká starý havran krákat nepřestane [G] [Emi] [G] [D]\ndokud v Koločavě živý chlap zůstane\n[Emi]živý chlap zůstane [G] [D]"},
-  {id:16,title:"Bedna od whiskey",artist:"",key:"Am",content:"[Am]Dneska už mně fóry ňák nejdou přes pysky, [C] [Am] [E]\nstojím s dlouhou kravatou na bedně vod whisky,\ntu kravatu, co nosím, mi navlík' soudce Lynč\n\n[D]Tak kopni do tý bedny, ať panstvo nečeká, [E] [A]\njsou dlouhý schody do nebe a štreka daleká\ndo nebeského baru, já sucho v krku mám,\ntak kopni do tý bedny, ať na cestu se dám.\n\n[Am]Mít tak všechny bedny vod whisky vypitý,\npostavil bych malej dům a chlastal bych tam s Bilem a s Benem.\n\n[Am]Kdyby jsi se, hochu, jen porád nechtěl rvát,\nnemusel jsi dneska na týhle bedně stát.\n\n[Am]Když jsem štípnul koně a ujel jen pár mil,\nzatracená smůla zlá, zatracenej pech,\nkdyž kůň cucá whisku jak u potoka mech.\n\nTak kopni do tý bedny!"},
+  {id:16,title:"Bedna od whiskey",artist:"",key:"Am",content:"[Am]Dneska už mně fóry ňák nejdou přes pysky, [C] [Am] [E]\nstojím s dlouhou kravatou na bedně vod whisky, [C] [Am] [E] [Am]\nstojím s dlouhým vobojkem jak stájovej pinč,\n[Am]tu kravatu, co nosím, mi navlík' soudce Lynč [C] [Am] [E] [Am] [A]\n\n[D]Tak kopni do tý bedny, ať panstvo nečeká, [E] [A]\njsou dlouhý schody do nebe a štreka daleká [D] [E] [A]\n[D]do nebeského baru, já sucho v krku mám, [E] [A]\ntak kopni do tý bedny, ať na cestu se dám. [D] [E] [A] [Am]\n\n[Am]Mít tak všechny bedny vod whisky vypitý, [C]\n[Am]postavil bych malej dům na louce ukrytý, [C] [Am] [E] [Am]\npostavil bych malej dům a z vokna koukal ven [C]\n[Am]a chlastal bych tam s Bilem a chlastal by tam Ben. [C] [Am] [E] [Am] [A]\n\n[Am]Kdyby jsi se, hochu, jen porád nechtěl rvát, [C] [Am] [E] [Am]\nnemusel jsi dneska na týhle bedně stát,\nmoh' jsi někde v suchu tu svoji whisku pít, [C] [Am] [E]\n[Am]nemusel jsi dneska na krku laso mít. [C] [Am] [E] [Am] [A]\n\n[Am]Když jsem štípnul koně a ujel jen pár mil, [C] [Am] [E]\nnechtěl běžet, dokavád se whisky nenapil, [C] [Am] [E] [Am]\nzatracená smůla zlá, zatracenej pech,\n[Am]když kůň cucá whisku jak u potoka mech. [C] [Am] [E] [Am] [A]\n\nTak kopni do tý bedny, ať panstvo nečeká!\nRC: .... ať panstvo nečeká....."},
   {id:17,title:"Veď mě dál",artist:"",key:"G",content:"[G]Někde v dálce cesty končí, každá však cíl svůj skrývá. [Emi] [D] [C] [G]\nNěkde v dálce každá má svůj cíl, ať je pár mil dlouhá nebo tisíc mil.\n\nRef. [G]Veď mě dál, cesto má, veď mě dál, vždyť i já, [D] [Emi] [C]\n[G]tam, kde končíš, chtěl bych dojít, veď mě dál cesto má. [D] [C] [G]\n\n[G]Chodim dlouho po všech cestách, všechny znám je, jen ta má mi zbývá [Emi] [D] [C] [G]\nJe jak dívky, co jsem měl tak rád, plná žaru bývá, hned zas samý chlad.\n\nRefrén\n\n[Emi]Pak na patník poslední napíšu křídou jmeno své a [D] [G] [C]\n[G]pod něj, že jsem žil hrozně rád [D]\n[Emi]Písně své co mi v kapsách zbydou, dám si bandou cvrčků [F] [C] [G]\n[D]hrát a půjdu spát, půjdu spát.\n\nRef. 2x\n|: Veď mě dál cesto má. :| [D] [G]"},
   {id:18,title:"Husličky",artist:"",key:"Am",content:"[G]|: Čí že ste, husličky, čie, [C] [G]\n[Ami]kdo vás tu zanechal :| [Emi] [D]\n[Ami7]na trávě poválané, [D] [G] [C]\n[Ami]u paty ořecha? [Emi] [D]\n\n[G]|: A kdože tu trávu tak zvával, [C] [G]\n[Ami]aj modré fialy :| [Emi] [D]\n[Ami7]že ste husličky samé, [D] [G] [C]\n[Ami]na světě zostaly? [Emi] [D]\n\n[G]|: A který tu muzikant usnul [C] [G]\n[Ami]a co sa mu přišlo zdát :| [Emi] [D]\n[Ami7]co sa mu v noci zdálo, [D] [G] [C]\n[Ami]že už vjec nechtěl hrát? [Emi] [D]\n\n[G]|: Zahrajte, husličky samy, [C] [G]\n[Ami]zahrajte zvesela :| [Emi] [D]\n[Ami7]až sa tá bude trápit, [D] [G] [C]\n[Ami]která ho nechtěla [Emi] [D]\n\nAmi Emi Hmi C D G"},
   {id:19,title:"Ráda se miluje",artist:"",key:"Am",content:"[Ami]Ráda se miluje, ráda jí, ráda si jenom tak zpívá, [G] [C] [F] [Emi] [Ami]\nvrabci se na plotě hádají, kolik že času jí zbývá.\n\n[F]Než vítr dostrká k útesu tu její legrační bárku [C] [F] [C] [E]\n[Ami]a Pámbu si ve svým notesu udělá jen další čárku.\n\nRef: (opakuje se)\n\n[F]Psáno je v nebeské režii, a to hned na první stránce,\n[Ami]že naše duše nás přežijí v jinačí tělesný schránce.\n\n[F]Úplně na konci paseky, tam, kde se ozvěna tříští,\n[Ami]sedí šnek ve snacku pro šneky - snad její podoba příští.\n\nOriginál: Capo 2, Ami G C Fmaj Emi"},
@@ -827,7 +827,6 @@ function renderSong() {
   body.innerHTML = lines.map((line, li) => {
     if (!line.trim()) return '<div class="blank"></div>';
 
-    // Tokenize
     const tokens = [];
     let i = 0, ci = 0;
     while (i < line.length) {
@@ -840,42 +839,29 @@ function renderSong() {
       i = cb + 1;
     }
 
-    const hasChords = showChords && tokens.some(t => t.type === 'chord');
-
-    if (!hasChords) {
-      const text = tokens.filter(t=>t.type==='text').map(t=>esc(t.val)).join('');
-      return `<div class="line" data-li="${li}"><div class="seg"><div class="chord-row"></div><div class="text-row"><span class="lyr">${text}</span></div></div></div>`;
-    }
-
-    // Build segments: each chord starts a new segment [chord][text until next chord]
-    // First: any text before the first chord goes into a no-chord segment
-    let html = '';
-    let pendingChord = null;
-    let pendingText = '';
-
-    function flushSeg() {
-      const chordHtml = pendingChord
-        ? `<span class="ch" data-li="${pendingChord.li}" data-ci="${pendingChord.ci}" onpointerdown="chordPointerDown(event,this)">${esc(pendingChord.val)}</span>`
-        : '';
-      const textHtml = pendingText ? `<span class="lyr">${esc(pendingText)}</span>` : '';
-      if (chordHtml || textHtml) {
-        html += `<div class="seg"><div class="chord-row">${chordHtml}</div><div class="text-row">${textHtml}</div></div>`;
-      }
-      pendingChord = null;
-      pendingText = '';
-    }
-
+    let textOnly = '', chordEntries = [];
     for (const t of tokens) {
-      if (t.type === 'chord') {
-        flushSeg();
-        pendingChord = t;
-      } else {
-        pendingText += t.val;
-      }
+      if (t.type === 'text') textOnly += t.val;
+      else chordEntries.push({pos: textOnly.length, val: t.val, li: t.li, ci: t.ci});
     }
-    flushSeg();
 
-    return `<div class="line" data-li="${li}">${html}</div>`;
+    if (!showChords || chordEntries.length === 0) {
+      return `<div class="line" data-li="${li}"><div class="text-row"><span class="lyr">${esc(textOnly)}</span></div></div>`;
+    }
+
+    // Build chord row with spaces to align chords above text
+    let chordRowHtml = '', curPos = 0;
+    for (const ce of chordEntries) {
+      const pad = Math.max(0, ce.pos - curPos);
+      if (pad > 0) chordRowHtml += ' '.repeat(pad);
+      chordRowHtml += `<span class="ch" data-li="${ce.li}" data-ci="${ce.ci}" onpointerdown="chordPointerDown(event,this)">${esc(ce.val)}</span>`;
+      curPos = ce.pos + ce.val.length;
+    }
+
+    return `<div class="line" data-li="${li}">` +
+      `<div class="chord-row">${chordRowHtml}</div>` +
+      `<div class="text-row"><span class="lyr">${esc(textOnly)}</span></div>` +
+      `</div>`;
   }).join('');
 }
 
