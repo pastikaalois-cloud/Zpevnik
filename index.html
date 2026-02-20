@@ -605,6 +605,8 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 
 /* CHORD SELECT */
 .ch.active { background: var(--chord-bg); border-radius: 4px; outline: 2px solid var(--accent); }
+.ch { touch-action: none; user-select: none; cursor: grab; }
+.ch:active { cursor: grabbing; }
 /* NL floating button */
 .nl-fab {
   position: fixed; bottom: 24px; right: 20px;
@@ -861,7 +863,7 @@ function renderSong() {
     for (const ce of chordEntries) {
       const pad = Math.max(0, ce.pos - curPos);
       if (pad > 0) chordRowHtml += esc(' '.repeat(pad));
-      chordRowHtml += `<span class="ch" data-li="${ce.li}" data-ci="${ce.ci}" onclick="selectChord(this)">${esc(ce.val)}</span>`;
+      chordRowHtml += `<span class="ch" data-li="${ce.li}" data-ci="${ce.ci}" onpointerdown="chordPointerDown(event,this)" onclick="selectChord(this)">${esc(ce.val)}</span>`;
       curPos = ce.pos + ce.val.length;
     }
 
@@ -909,9 +911,181 @@ function showMoveBar(el) {
   });
 }
 
+
 function hideMoveBar() {
   const bar = document.getElementById('chord-move-bar');
   if (bar) bar.style.display = 'none';
+}
+
+// ════════════════════════════════════════════════════════
+// DRAG & DROP chords
+// ════════════════════════════════════════════════════════
+let dragState = null;
+
+function chordPointerDown(e, el) {
+  // Only start drag on admin mode (edit enabled) when chords visible
+  if (!isAdmin) return;
+  e.stopPropagation();
+
+  const startX = e.clientX;
+  const startY = e.clientY;
+  let dragging = false;
+
+  // Ghost element
+  let ghost = null;
+
+  function onMove(ev) {
+    const dx = ev.clientX - startX;
+    const dy = ev.clientY - startY;
+    if (!dragging && Math.abs(dx) > 6) {
+      dragging = true;
+      // Create ghost
+      ghost = document.createElement('span');
+      ghost.textContent = el.textContent;
+      ghost.style.cssText = 'position:fixed;pointer-events:none;z-index:200;background:var(--accent);color:#fff;' +
+        'font-family:monospace;font-weight:800;font-size:' + fontSize + 'px;border-radius:6px;padding:2px 8px;opacity:0.9;';
+      document.body.appendChild(ghost);
+      el.style.opacity = '0.3';
+      dragState = {el, li: parseInt(el.dataset.li), ci: parseInt(el.dataset.ci)};
+    }
+    if (dragging && ghost) {
+      ghost.style.left = (ev.clientX - ghost.offsetWidth/2) + 'px';
+      ghost.style.top = (ev.clientY - ghost.offsetHeight - 8) + 'px';
+    }
+  }
+
+  function onUp(ev) {
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerup', onUp);
+    el.style.opacity = '';
+    if (ghost) { ghost.remove(); ghost = null; }
+
+    if (!dragging || !dragState) {
+      dragState = null;
+      return;
+    }
+
+    // Find drop target: which line and which character position
+    const li = dragState.li;
+    const ci = dragState.ci;
+
+    // Find the line div
+    const lineDivs = document.querySelectorAll('.line[data-li]');
+    let targetLi = li;
+    let targetCharPos = null;
+
+    for (const div of lineDivs) {
+      const rect = div.getBoundingClientRect();
+      if (ev.clientY >= rect.top && ev.clientY <= rect.bottom) {
+        targetLi = parseInt(div.dataset.li);
+        // Find char position based on X in the text-row
+        const textRow = div.querySelector('.text-row');
+        if (textRow) {
+          const textRect = textRow.getBoundingClientRect();
+          // Estimate char width using monospace font size
+          const charWidth = fontSize * 0.6; // monospace approximation
+          targetCharPos = Math.max(0, Math.round((ev.clientX - textRect.left) / charWidth));
+        }
+        break;
+      }
+    }
+
+    if (targetCharPos !== null) {
+      moveChordToPos(li, ci, targetLi, targetCharPos);
+    }
+    dragState = null;
+  }
+
+  document.addEventListener('pointermove', onMove);
+  document.addEventListener('pointerup', onUp);
+}
+
+function moveChordToPos(fromLi, fromCi, toLi, toCharPos) {
+  if (!cur) return;
+  const lines = cur.content.split('\n');
+
+  // Extract chord value from source line
+  const srcTokens = tokenizeLine(lines[fromLi]);
+  let cc = 0, chordVal = '';
+  for (const t of srcTokens) {
+    if (t.type === 'chord') {
+      if (cc === fromCi) { chordVal = t.val; break; }
+      cc++;
+    }
+  }
+  if (!chordVal) return;
+
+  // Remove chord from source line (merge surrounding text)
+  const newSrcTokens = [...srcTokens];
+  let cIdx = -1; cc = 0;
+  for (let t = 0; t < newSrcTokens.length; t++) {
+    if (newSrcTokens[t].type === 'chord') {
+      if (cc === fromCi) { cIdx = t; break; }
+      cc++;
+    }
+  }
+  if (cIdx !== -1) {
+    // Merge adjacent texts around removed chord
+    const before = cIdx > 0 && newSrcTokens[cIdx-1]?.type === 'text' ? newSrcTokens[cIdx-1].val : null;
+    const after = cIdx < newSrcTokens.length-1 && newSrcTokens[cIdx+1]?.type === 'text' ? newSrcTokens[cIdx+1].val : null;
+    if (before !== null && after !== null) {
+      newSrcTokens[cIdx-1].val = before + after;
+      newSrcTokens.splice(cIdx, 2);
+    } else {
+      newSrcTokens.splice(cIdx, 1);
+    }
+  }
+  lines[fromLi] = tokensToLine(newSrcTokens);
+
+  // Insert chord into target line at toCharPos
+  const dstLine = fromLi === toLi ? lines[fromLi] : lines[toLi] || '';
+  const dstTokens = tokenizeLine(fromLi === toLi ? lines[fromLi] : (lines[toLi] || ''));
+
+  // Find insertion point: count text chars to find where toCharPos falls
+  let charCount = 0;
+  let insertIdx = dstTokens.length; // default: end
+  for (let t = 0; t < dstTokens.length; t++) {
+    if (dstTokens[t].type === 'text') {
+      const endPos = charCount + dstTokens[t].val.length;
+      if (toCharPos <= endPos) {
+        // Split this text token
+        const offset = toCharPos - charCount;
+        const before = dstTokens[t].val.slice(0, offset);
+        const after = dstTokens[t].val.slice(offset);
+        dstTokens.splice(t, 1,
+          ...(before ? [{type:'text', val:before}] : []),
+          {type:'chord', val:chordVal},
+          ...(after ? [{type:'text', val:after}] : [])
+        );
+        insertIdx = -1; // already inserted
+        break;
+      }
+      charCount = endPos;
+    }
+  }
+  if (insertIdx !== -1) {
+    dstTokens.push({type:'chord', val:chordVal});
+  }
+
+  lines[toLi] = tokensToLine(dstTokens);
+  cur.content = lines.join('\n');
+  persist();
+  renderSong();
+
+  // Re-select the moved chord
+  setTimeout(() => {
+    // Find new ci of our chord in target line
+    const newTokens = tokenizeLine(lines[toLi]);
+    let newCi = 0;
+    for (const t of newTokens) {
+      if (t.type === 'chord') {
+        if (t.val === chordVal) break;
+        newCi++;
+      }
+    }
+    const w = document.querySelector(`.ch[data-li="${toLi}"][data-ci="${newCi}"]`);
+    if (w) { selectedChord = w; w.classList.add('active'); showMoveBar(w); }
+  }, 0);
 }
 
 function moveSelected(dir) {
