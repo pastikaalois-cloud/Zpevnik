@@ -729,7 +729,22 @@ function toggleTheme() {
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  // Push state so system back gesture navigates within app
+  if (id !== 'screen-home') {
+    history.pushState({screen: id}, '');
+  }
 }
+
+// Handle system back gesture / button
+window.addEventListener('popstate', function(e) {
+  const active = document.querySelector('.screen.active');
+  if (!active || active.id === 'screen-home') return;
+  // Go back to home or previous screen
+  if (active.id === 'screen-song') { showHome(); }
+  else if (active.id === 'screen-add') { showHome(); }
+  else if (active.id === 'screen-edit') { showHome(); }
+  else { showHome(); }
+});
 function enterApp() {
   show('screen-home');
   renderList();
