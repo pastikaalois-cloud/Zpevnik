@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -11,6 +11,47 @@
 <link rel="manifest" href="manifest.json">
 <title>Zpěvník</title>
 <style>
+  /* ===== MOBILE OVERFLOW FIX ===== */
+
+html, body {
+  height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea {
+  max-width: 100%;
+}
+
+/* zalamování textu písní */
+.chord-row,
+.text-row {
+  white-space: pre-wrap !important;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* tlačítka místo scrollování zalomit */
+.ctrls {
+  flex-wrap: wrap !important;
+  overflow-x: hidden !important;
+}
+
+/* ochrana proti flex přetečení */
+.song-info {
+  min-width: 0;
+}
+
+.song-body {
+  overflow-x: hidden;
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --bg:#fff;--bg2:#f7f7f7;--bg3:#eeeeee;--border:#e0e0e0;
