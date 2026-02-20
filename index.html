@@ -795,16 +795,18 @@ function show(id) {
 
 // Handle system back gesture / button
 window.addEventListener('popstate', function(e) {
+  // Close tuner first if it's open
+  const tunerEl = document.getElementById('tuner-overlay');
+  if (tunerEl && tunerEl.style.display !== 'none') {
+    closeTuner();
+    return;
+  }
   const active = document.querySelector('.screen.active');
   if (!active || active.id === 'screen-home') return;
-  // Go back to home or previous screen
   if (active.id === 'screen-song') { showHome(); }
   else if (active.id === 'screen-add') { showHome(); }
   else if (active.id === 'screen-edit') { showHome(); }
   else { showHome(); }
-  // Close tuner if open
-  const tunerEl = document.getElementById('tuner-overlay');
-  if (tunerEl && tunerEl.style.display !== 'none') { closeTuner(); tunerEl.style.display = 'none'; }
 });
 function enterApp() {
   show('screen-home');
