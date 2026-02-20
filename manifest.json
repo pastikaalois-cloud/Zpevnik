@@ -1,28 +1,12 @@
 {
-  "name": "Hospodský Zpěvník",
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Zpěvník",
+  "orientation": "any",
+  "scope": "/",
   "short_name": "Zpěvník",
-  "start_url": "https://pastikaalois-cloud.github.io/Zpevnik/",
-  "display": "fullscreen",
-  "background_color": "#1a1208",
+  "start_url": "https://pastikaalois-cloud.github.io/Zpevnik/index.html",
   "theme_color": "#ff6b00",
-  "icons": [
-    {
-      "src": "android-launchericon-192-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "android-launchericon-512-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "android-launchericon-512-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ]
+  "description": "Zpevnik"
 }
