@@ -69,10 +69,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-
 .cbtn:active{background:var(--bg3)}
 .cbtn.on{border-color:var(--accent);color:var(--accent)}
 .song-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 6px;-webkit-overflow-scrolling:touch}
-.line{position:relative;margin-bottom:2px;font-family:monospace;overflow-x:hidden}
-.chord-row{display:block;min-height:1.3em;white-space:pre-wrap;word-break:break-word;color:var(--chord);font-weight:800;font-size:.85em;line-height:1.3}.chord-row:empty{display:none}.text-row{display:block;white-space:pre-wrap;word-break:break-word;line-height:1.5}
-.ch{display:inline;color:var(--chord);font-weight:800;font-size:1em;cursor:pointer}.ch.active{background:var(--chord-bg);border-radius:4px;outline:2px solid var(--accent)}
-.lyr{display:inline;white-space:pre-wrap;word-break:break-word}.blank{height:10px}
+.line{display:flex;flex-wrap:wrap;align-items:flex-end;margin-bottom:2px;font-family:monospace}
+.seg{display:inline-flex;flex-direction:column;align-items:flex-start}
+.chord-row{display:block;min-height:1.2em;line-height:1.2}
+.text-row{display:block;line-height:1.6;white-space:pre}
+.ch{display:inline-block;color:var(--chord);font-weight:800;font-size:.85em;cursor:grab;touch-action:none;user-select:none;white-space:nowrap}.ch:active{cursor:grabbing}.ch.active{background:var(--chord-bg);border-radius:4px;outline:2px solid var(--accent)}
+.lyr{display:inline;white-space:pre}.blank{height:10px}
 .scbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1.5px solid var(--border);background:var(--bg);flex-shrink:0}
 .scbtn{background:var(--bg2);border:1.5px solid var(--border);color:var(--text);border-radius:12px;height:44px;padding:0 16px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap}
 .scbtn:active{background:var(--bg3)}
@@ -825,7 +827,7 @@ function renderSong() {
   body.innerHTML = lines.map((line, li) => {
     if (!line.trim()) return '<div class="blank"></div>';
 
-    // Tokenize line into chords and text
+    // Tokenize
     const tokens = [];
     let i = 0, ci = 0;
     while (i < line.length) {
@@ -838,41 +840,45 @@ function renderSong() {
       i = cb + 1;
     }
 
-    // Collect text and chord positions
-    let textOnly = '';
-    const chordEntries = [];
+    const hasChords = showChords && tokens.some(t => t.type === 'chord');
+
+    if (!hasChords) {
+      const text = tokens.filter(t=>t.type==='text').map(t=>esc(t.val)).join('');
+      return `<div class="line" data-li="${li}"><div class="seg"><div class="chord-row"></div><div class="text-row"><span class="lyr">${text}</span></div></div></div>`;
+    }
+
+    // Build segments: each chord starts a new segment [chord][text until next chord]
+    // First: any text before the first chord goes into a no-chord segment
+    let html = '';
+    let pendingChord = null;
+    let pendingText = '';
+
+    function flushSeg() {
+      const chordHtml = pendingChord
+        ? `<span class="ch" data-li="${pendingChord.li}" data-ci="${pendingChord.ci}" onpointerdown="chordPointerDown(event,this)">${esc(pendingChord.val)}</span>`
+        : '';
+      const textHtml = pendingText ? `<span class="lyr">${esc(pendingText)}</span>` : '';
+      if (chordHtml || textHtml) {
+        html += `<div class="seg"><div class="chord-row">${chordHtml}</div><div class="text-row">${textHtml}</div></div>`;
+      }
+      pendingChord = null;
+      pendingText = '';
+    }
+
     for (const t of tokens) {
-      if (t.type === 'text') {
-        textOnly += t.val;
+      if (t.type === 'chord') {
+        flushSeg();
+        pendingChord = t;
       } else {
-        chordEntries.push({pos: textOnly.length, val: t.val, li: t.li, ci: t.ci});
+        pendingText += t.val;
       }
     }
+    flushSeg();
 
-    if (!showChords) {
-      return `<div class="line" data-li="${li}"><div class="text-row"><span class="lyr">${esc(textOnly)}</span></div></div>`;
-    }
-
-    if (chordEntries.length === 0) {
-      return `<div class="line" data-li="${li}"><div class="text-row"><span class="lyr">${esc(textOnly)}</span></div></div>`;
-    }
-
-    // Build chord-row: place each chord at the character position it falls on
-    let chordRowHtml = '';
-    let curPos = 0;
-    for (const ce of chordEntries) {
-      const pad = Math.max(0, ce.pos - curPos);
-      if (pad > 0) chordRowHtml += esc(' '.repeat(pad));
-      chordRowHtml += `<span class="ch" data-li="${ce.li}" data-ci="${ce.ci}" onpointerdown="chordPointerDown(event,this)">${esc(ce.val)}</span>`;
-      curPos = ce.pos + ce.val.length;
-    }
-
-    return `<div class="line" data-li="${li}">` +
-      `<div class="chord-row">${chordRowHtml}</div>` +
-      `<div class="text-row"><span class="lyr">${esc(textOnly)}</span></div>` +
-      `</div>`;
+    return `<div class="line" data-li="${li}">${html}</div>`;
   }).join('');
 }
+
 // ════════════════════════════════════════════════════════
 // CHORD MOVE — click chord to show ←→ buttons
 // ════════════════════════════════════════════════════════
@@ -923,86 +929,80 @@ function hideMoveBar() {
 let dragState = null;
 
 function chordPointerDown(e, el) {
-  if (!isAdmin) return;
+  if (!isAdmin) { selectChord(el); return; }
   e.preventDefault();
   e.stopPropagation();
 
   const startX = e.clientX;
-  const startY = e.clientY;
   let dragging = false;
   let ghost = null;
-  let moved = false;
-
-  el.setPointerCapture(e.pointerId);
 
   function onMove(ev) {
     const dx = ev.clientX - startX;
-    const dy = ev.clientY - startY;
-    moved = true;
-
-    if (!dragging && Math.abs(dx) > 8) {
+    if (!dragging && Math.abs(dx) > 10) {
       dragging = true;
-      // Dismiss existing selection
-      if (selectedChord && selectedChord !== el) {
-        selectedChord.classList.remove('active');
-        hideMoveBar();
-      }
-      selectedChord = null;
-      // Ghost
+      document.getElementById('song-body').style.touchAction = 'none';
+      if (selectedChord) { selectedChord.classList.remove('active'); hideMoveBar(); selectedChord = null; }
       ghost = document.createElement('span');
       ghost.textContent = el.textContent;
       ghost.style.cssText = 'position:fixed;pointer-events:none;z-index:200;' +
         'background:var(--accent);color:#fff;font-family:monospace;font-weight:800;' +
-        'font-size:' + fontSize + 'px;border-radius:6px;padding:2px 8px;opacity:0.85;';
+        'font-size:' + fontSize + 'px;border-radius:6px;padding:2px 8px;opacity:0.9;';
       document.body.appendChild(ghost);
-      el.style.opacity = '0.3';
+      el.style.opacity = '0.25';
     }
     if (dragging && ghost) {
       ghost.style.left = (ev.clientX - ghost.offsetWidth / 2) + 'px';
-      ghost.style.top = (ev.clientY - ghost.offsetHeight - 10) + 'px';
+      ghost.style.top = (ev.clientY - 36) + 'px';
     }
   }
 
   function onUp(ev) {
-    el.removeEventListener('pointermove', onMove);
-    el.removeEventListener('pointerup', onUp);
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerup', onUp);
+    document.getElementById('song-body').style.touchAction = '';
     el.style.opacity = '';
     if (ghost) { ghost.remove(); ghost = null; }
 
     if (!dragging) {
-      // It was a tap/click — select chord
       selectChord(el);
       return;
     }
 
-    // Find drop target line and char position
     const li = parseInt(el.dataset.li);
     const ci = parseInt(el.dataset.ci);
+
+    // Find which line div the pointer is over
     const lineDivs = document.querySelectorAll('.line[data-li]');
     let targetLi = li;
-    let targetCharPos = null;
+    let targetCharPos = 0;
 
     for (const div of lineDivs) {
       const rect = div.getBoundingClientRect();
-      if (ev.clientY >= rect.top && ev.clientY <= rect.bottom) {
+      if (ev.clientY >= rect.top - 10 && ev.clientY <= rect.bottom + 10) {
         targetLi = parseInt(div.dataset.li);
+        // Measure char width from a seg's text-row
         const textRow = div.querySelector('.text-row');
         if (textRow) {
-          const textRect = textRow.getBoundingClientRect();
-          const charWidth = fontSize * 0.601; // monospace char width
-          targetCharPos = Math.max(0, Math.round((ev.clientX - textRect.left) / charWidth));
+          const tRect = textRow.getBoundingClientRect();
+          // Get char width: create temp span
+          const tmp = document.createElement('span');
+          tmp.style.cssText = 'position:absolute;visibility:hidden;font-family:monospace;font-size:' + fontSize + 'px';
+          tmp.textContent = 'M';
+          document.body.appendChild(tmp);
+          const cw = tmp.offsetWidth;
+          document.body.removeChild(tmp);
+          targetCharPos = Math.max(0, Math.round((ev.clientX - tRect.left) / cw));
         }
         break;
       }
     }
 
-    if (targetCharPos !== null) {
-      moveChordToPos(li, ci, targetLi, targetCharPos);
-    }
+    moveChordToPos(li, ci, targetLi, targetCharPos);
   }
 
-  el.addEventListener('pointermove', onMove);
-  el.addEventListener('pointerup', onUp);
+  document.addEventListener('pointermove', onMove);
+  document.addEventListener('pointerup', onUp);
 }
 
 function moveChordToPos(fromLi, fromCi, toLi, toCharPos) {
