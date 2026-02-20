@@ -913,6 +913,7 @@ function renderSong() {
 let selectedChord = null;
 
 function selectChord(el) {
+  if (!isAdmin) return;
   if (selectedChord && selectedChord !== el) {
     selectedChord.classList.remove('active');
   }
