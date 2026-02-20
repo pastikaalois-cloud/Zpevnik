@@ -1480,8 +1480,15 @@ function renderDrinks() {
   const total = drinks.reduce((sum, d) => sum + (d.price ? d.count * d.price : 0), 0);
   const totalEl = document.getElementById('nl-total');
   const hasPrices = drinks.some(d => d.price);
-  if (hasPrices) {
-    totalEl.textContent = `Celková útrata: ${total} Kč`;
+  const noPriceDrinks = drinks.filter(d => !d.price && d.count > 0);
+  const hasAny = drinks.some(d => d.count > 0);
+  if (hasAny) {
+    let html = '';
+    if (hasPrices) html += `Celková útrata: ${total} Kč`;
+    if (hasPrices && noPriceDrinks.length > 0) html += ' + ';
+    if (noPriceDrinks.length > 0) html += noPriceDrinks.map(d => d.name).join(', ');
+    html += '<br><span style="font-size:11px;font-weight:400;color:var(--text3)">(nejedná se o nutně reálnou cenu, známe svoje lidi!)</span>';
+    totalEl.innerHTML = html;
     totalEl.style.display = '';
   } else {
     totalEl.style.display = 'none';
