@@ -302,11 +302,51 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
   <div class="list" id="list"></div>
   <button class="tuner-fab" onclick="openTuner()" title="Ladička">
     <svg viewBox="0 0 56 56" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="28" fill="#27ae60"/>
-      <!-- Treble clef SVG path -->
-      <g transform="translate(17, 5) scale(0.9)">
-        <path d="M12 2 C12 2 7 8 7 16 C7 20 9 23 12 25 C9 27 7 30 7 34 C7 40 11 45 17 45 C17 45 17 46 17 47 C17 49 15 50 13 50 L13 52 C13 52 22 52 22 46 C22 44 21 42 20 41 C22 39 24 36 24 32 C24 26 20 21 15 19 C18 17 20 14 20 10 C20 6 17 2 12 2 Z M12 5 C15 5 17 7 17 10 C17 13 15 16 13 18 C10 16 9 14 9 11 C9 7 11 5 12 5 Z M13 21 C17 23 21 27 21 32 C21 36 19 39 16 41 C14 39 10 36 10 32 C10 27 11 23 13 21 Z" fill="white"/>
+      <defs>
+        <clipPath id="circle-clip"><circle cx="28" cy="28" r="27"/></clipPath>
+      </defs>
+      <!-- White background circle -->
+      <circle cx="28" cy="28" r="27" fill="#f0f0f0"/>
+      <!-- Clip group -->
+      <g clip-path="url(#circle-clip)">
+        <!-- Dark body of clip-on tuner -->
+        <rect x="10" y="8" width="36" height="28" rx="5" fill="#2c2c2c"/>
+        <!-- Gray border/rim -->
+        <rect x="9" y="7" width="38" height="30" rx="6" fill="none" stroke="#888" stroke-width="2"/>
+        <!-- Blue LCD display -->
+        <rect x="14" y="12" width="28" height="14" rx="2" fill="#29a8d4"/>
+        <!-- LCD shine -->
+        <rect x="14" y="12" width="28" height="5" rx="2" fill="rgba(255,255,255,0.25)"/>
+        <!-- Music note on display -->
+        <text x="19" y="23" font-size="9" fill="white" font-family="serif">♪</text>
+        <!-- E4 text on display -->
+        <text x="25" y="23" font-size="9" font-weight="900" fill="white" font-family="monospace">E4</text>
+        <!-- Smile/grip detail below display -->
+        <path d="M17 30 Q28 34 39 30" stroke="#555" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- Side clips left -->
+        <rect x="7" y="16" width="3" height="5" rx="1" fill="#333"/>
+        <rect x="7" y="23" width="3" height="5" rx="1" fill="#333"/>
+        <!-- Side clips right -->
+        <rect x="46" y="16" width="3" height="5" rx="1" fill="#333"/>
+        <rect x="46" y="23" width="3" height="5" rx="1" fill="#333"/>
+        <!-- Guitar headstock neck below -->
+        <rect x="22" y="36" width="12" height="16" rx="2" fill="#8b5e35"/>
+        <!-- Strings on neck -->
+        <line x1="25" y1="36" x2="25" y2="52" stroke="#555" stroke-width="0.7"/>
+        <line x1="27" y1="36" x2="27" y2="52" stroke="#555" stroke-width="0.7"/>
+        <line x1="29" y1="36" x2="29" y2="52" stroke="#555" stroke-width="0.7"/>
+        <line x1="31" y1="36" x2="31" y2="52" stroke="#555" stroke-width="0.7"/>
+        <!-- Tuning pegs left -->
+        <circle cx="21" cy="40" r="2.5" fill="#222"/>
+        <circle cx="21" cy="46" r="2.5" fill="#222"/>
+        <!-- Tuning pegs right -->
+        <circle cx="35" cy="40" r="2.5" fill="#222"/>
+        <circle cx="35" cy="46" r="2.5" fill="#222"/>
+        <!-- Clip mount (black circle) -->
+        <circle cx="28" cy="37" r="4" fill="#1a1a1a"/>
       </g>
+      <!-- Circle border -->
+      <circle cx="28" cy="28" r="27" fill="none" stroke="#27ae60" stroke-width="2"/>
     </svg>
   </button>
   <button class="nl-fab" onclick="openNL()" title="Nápojový lístek">🍺</button>
@@ -631,13 +671,13 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 .nl-fab:active { background: var(--accent2); }
 .tuner-fab {
   position: fixed; bottom: 90px; right: 20px;
-  background: #27ae60; color: #fff; border: none;
+  background: none; border: none;
   border-radius: 50%; width: 56px; height: 56px;
   cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   display: flex; align-items: center; justify-content: center; z-index: 50;
   padding: 0;
 }
-.tuner-fab:active { background: #219a52; }
+.tuner-fab:active { opacity: 0.8; transform: scale(0.95); }
 </style>
 <!-- DEFAULTS: only used on first install to seed localStorage. After that ignored. -->
 <script id="defaults-data">
@@ -1768,7 +1808,7 @@ renderList();
   border: 1.5px solid #5a3a18; border-radius: 6px; padding: 4px 2px;
   z-index: 1; flex-shrink: 0; cursor: pointer; transition: all 0.15s; position: relative;
 }
-.tuner-string-label.active { background:#e67e22; border-color:#f39c12; color:#fff; box-shadow:0 0 12px rgba(230,126,34,0.7); }
+.tuner-string-label.active { background:#c0392b; border-color:#e74c3c; color:#fff; box-shadow:0 0 12px rgba(231,76,60,0.8); transition: background 0.2s, border-color 0.2s, box-shadow 0.2s; }
 .tuner-string-label.intune { background:#27ae60; border-color:#2ecc71; color:#fff; box-shadow:0 0 14px rgba(46,204,113,0.8); }
 .tuner-bar-bg {
   flex: 1; height: 8px; background: rgba(0,0,0,0.4); border-radius: 4px;
@@ -1969,24 +2009,46 @@ function tunerLoop() {
         bar.style.width = '10px';
         bar.style.marginLeft = `calc(${pct}% - 5px)`;
 
+        // Color gradient: red (far) → orange → yellow → green (in tune)
+        // absC: 0 = perfect, 50+ = very off
+        const t = Math.max(0, Math.min(1, 1 - absC / 50)); // 0=off, 1=perfect
+        let barColor, glowColor, labelClass, noteColor;
         if (absC < 8) {
-          bar.style.background = 'linear-gradient(90deg,#27ae60,#2ecc71)';
-          bar.style.boxShadow = '0 0 10px rgba(46,204,113,0.9)';
-          label.className = 'tuner-string-label intune';
-          detectedNote.style.color = '#2ecc71';
-        } else if (absC < 25) {
-          bar.style.background = 'linear-gradient(90deg,#e67e22,#f39c12)';
-          bar.style.boxShadow = '0 0 10px rgba(243,156,18,0.8)';
-          label.className = 'tuner-string-label active';
-          detectedNote.style.color = '#f39c12';
+          barColor = 'linear-gradient(90deg,#27ae60,#2ecc71)';
+          glowColor = 'rgba(46,204,113,1)';
+          labelClass = 'tuner-string-label intune';
+          noteColor = '#2ecc71';
         } else {
-          bar.style.background = 'linear-gradient(90deg,#c0392b,#e74c3c)';
-          bar.style.boxShadow = '0 0 8px rgba(231,76,60,0.7)';
-          label.className = 'tuner-string-label active';
-          detectedNote.style.color = '#e74c3c';
+          // Interpolate red→orange→yellow based on t
+          // t=0 → red #e74c3c, t=0.5 → orange #e67e22, t=0.85 → yellow #f1c40f
+          const r = Math.round(231 + (46-231)*t*t);
+          const g = Math.round(76  + (204-76)*t*t);
+          const b = Math.round(60  + (113-60)*t*t);
+          const hex = '#' + [r,g,b].map(v=>Math.max(0,Math.min(255,v)).toString(16).padStart(2,'0')).join('');
+          barColor = `linear-gradient(90deg,${hex},${hex}dd)`;
+          glowColor = `rgba(${r},${g},${b},0.85)`;
+          labelClass = 'tuner-string-label active';
+          noteColor = hex;
         }
+        bar.style.background = barColor;
+        bar.style.boxShadow = `0 0 ${8 + Math.round(t*8)}px ${glowColor}`;
+        label.className = labelClass;
+        // Also tint the label badge with the same color
+        if (labelClass.includes('active')) {
+          const r2 = Math.round(192 + (46-192)*t*t);
+          const g2 = Math.round(57  + (204-57)*t*t);
+          const b2 = Math.round(43  + (113-43)*t*t);
+          label.style.background = `rgb(${r2},${g2},${b2})`;
+          label.style.borderColor = `rgb(${Math.min(255,r2+30)},${Math.min(255,g2+30)},${Math.min(255,b2+30)})`;
+          label.style.boxShadow = `0 0 ${6+Math.round(t*8)}px rgba(${r2},${g2},${b2},0.8)`;
+        } else {
+          label.style.background = '';
+          label.style.borderColor = '';
+          label.style.boxShadow = '';
+        }
+        detectedNote.style.color = noteColor;
+        centsEl.style.color = noteColor;
         centsEl.textContent = (cents >= 0 ? '+' : '') + cents + 'ct';
-        centsEl.style.color = absC < 8 ? '#2ecc71' : absC < 25 ? '#f39c12' : '#e74c3c';
       } else {
         bar.style.width = '2px';
         bar.style.marginLeft = '49%';
