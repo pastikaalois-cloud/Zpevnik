@@ -6,10 +6,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Zpěvník">
+<meta name="apple-mobile-web-app-title" content="ZpÄvnÃ­k">
 <meta name="theme-color" id="theme-color" content="#ff6b00">
 <link rel="manifest" href="manifest.json">
-<title>Zpěvník</title>
+<title>ZpÄvnÃ­k</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -26,7 +26,7 @@ body.dark{
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
 
-/* ── SCREENS ── */
+/* ââ SCREENS ââ */
 .screen{display:none;flex-direction:column;height:100dvh}
 .screen.active{display:flex}
 
@@ -275,9 +275,9 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
           <circle cx="70" cy="20" r="3" fill="#8a5200"/>
         </svg>
       </div>
-      <div class="splash-title">Zpěvník</div>
-      <div class="splash-sub">Otevři a zahraj</div>
-      <button class="splash-btn" onclick="enterApp()">Vstoupit →</button>
+      <div class="splash-title">ZpÄvnÃ­k</div>
+      <div class="splash-sub">OtevÅi a zahraj</div>
+      <button class="splash-btn" onclick="enterApp()">Vstoupit â</button>
     </div>
   </div>
 </div>
@@ -285,20 +285,20 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <!-- HOME -->
 <div class="screen" id="screen-home">
   <div class="home-top">
-    <div class="logo logo-clickable" onclick="logoClick()" title="Admin přihlášení">♪ Zpěvník<span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span></div>
+    <div class="logo logo-clickable" onclick="logoClick()" title="Admin pÅihlÃ¡Å¡enÃ­">âª ZpÄvnÃ­k<span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span></div>
     <div class="hdr-r">
-      <button class="ibtn" id="theme-btn" onclick="toggleTheme()">🌙</button>
-      <button class="add-btn" id="add-btn" onclick="showAdd()" style="display:none">+ Přidat</button>
-      <button class="add-btn" id="update-btn" onclick="showGithubUpdate()" style="display:none;background:#333;border:none;margin-left:4px">☁️ Uložit</button>
+      <button class="ibtn" id="theme-btn" onclick="toggleTheme()">ð</button>
+      <button class="add-btn" id="add-btn" onclick="showAdd()" style="display:none">+ PÅidat</button>
+      <button class="add-btn" id="update-btn" onclick="showGithubUpdate()" style="display:none;background:#333;border:none;margin-left:4px">âï¸ UloÅ¾it</button>
     </div>
   </div>
   <div class="srch">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input id="srch-inp" type="search" placeholder="Hledat název, interpret, text…" oninput="renderList()" autocomplete="off">
+    <input id="srch-inp" type="search" placeholder="Hledat nÃ¡zev, interpret, textâ¦" oninput="renderList()" autocomplete="off">
   </div>
   <div class="cnt" id="cnt"></div>
   <div class="list" id="list"></div>
-  <button class="nl-fab" onclick="openNL()" title="Nápojový lístek">🍺</button>
+  <button class="nl-fab" onclick="openNL()" title="NÃ¡pojovÃ½ lÃ­stek">ðº</button>
 </div>
 
 <!-- SONG -->
@@ -307,7 +307,7 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
     <div class="song-top">
       <button class="back-btn" onclick="showHome()">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-        Zpět
+        ZpÄt
       </button>
       <div class="song-info">
         <h2 id="v-title"></h2>
@@ -315,19 +315,19 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
       </div>
     </div>
     <div class="ctrls">
-      <button class="cbtn" onclick="changeFontSize(-2)">A−</button>
+      <button class="cbtn" onclick="changeFontSize(-2)">Aâ</button>
       <button class="cbtn" onclick="changeFontSize(2)">A+</button>
-      <button class="cbtn on" id="chord-btn" onclick="toggleChords()">Akordy ✓</button>
-      <button class="cbtn" id="edit-btn" onclick="showEdit()" style="display:none">✏️ Upravit</button>
-      <button class="cbtn" onclick="transposeAll(-1)">♭ −1</button>
-      <button class="cbtn" onclick="transposeAll(1)">♯ +1</button>
+      <button class="cbtn on" id="chord-btn" onclick="toggleChords()">Akordy â</button>
+      <button class="cbtn" id="edit-btn" onclick="showEdit()" style="display:none">âï¸ Upravit</button>
+      <button class="cbtn" onclick="transposeAll(-1)">â­ â1</button>
+      <button class="cbtn" onclick="transposeAll(1)">â¯ +1</button>
     </div>
   </div>
   <div class="song-body" id="song-body"></div>
   <div class="scbar">
-    <button class="scbtn" id="sc-toggle" onclick="toggleScroll()">▶ Scroll</button>
-    <button class="spdbtn" onclick="changeSpeed(-1)">−</button>
-    <span class="spdlbl" id="spdlbl">×1</span>
+    <button class="scbtn" id="sc-toggle" onclick="toggleScroll()">â¶ Scroll</button>
+    <button class="spdbtn" onclick="changeSpeed(-1)">â</button>
+    <span class="spdlbl" id="spdlbl">Ã1</span>
     <button class="spdbtn" onclick="changeSpeed(1)">+</button>
   </div>
 </div>
@@ -335,50 +335,50 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <!-- ADD -->
 <div class="screen" id="screen-add">
   <div class="form-hdr">
-    <h2>Přidat píseň</h2>
-    <button class="cancbtn" onclick="showHome()">Zrušit</button>
+    <h2>PÅidat pÃ­seÅ</h2>
+    <button class="cancbtn" onclick="showHome()">ZruÅ¡it</button>
   </div>
   <div class="fbody">
-    <div class="hint">Akordy piš přímo v textu do hranatých závorek:<br><code>[Am]Text písně [F]pokračování</code></div>
-    <div class="fld"><label>Název *</label><input class="inp" id="f-title" type="text" placeholder="Název písně"></div>
-    <div class="fld"><label>Interpret</label><input class="inp" id="f-artist" type="text" placeholder="Jméno interpreta"></div>
-    <div class="fld"><label>Tónina</label><input class="inp" id="f-key" type="text" placeholder="G, Am, C…" style="max-width:120px"></div>
-    <div class="fld"><label>Text s akordy *</label><textarea class="inp" id="f-content" placeholder="[G]Když se s vinem probouzí den…"></textarea></div>
+    <div class="hint">Akordy piÅ¡ pÅÃ­mo v textu do hranatÃ½ch zÃ¡vorek:<br><code>[Am]Text pÃ­snÄ [F]pokraÄovÃ¡nÃ­</code></div>
+    <div class="fld"><label>NÃ¡zev *</label><input class="inp" id="f-title" type="text" placeholder="NÃ¡zev pÃ­snÄ"></div>
+    <div class="fld"><label>Interpret</label><input class="inp" id="f-artist" type="text" placeholder="JmÃ©no interpreta"></div>
+    <div class="fld"><label>TÃ³nina</label><input class="inp" id="f-key" type="text" placeholder="G, Am, Câ¦" style="max-width:120px"></div>
+    <div class="fld"><label>Text s akordy *</label><textarea class="inp" id="f-content" placeholder="[G]KdyÅ¾ se s vinem probouzÃ­ denâ¦"></textarea></div>
   </div>
-  <div class="ffoot"><button class="savebtn" onclick="saveSong()">Uložit píseň</button></div>
+  <div class="ffoot"><button class="savebtn" onclick="saveSong()">UloÅ¾it pÃ­seÅ</button></div>
 </div>
 
 <!-- EDIT SONG (same structure as ADD) -->
 <div class="screen" id="screen-edit">
   <div class="form-hdr">
-    <h2>Upravit píseň</h2>
-    <button class="cancbtn" onclick="cancelEdit()">Zrušit</button>
+    <h2>Upravit pÃ­seÅ</h2>
+    <button class="cancbtn" onclick="cancelEdit()">ZruÅ¡it</button>
   </div>
   <div class="fbody">
-    <div class="hint">Akordy piš přímo v textu do hranatých závorek:<br><code>[Am]Text písně [F]pokračování</code><br><br>
-    <strong>Přesun akordu:</strong> klikni na akord v náhledu → pak ← → posunout</div>
-    <div class="fld"><label>Název *</label><input class="inp" id="e-title" type="text"></div>
+    <div class="hint">Akordy piÅ¡ pÅÃ­mo v textu do hranatÃ½ch zÃ¡vorek:<br><code>[Am]Text pÃ­snÄ [F]pokraÄovÃ¡nÃ­</code><br><br>
+    <strong>PÅesun akordu:</strong> klikni na akord v nÃ¡hledu â pak â â posunout</div>
+    <div class="fld"><label>NÃ¡zev *</label><input class="inp" id="e-title" type="text"></div>
     <div class="fld"><label>Interpret</label><input class="inp" id="e-artist" type="text"></div>
-    <div class="fld"><label>Tónina</label><input class="inp" id="e-key" type="text" style="max-width:120px"></div>
+    <div class="fld"><label>TÃ³nina</label><input class="inp" id="e-key" type="text" style="max-width:120px"></div>
     <div class="fld"><label>Text s akordy *</label><textarea class="inp" id="e-content"></textarea></div>
   </div>
-  <div class="ffoot"><button class="savebtn" onclick="saveEdit()">Uložit změny</button></div>
+  <div class="ffoot"><button class="savebtn" onclick="saveEdit()">UloÅ¾it zmÄny</button></div>
 </div>
 
 <!-- NAPOJOVY LISTEK -->
 <div class="nl-overlay" id="nl-overlay" onclick="closeNL()"></div>
 <div class="nl-panel" id="nl-panel">
   <div class="nl-hdr">
-    <span class="nl-title">🍺 Nápojový lístek</span>
+    <span class="nl-title">ðº NÃ¡pojovÃ½ lÃ­stek</span>
     <div style="display:flex;gap:8px">
-      <button class="nl-addbtn" onclick="showAddDrink()">+ Nápoj</button>
-      <button class="nl-closebtn" onclick="closeNL()">✕</button>
+      <button class="nl-addbtn" onclick="showAddDrink()">+ NÃ¡poj</button>
+      <button class="nl-closebtn" onclick="closeNL()">â</button>
     </div>
   </div>
   <div class="nl-body" id="nl-body"></div>
   <div class="nl-footer">
     <div id="nl-total" style="text-align:center;font-size:15px;font-weight:700;color:var(--accent);padding:6px 0 10px;display:none"></div>
-    <button class="nl-resetbtn" onclick="resetAll()">Vynulovat vše</button>
+    <button class="nl-resetbtn" onclick="resetAll()">Vynulovat vÅ¡e</button>
   </div>
 </div>
 
@@ -386,12 +386,12 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <div class="admin-overlay" id="admin-overlay" onclick="closeAdminModal()"></div>
 <div class="admin-overlay" id="admin-modal-wrap" style="display:none">
   <div class="admin-modal" onclick="event.stopPropagation()">
-    <h3>🔐 Admin přihlášení</h3>
-    <p>Zadej heslo pro přístup k admin funkcím.</p>
-    <input class="inp" id="admin-pwd" type="password" placeholder="Heslo…" autocomplete="off">
+    <h3>ð Admin pÅihlÃ¡Å¡enÃ­</h3>
+    <p>Zadej heslo pro pÅÃ­stup k admin funkcÃ­m.</p>
+    <input class="inp" id="admin-pwd" type="password" placeholder="Hesloâ¦" autocomplete="off">
     <div class="admin-modal-btns">
-      <button class="savebtn" onclick="doAdminLogin()">Přihlásit</button>
-      <button class="cancbtn" onclick="closeAdminModal()">Zrušit</button>
+      <button class="savebtn" onclick="doAdminLogin()">PÅihlÃ¡sit</button>
+      <button class="cancbtn" onclick="closeAdminModal()">ZruÅ¡it</button>
     </div>
     <div id="admin-err" style="color:#e05a00;font-size:13px;margin-top:10px;text-align:center;min-height:18px"></div>
   </div>
@@ -401,11 +401,11 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <div class="gh-overlay" id="gh-overlay" onclick="closeGhModal()"></div>
 <div class="gh-overlay" id="gh-modal-wrap" style="display:none">
   <div class="gh-modal" onclick="event.stopPropagation()">
-    <h3>☁️ Aktualizovat zpěvník</h3>
-    <p>Tato akce uloží aktuální seznam písní na GitHub. Po ~1–2 minutách uvidí změny všichni uživatelé.</p>
+    <h3>âï¸ Aktualizovat zpÄvnÃ­k</h3>
+    <p>Tato akce uloÅ¾Ã­ aktuÃ¡lnÃ­ seznam pÃ­snÃ­ na GitHub. Po ~1â2 minutÃ¡ch uvidÃ­ zmÄny vÅ¡ichni uÅ¾ivatelÃ©.</p>
     <input class="inp" id="gh-token-inp" type="password" placeholder="GitHub token (ghp_...)" autocomplete="off" style="margin-bottom:12px">
-    <button class="savebtn" id="gh-confirm-btn" onclick="doGithubUpdate()">Uložit na GitHub</button>
-    <button class="cancbtn" onclick="closeGhModal()">Zrušit</button>
+    <button class="savebtn" id="gh-confirm-btn" onclick="doGithubUpdate()">UloÅ¾it na GitHub</button>
+    <button class="cancbtn" onclick="closeGhModal()">ZruÅ¡it</button>
     <div class="gh-status" id="gh-status"></div>
   </div>
 </div>
@@ -413,25 +413,25 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <!-- ADD DRINK MODAL -->
 <div class="modal-overlay" id="drink-overlay" onclick="closeDrinkModal()"></div>
 <div class="modal" id="drink-modal">
-  <div class="modal-hdr"><strong>Přidat nápoj</strong></div>
+  <div class="modal-hdr"><strong>PÅidat nÃ¡poj</strong></div>
   <div class="quick-grid">
-    <button class="qbtn" onclick="quickDrink('Pivo velké 12°')">🍺 Velké 12°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo malé 12°')">🍺 Malé 12°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo velké 11°')">🍺 Velké 11°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo malé 11°')">🍺 Malé 11°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo velké 10°')">🍺 Velké 10°</button>
-    <button class="qbtn" onclick="quickDrink('Pivo malé 10°')">🍺 Malé 10°</button>
-    <button class="qbtn" onclick="quickDrink('Víno bílé')">🥂 Víno bílé</button>
-    <button class="qbtn" onclick="quickDrink('Víno červené')">🍷 Víno červené</button>
-    <button class="qbtn" onclick="quickDrink('Slivovice malá')">🥃 Slivka malá</button>
-    <button class="qbtn" onclick="quickDrink('Slivovice velká')">🥃 Slivka velká</button>
+    <button class="qbtn" onclick="quickDrink('Pivo velkÃ© 12Â°')">ðº VelkÃ© 12Â°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo malÃ© 12Â°')">ðº MalÃ© 12Â°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo velkÃ© 11Â°')">ðº VelkÃ© 11Â°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo malÃ© 11Â°')">ðº MalÃ© 11Â°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo velkÃ© 10Â°')">ðº VelkÃ© 10Â°</button>
+    <button class="qbtn" onclick="quickDrink('Pivo malÃ© 10Â°')">ðº MalÃ© 10Â°</button>
+    <button class="qbtn" onclick="quickDrink('VÃ­no bÃ­lÃ©')">ð¥ VÃ­no bÃ­lÃ©</button>
+    <button class="qbtn" onclick="quickDrink('VÃ­no ÄervenÃ©')">ð· VÃ­no ÄervenÃ©</button>
+    <button class="qbtn" onclick="quickDrink('Slivovice malÃ¡')">ð¥ Slivka malÃ¡</button>
+    <button class="qbtn" onclick="quickDrink('Slivovice velkÃ¡')">ð¥ Slivka velkÃ¡</button>
   </div>
-  <div class="modal-divider" id="modal-divider-or">nebo vlastní</div>
-  <input class="inp" id="drink-inp" type="text" placeholder="Název nápoje…" style="margin-bottom:8px">
-  <input class="inp" id="drink-price" type="number" min="0" step="1" placeholder="Cena (Kč) — nepovinné" style="margin-bottom:12px">
+  <div class="modal-divider" id="modal-divider-or">nebo vlastnÃ­</div>
+  <input class="inp" id="drink-inp" type="text" placeholder="NÃ¡zev nÃ¡pojeâ¦" style="margin-bottom:8px">
+  <input class="inp" id="drink-price" type="number" min="0" step="1" placeholder="Cena (KÄ) â nepovinnÃ©" style="margin-bottom:12px">
   <div style="display:flex;gap:8px">
-    <button class="savebtn" style="flex:1" onclick="addDrink()">Přidat</button>
-    <button class="cancbtn" onclick="closeDrinkModal()">Zrušit</button>
+    <button class="savebtn" style="flex:1" onclick="addDrink()">PÅidat</button>
+    <button class="cancbtn" onclick="closeDrinkModal()">ZruÅ¡it</button>
   </div>
 </div>
 
@@ -648,64 +648,329 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <!-- DEFAULTS: only used on first install to seed localStorage. After that ignored. -->
 <script id="defaults-data">
 const DEFAULTS = [
-  {id:1,title:"Nad stádem koní",artist:"",key:"D",content:"[D]Nad stádem koní í-í-í, [A]podkovy zvoní, [Emi]zvoní [G]\nČerný vůz vlečou a slzy tečou a já volám\n[D]Tak neplač mů-ůj kamaráde, [A]náhoda je blbec, [Emi]když krade [G]\nJe tuhý jak veka a řeka ho splaví, máme ho rádi\n\n[C]No tak co, [G]tak co, [A]tak co\n\n[D]Vždycky si přál, až bude popel, [A]i s kytarou [Emi] [G]\nVodou ať plavou, jen žádný hotel, s křížkem nad hlavou\n[D]Az najdes misto, kde je ten pramen a kamen co praska [A] [Emi] [G]\nBudeš mít jisto, patří sem popel a každá láska\n\nRef: No tak co, tak co, tak co.\n\n[D]Vysyp ten popel kamaráde, [A]do bílé vody, vody, [G] [D] [A] [G]\n[D]vyhasnul kotel a náhoda je, [A]štěstí od podkovy. [Emi] [G]\n\nVysyp ten... 3x"},
-  {id:2,title:"Rána v trávě",artist:"",key:"Am",content:"capo 3\n\n[Ami]Každý ráno boty zouval, [G]orosil si nohy v trávě,\nže se lidi mají rádi doufal a procitli právě.\n[Ami]Každý ráno dlouze zíval, [G]utřel čelo do rukávu,\na při chůzi tělem sem tam kýval, před sebou sta sáhů.\n\n[C]Poznal Moravěnku krásnou [G]a vínečko ze zlata,\nv Čechách slávu muzikantů, umazanou od bláta.\n\nRef: Každý ráno boty zouval...\n\n[C]Toužil najít studánečku, [G]a do ní se podívat,\nby mu řekla: proč holečku, musíš světem chodívat.\n\n[C]Studánečka promluvila: [G]to ses' musel nachodit,\nabych já ti pravdu řekla, měl ses' jindy narodit.\n\n[Ami]před sebou sta sáhů, [Emi]před sebou sta sáhů."},
-  {id:3,title:"Stánky",artist:"",key:"D",content:"[D]U stánků na levnou krásu, [G]\npostávaj a smějou se času [D] [Gmi]\ns cigaretou a s holkou, co nemá kam jít. [D] [A7] [D]\n\n[G]Skleniček pár a pár tahů z trávy, [D] [Gmi]\nuteče den jak večerní zprávy.\nNeuměj žít a bouřej se a neposlouchaj.\n\nRef. [G]Jen zahlídli svět, maj na duši vrasky. [A7]\n[D]Tak málo je, [Gmi]málo je lásky.\n[D]Ztracená víra hrozny z vinic neposbírá. [A7] [D]\n\nRef. 2x"},
-  {id:4,title:"Nejlíp jim bylo",artist:"",key:"C",content:"[C]Nejlip jim bylo [Fmaj7] [C]\nkdyž nevěděli co dělaj' [Fmaj7] [C] [Fmaj7]\njenom se potkali [G]\na neznélo to špatně. [F] [C]\n\n[C]Tak se snažili [Fmaj7] [C]\na opravdu si užívali [Fmaj7] [C] [Fmaj7]\njenom existovali [G]\na čas běžel skvěle. [F] [C]\n\nRef. [F]Nechám si projít hlavou, [C]\n[G]kam všechny věci plavou. [Ami]\n[F]jestli je všechno jen dech, [C]\n[G]tak jako kdysi v noci [Ami] [C] [Fmaj7]\nspolupotmě na schodech.\n\nRef 2x"},
-  {id:5,title:"Do nebe",artist:"",key:"G",content:"[G]Haló pane, vy s výhledem na celej svět, [D] [Emi] [C]\nco se stane, když neumim dát odpověď?\nSnad se nezlobíte, snad mi to odpustíte, vždyť víte… že chci\n\nRef. [G]Do nebe, do nebe, do nebe, [D]\n[Emi]do nebe, do nebe, do nebe, [C]\n[G]do nebe, do nebe, do nebe, [D]\n[Emi]do nebezpečna [C]\n\n[G]Haló pane, nad střechami paneláků, [D] [Emi] [C]\naž déšt ustane, až uschnou křídla ptáků.\nBudu relativně šťastný, budu žádaný a krásný,\nbudu obdivován v očích půvabných dam, ale sám… pudu\n\nRefrén 2x\n\n[C]Jsi moja věčná, půvabná slečna! [G]"},
-  {id:6,title:"Každej už to ví",artist:"",key:"Em",content:"[Emi]Každej už to ví, [C]už je to napsaný na [D]zdí\nŽe ty a já jsme dva, stejný blázní,\n\n[Emi]Teď máme svátej klid a [C]svět je jako by krásnej, [D]\nMužem klidně žit, já to vím,\n\n[G]Nanananannnananannannananna 2x [D] [Emi] [C] [G] [D] [Emi]\n\n[Emi]Za plotem žiju dál, [C]na zahradě si snídám [D]\nA jak tak vzpomínám, čím dál víc si zpívám\n\n[G]Na tuhle ženu nezapomenu, to ti přisahám. [D] [Emi] [C]\n[G]Co na tom sejde, stejně to nejde – dávno tě pod kůží mám [D] [Emi] [C]\n\n[G]Na tuhle ženu, nezapomenu, v mi hlavě místo má, [D] [Emi] [C]\n[G]Co na tom sejde, když se tam vejde, já jí to nevyčítám. [D] [Emi] [C]"},
-  {id:7,title:"Hruška",artist:"",key:"D",content:"[D]Stojí hruška v širém poli vršek se jí zelená [A] [D] [G] [A]\npod ní se pase kůň vraný pase ho má milá\n\n[A]Proč má milá dnes pasete z večera do rána [D] [A] [D] [G] [A]\nkam můj milý pojedete já pojedu s váma\n\n[A]Ó já pojedu daleko přes vody hluboké [D] [A] [D] [G] [A]\nkéž bych byl nikdy nepoznal panny černooké"},
-  {id:8,title:"Tisíc mil",artist:"",key:"G",content:"[G]V nohách mám už tisíc mil [Em]\n[Am]stopy déšt a vítr smyl [C]\n[Am]a můj kůň i já jsme cestou znavení. [D7] [G]\n\n[G]Těch tisíc mil těch tisíc mil [Em]\n[Am]má jeden směr a jeden cíl [C]\n[Am]bílej dům to malý bílý stavení. [D7] [G]\n\n[G]Je tam stráň a příkrej sráz [Em]\nmodrá tůň a bobří hráz [Am] [C]\n[Am]táta s mámou kteří věřej dětskejm snům. [D7] [G]\n\n[G]Těch tisíc mil těch tisíc mil [Em]\n[Am]má jeden směr a jeden cíl, [C]\n[Am]jeden cíl ten starej známej bílej dům. [D7] [G]\n\n[G]Kousek dál a já to vím [Em]\nuvidím už stoupat dým [Am] [C]\n[Am]šikmej štít střechy čnít k nebesům. [D7] [G]\n\n[G]Těch tisíc mil těch tisíc mil [Em]\n[Am]má jeden směr a jeden cíl [C]\n[Am]bílej dům to malý bílý stavení. [D7] [G]"},
-  {id:9,title:"Růže z papíru",artist:"",key:"Dm",content:"3. cappo\n\n[Dmi]Do tvých očí jsem se zbláznil a teď nemám, nemám klid, [E7] [Gmi]\n[Ami]hlava třeští, asi tě mám rád,\nstále někdo říká: vzbuď se, věčně trhá nit,\n[Ami]studenou sprchu měl bych si dát. [Dmi]\n\n[D7]Na pouti jsem vystřelil růži z papíru, [Gmi]\n[C7]dala sis ji do vlasů, kde hladívám tě já, [F] [A7]\n[Dmi]v tomhle smutným světě jsi má naděj na víru,\n[Ami]že nebe modrý ještě smysl má. [Dmi]\n\n[Dmi]Přines' jsem ti kytku, no co koukáš, to se má, [E7] [Gmi]\n[Ami]tak jsem asi jinej, teď to víš,\nmožná trochu zvláštní v dnešní době, no tak ať,\n[Ami]třeba z ní mou lásku vytušíš. [Dmi]\n\nMezihra: Dmi E7 Gmi Ami Dmi E7 Gmi Ami Dmi\n\nRefrén"},
-  {id:10,title:"Jdem zpátky do lesů",artist:"",key:"G",content:"[Am7]Sedím na kolejích, které nikam nevedou, [D] [G] [C]\nkoukám na kopretinu, jak miluje se s lebedou,\nmraky vzaly slunce zase pod svou ochranu,\njen ty nejdeš, holka zlatá, kdypak já tě dostanu?\n\n[G]Z ráje, my vyhnaní z ráje, [Emi]\n[Ami7]kde není už místa, [C]prej něco se chystá, [G] [D7]\n[G]z ráje nablýskaných plesů, [Emi]\n[Ami7]jdem zpátky [C]do lesů [G]\nza nějaký čas.\n\n[C]Vlak nám včera ujel ze stanice do nebe, [D] [G]\nmálo jsi se snažil, málo šel jsi do sebe,\nšel jsi vlastní cestou, a to se zrovna nenosí,\ni pes, kterej chce přízeň, napřed svýho pána poprosí.\n\nR: 2x"},
-  {id:11,title:"Dobrák od kosti",artist:"",key:"D",content:"[D]Má milá jak ti je, tak jak ti je? [A] [G]\nJsem ten, kdo jednou tvý tělo zakryje.\nJsem ten, kdo tě jednou oddělá.\nPotkala's zkrátka koho's neměla.\n\n[D]Je to vážně silná káva,\n[A]pláč a nebo vztek, nic už s tím nenadělás [G]\n[D]nech mě jenom hádat,\n[A]jak jsi hebká na dotek, krásná a nedospělá [G]\n\n[D]Víš, všechno má aspoň malý kaz [A] [G]\njsem ten, kdo ti jednou zlomí vaz [D] [A] [G]\nMá milá vždyť mě znáš jsem dobrák od kosti\na ty jsi ta co mi to jednou všechno odpustí\n\nR:\n[D]Má milá jak ti je, tak jak ti je? [A] [G]"},
-  {id:12,title:"Povídej",artist:"",key:"G",content:"[G]Povídej, jestli tě má hodně rád, víc než já, [D] [G]\njestli, když večer jdeš spát, ti polibek dá,\n[Hmi]tak jako já, [C]to už je dávno, [G]tak povídej, [D]hej, [G]povídej.\n\n[G]Povídej, nechal tě být, vždyt měl tě tak rád, [D] [G]\nnebos' ho nechala jít, když šel k jiný spát,\n[Hmi]tak jako mě, [C]to už je dávno, [G]tak povídej, [D]hej, [G]povídej.\n\n[Hmi]Povídej, jestli se ti po mně stýská, [G]když večer jdeš spát, [A7] [C] [G]\njestli, když v noci se blýská, nepřestala ses bát.\n\n[G]Povídej, ne, já se nevrátím, jdi domů spát,\ntvou lásku ti vyplatím, víc nemůžu dát,\n[Hmi]jak jsem dal dřív, [C]to už je dávno, [G]tak povídej, [D]hej, [G]povídej.\n[Hmi]Povídej, [C]povídej, [G]povídej."},
-  {id:13,title:"Zatanči",artist:"",key:"Em",content:"[Emi]Zatanči, má milá, zatanči pro mé oči, [G] [D] [Emi]\nzatanči a vetkni nůž do mých zad,\nať tvůj šat, má milá, ať tvůj šat na zemi skončí,\nať tvůj šat, má milá, rázem je sňat. [G] [D] [Emi]\n\n[Emi]Zatanči, jako se okolo ohně tančí, [G] [D] [Emi]\nzatanči jako na vodě loď,\nzatanči jako to slunce mezi pomeranči,\nzatanči, a pak ke mně pojď. [G] [D] [Emi]\n\n[Emi]Polož dlaň, má milá, polož dlaň na má prsa, [G] [D] [Emi]\npolož dlaň nestoudně na moji hruď,\nobejmi, má milá, obejmi moje bedra,\nobejmi je pevně a moji buď. [G] [D] [Emi]\n\n[Emi]Nový den než začne, má milá, nežli začne, [G] [D] [Emi]\nnový den než začne, nasyt můj hlad,\nzatanči, má milá, pro moje oči lačné,\nzatanči a já budu ti hrát. [G] [D] [Emi]"},
-  {id:14,title:"Igelit",artist:"",key:"G",content:"[G]Ukrytý v stínu lesa, igelit, to kdyby přišel k ránu déšt, [D] [C] [G]\npod hlavou boty, nůž, tátovu bundu šitou z maskáčů,\nk ránu se mlhy zvednou a ptáci volaj': hele, lidi, svítá,\npak větvičky si nalámou na oheň, aby uvařili čaj.\n\nR: [Emi]A všichni se znaj', znaj', znaj' a bláznějí a zpívaj' [D7] [G] [C] [G]\na po cestách dál, dál, dál hledaj' normální svět.\n\n[G]Ukrytý v stínu lesa, k večeru znavený nohy skládaj', [D] [C] [G]\nkytara zpívá o tom, jak dřív bylo líp,\nta chvilka, co máš na život, ti uplyne jak od ohýnku dým.\n\nRefrén"},
-  {id:15,title:"Zabili",artist:"",key:"D",content:"[D]Zabili zabili, chlapa z koločavy [G] [Emi] [G] [D]\nřekněte hrobaři, kde je pochovaný\n\nRef: [D]Bylo tu není tu, havrani na plotu [G]\n[D]bylo vino v sudě, teď tam voda bude [G]\n[G]není není tu [D]\n\n[D]Špatně ho zabili špatně pochovali [G] [Emi] [G] [D]\nvlci ho pojedli ptáci rozklovali\n\nRef:\n\n[D]Kráká starý havran krákat nepřestane [G] [Emi] [G] [D]\ndokud v Koločavě živý chlap zůstane\n[Emi]živý chlap zůstane [G] [D]"},
-  {id:16,title:"Bedna od whiskey",artist:"",key:"Am",content:"[Am]Dneska už mně fóry ňák nejdou přes pysky, [C] [Am] [E]\nstojím s dlouhou kravatou na bedně vod whisky,\ntu kravatu, co nosím, mi navlík' soudce Lynč\n\n[D]Tak kopni do tý bedny, ať panstvo nečeká, [E] [A]\njsou dlouhý schody do nebe a štreka daleká\ndo nebeského baru, já sucho v krku mám,\ntak kopni do tý bedny, ať na cestu se dám.\n\n[Am]Mít tak všechny bedny vod whisky vypitý,\npostavil bych malej dům a chlastal bych tam s Bilem a s Benem.\n\n[Am]Kdyby jsi se, hochu, jen porád nechtěl rvát,\nnemusel jsi dneska na týhle bedně stát.\n\n[Am]Když jsem štípnul koně a ujel jen pár mil,\nzatracená smůla zlá, zatracenej pech,\nkdyž kůň cucá whisku jak u potoka mech.\n\nTak kopni do tý bedny!"},
-  {id:17,title:"Veď mě dál",artist:"",key:"G",content:"[G]Někde v dálce cesty končí, každá však cíl svůj skrývá. [Emi] [D] [C] [G]\nNěkde v dálce každá má svůj cíl, ať je pár mil dlouhá nebo tisíc mil.\n\nRef. [G]Veď mě dál, cesto má, veď mě dál, vždyť i já, [D] [Emi] [C]\n[G]tam, kde končíš, chtěl bych dojít, veď mě dál cesto má. [D] [C] [G]\n\n[G]Chodim dlouho po všech cestách, všechny znám je, jen ta má mi zbývá [Emi] [D] [C] [G]\nJe jak dívky, co jsem měl tak rád, plná žaru bývá, hned zas samý chlad.\n\nRefrén\n\n[Emi]Pak na patník poslední napíšu křídou jmeno své a [D] [G] [C]\n[G]pod něj, že jsem žil hrozně rád [D]\n[Emi]Písně své co mi v kapsách zbydou, dám si bandou cvrčků [F] [C] [G]\n[D]hrát a půjdu spát, půjdu spát.\n\nRef. 2x\n|: Veď mě dál cesto má. :| [D] [G]"},
-  {id:18,title:"Husličky",artist:"",key:"Am",content:"[G]|: Čí že ste, husličky, čie, [C] [G]\n[Ami]kdo vás tu zanechal :| [Emi] [D]\n[Ami7]na trávě poválané, [D] [G] [C]\n[Ami]u paty ořecha? [Emi] [D]\n\n[G]|: A kdože tu trávu tak zvával, [C] [G]\n[Ami]aj modré fialy :| [Emi] [D]\n[Ami7]že ste husličky samé, [D] [G] [C]\n[Ami]na světě zostaly? [Emi] [D]\n\n[G]|: A který tu muzikant usnul [C] [G]\n[Ami]a co sa mu přišlo zdát :| [Emi] [D]\n[Ami7]co sa mu v noci zdálo, [D] [G] [C]\n[Ami]že už vjec nechtěl hrát? [Emi] [D]\n\n[G]|: Zahrajte, husličky samy, [C] [G]\n[Ami]zahrajte zvesela :| [Emi] [D]\n[Ami7]až sa tá bude trápit, [D] [G] [C]\n[Ami]která ho nechtěla [Emi] [D]\n\nAmi Emi Hmi C D G"},
-  {id:19,title:"Ráda se miluje",artist:"",key:"Am",content:"[Ami]Ráda se miluje, ráda jí, ráda si jenom tak zpívá, [G] [C] [F] [Emi] [Ami]\nvrabci se na plotě hádají, kolik že času jí zbývá.\n\n[F]Než vítr dostrká k útesu tu její legrační bárku [C] [F] [C] [E]\n[Ami]a Pámbu si ve svým notesu udělá jen další čárku.\n\nRef: (opakuje se)\n\n[F]Psáno je v nebeské režii, a to hned na první stránce,\n[Ami]že naše duše nás přežijí v jinačí tělesný schránce.\n\n[F]Úplně na konci paseky, tam, kde se ozvěna tříští,\n[Ami]sedí šnek ve snacku pro šneky - snad její podoba příští.\n\nOriginál: Capo 2, Ami G C Fmaj Emi"},
-  {id:20,title:"Jesse James",artist:"",key:"G",content:"[G]Jesse James chlapík byl, hodně lidí vodpravil, [C] [G]\nvlaky přepadával rád. [D7]\n[G]Boháčům uměl brát, chudákům daval zas, [C] [G]\npřál bych vám abyste ho mohli znát. [D7] [G]\n\nRef. [C]Jó, Jesse ženu svou tady nechal ubohou [G]\na tři děcka říkám vám, [D7]\n[G]ale tenhle přítel hadí ten vám Jesse zradí. [C] [G]\nJá vím tenkrát v noci prask ho sám. [D7] [G]\n\n[G]Jednou vám byla noc, měsic tenkrát svítil moc,\nkdyž tu vláček zůstal stát.\nKdekdo ví že ten vlak přepad James kabrňák\nčistě sám se svým bráchou akorát.\n\nRefrén\n\n[G]Jedenkrát Jesse James sedí doma za stolem\na svým dětem vypráví\nRoberd Ford v nočních tmách připlíží se jako vrah\na on vám Jesse Jamese odpraví.\n\nRefrén"},
-  {id:21,title:"Zachraňte koně",artist:"",key:"Em",content:"[Em]Peklo byl ráj když hořela stáj, příteli [Am7]\n[C]Věř mi, koně pláčou povídám [D] [G] [H7]\n[Em]To byla půlnoc v tom křik o pomoc\n[C]hejna kohoutů a bůhví kam [Hm] [Em]\n\nRef. [G]Zachraňte koně, křičel jsem tisíckrát [Hm] [C]\n[G]žil jsem jen pro ně, bránil je nejvíckrát [Hm] [C]\n[Am]než přišla chvíle, kdy hřívy bíle,\n[Am]procesál plamen, spálil na troud [H7]\n\n[Em]Ohrady a stáj a v plamenech kraj už nedýchal [Am7]\n[C]já viděl jak to hříbě umírá\n[Em]klisna u něj a smuteční děj se odbývá\n[C]jak tiše pláče oči přivírá [Hm] [Em]\n\nRefrén 2x\n[Em]zachraňte koně"},
-  {id:22,title:"Knock knock / Nebeská brána",artist:"Bob Dylan / trad.",key:"G",content:"[G]Mama, take this badge off of me [D] [Ami]\nI can't use it anymore [G] [D] [C]\n[G]It's gettin' dark, too dark for me to see\nFeel like I'm knockin' on heaven's door\n\nRef. (4x) [G]Knock, knock, knockin' on heaven's door [D] [Ami/C]\n\n[G]Mama, put my guns on the ground\nI can't shoot them any more\nThat long black cloud is comin' down\nFeels like I'm knockin' on heaven's door\n\n---\n\n[G]Mámo sundej kytku z kabátu [D] [Ami]\nza chvíli mi bude k ničemu [G] [D] [C]\n[G]můj kabát a kudlu vem pro tátu\njá už stojim před branou s klíčem\n\nRef. [G]Cejtím že zaklepu na nebeskou bránu [D] [Ami/C] (3x)\n\nNeberu s sebou milý tváře, žijte si tu co se do vás vejde,\naž popíšem všechny diáře, všichni se tam za tou branou sejdem\n\nRef. [G]Všichni jednou zaklepem na nebeskou bránu [D] [Ami7] [C] (3x)"},
-  {id:23,title:"Budu všechno co si budeš přát",artist:"",key:"G",content:"[G]Záplavou uprostřed pouště všedních dní, [G7] [C] [D] [G]\nhouslistou, co tvoje struny rozezní,\nmůžu být, když si to budeš přát. [C] [D] [G]\n\n[G]Požárem co rozpálí tě do běla, [G7] [C] [D] [G]\nzlodějem, co státní banku udělá,\nmůžu být, když si to budeš přát. [C] [D] [G]\n\nRef. [G]Bláznem co staví na poušti most [D]\na v dešti tančí pro radost. [D7] [H7] [Emi]\n[Emi]budu všechno co si budeš přát. [C] [D]\n[G]Slunečním světlem a půlnoční tmou, [D]\ntvou stopou v písku ztracenou, [D7] [H7] [Emi]\n[Emi]budu všechno co si budeš přát [C]\n[D]a ještě k tomu rád. [G]\n\n[G]Šachistou co pátým tahem dává mat, [G7] [C] [D] [G]\nsvítáním ve tmě, kde začala ses bát,\nmůžu být, když si to budeš přát. [C] [D] [G]\n\nRefrén 2x\n\n[G7]Máš to mít, když si to budeš přát. [C] [D] [G] (4x)"},
-  {id:24,title:"Panenka",artist:"",key:"C",content:"[C]Co skrýváš za víčky a plameny svíčky, [F] [C] [F]\nsnad houř bílých holubic nebo jen žal,\ntak odplul ten prvý den smáčený krví,\nani poutovou panenku nezanechal. [C] [G] [C]\n\nRef: [C]Otevři oči, ty uspěchaná dámo uplakaná, [F] [C] [G] [F] [C] [G]\n[F]otevří oči, ta hloupá noc končí a mír je mezi náma. [C] [F] [C] [G] [C]\n\n[C]Už si oblékni šaty i řetízek zlatý\na umyj se, půjdeme na karneval,\na na bílou kůži ti napíšu tuší,\nže dámou jsi byla a zůstáváš dál.\n\nRefrén"},
-  {id:25,title:"Colorado",artist:"",key:"G",content:"[G]Táta vždycky říkal hochu žádný strachy. [C]\nSeš kovboj v Coloradu můžeš kravy pást. [G] [D]\n[G]Já radši utratil jsem psa a všechny prachy.\nDo srdce Evropy já odjel v klidu krást. [G] [D] [G]\n\n[G]Narvaný kapsy, prsteny, řetězy zlatý, [C]\ntam kolem krku místní indiáni maj.\nA ti, co nemakaj tak jsou nejvíc bohatý.\nMusim si pohnout dokavaď tam rozdávaj. [G] [D] [G]\n\nRef. [G]Z Billa na Nováka změním si svý jméno [C]\na až tu malou zemi celou rozkradem, [G] [D]\n[G]tak se vrátím ve svý rodný Colora - do [Emi] [C]\na o tý zlatý žíle řeknu doma všem. [G] [D] [G]\n\nRefrén\nOutro: [G]O tý zlatý žíle řeknu doma všem [D] [G]"},
-  {id:26,title:"Měsíc",artist:"",key:"Em",content:"[Emi]Děkuju ti za to, žes mi ještě zavolala, [D] [G] [C] [G] [D]\nmoje duše černá už to ani nečekala.\n[Emi]Jenže, moje drahá, je to všechno trochu na nic,\njá už jsem se rozhod, zitra budu znovu panic.\n\n[Emi]Děkuju ti za to, žes to rovnou nepoložil,\nže jsi nezapomněl, co jsi se mnou všechno prožil\n[Emi]Teďka svítí měsíc pro každýho zvlášť, mně je to líto,\njenže už je konec, však víš to.\n\n[Emi]Měsíc, [D]svítí měsíc. [G] [C] [G] [D] (4x)\n[Emi]Měsíc."},
-  {id:27,title:"Vizovice",artist:"",key:"G",content:"[G]Když se s vinem probouzí den. [D] [G]\nJen já a to vino tady sem [C] [G] [D]\nJá včera s vínem šel jsem i spát\na to mam rád. [C]\n\n[G]Po vinu a po slivovici [D] [G]\nJako balón ja mám makovici.\nStejně si musim ale panaka dát.\nJá to mám rád. [C]\n\n[G]Tam kde leží Vizovice [D] [G]\nTam jsme přece my a slivovice.\na dobrych lidí, co mám tu čest znát.\nco je mam rád [C]\n\n[G]Tam vychazí trnky brnky [D] [G]\nV lesích jsou jak žirafy tak i srnky.\nTam ti nikdo život nebude brát,\njenom o játra se musiš bát. [G] [D] [G]\n\n[G]Touhle písní chtěl jsem jen říct [D] [G]\nže jsou místa, kde bude vám líp. [C] [G] [D]\n|: Každý má někde svoje Vizovice,\nkde jsou známí a ne pijavice. :| [G] [D] [G]"},
-  {id:28,title:"Dej mi víc své lásky",artist:"",key:"Am",content:"[Ami]Vymyslel jsem spoustu nápadů, aů, [C]\nco podporujou hloupou náladu, aů, [Ami] [G] [E]\n[Ami]hodit klíče do kanálu, sjet po zadku holou skálu,\n[Ami]v noci chodit strašit do hradu [E] [Ami]\n\n[Ami]Dám si dvoje housle pod bradu, aů, [C]\nv bílé plachtě chodím pozadu, aů,\n[Ami]úplně melancholicky, s citem pro věc jako vždycky\n[Ami]vyrábím tu hradní záhadu, aů [E] [Ami] [G]\n\n[C]Má drahá, dej mi víc, má drahá, dej mi víc, [E]\n[Ami]má drahá, dej mi víc své lásky, aů, [F] [C] [G]\n[C]já nechci skoro nic, já nechci skoro nic, [E]\n[Ami]já chci jen pohladit tvé vlásky, aů. [F] [C] [E]\n\n[Ami]Nejlepší z těch divnejch nápadů, aů,\nmi dokonale zvednul náladu, aů,\n[Ami]natrhám ti sedmikrásky, tebe celou s tvými vlásky\n[Ami]zamknu si na sedm západů, aů [E] [Ami] [G]\n\nRefrén"},
-  {id:29,title:"Cesta",artist:"",key:"C",content:"[C]Tou cestou, tím směrem prý bych se dávno měl dát. [G]\nKdyž sněží, jde to stěži, ale sněhy pak tají,\n[F]kus něhy ti za nehty slíbí a dají [G]\n\n[C]Víc síly se prát, na dně víc dávat než brát. [G]\nA i když se vleče a je schůdná jen v kleče,\n[F]donutí přestat se zbytečně ptát, [G]\n\nRef. [C]Jestli se blížím k cíli, kolik zbýva víry, [G]\n[Ami]kam zvou svodidla, co po tmě mi lžou? [F] [G]\n[C]Zda couvam zpátky a plýtvam řadky, [G]\n[Ami]co řvou, že už mi doma neotevřou... [F] [G]\n\n[C]Ale zpívat a hrát, kotníky líbat, a stát. [G]\nNa křídlech všech slavíků, a vlastně už ze zvyku\n[F]přestat se zbytečně ptát, [G]\n\nRef. 2x"},
-  {id:30,title:"Malování",artist:"",key:"Dm",content:"[Dmi]Nesnaž se, znáš se, řekni mi co je jiný, [B] [C] [Dmi]\njak v kleci máš se pro nevinný\nnoci dlouhý jsou plný touhy a lásky nás dvou\n\nRef. [B]To je to tvoje malování vzdušnejch zámků, [C] [Dmi] [B] [C]\nmalování po zdech holejma rukama [Dmi] [B] [C]\ntě nezachráni, už máš na kahánku, [Dmi] [B] [C]\nza náma, na zádech, [Dmi] [B] [C]\nje to za náma, ty čteš poslední stranku, [Dmi] [B] [C]\nza náma, [Dmi] [B] [Gmi] [Ami]\nmezi náma, mi taky došel dech.\n\nRefrén\n\n[Dmi]Znáš se, řekni mi co je jiný [B] [C] [Dmi]\njak v kleci máš se pro nevinný\nnoci dlouhý jsou plny touhy a lásky nás tří."},
-  {id:31,title:"Fotr",artist:"",key:"A",content:"[A]Jednou mi fotr povídá, zůstali jsme už sami dva, [D]\nže si chce začit taky trochu žít, [E] [A]\n[A]nech si to projít palicí a nevracej se s vopicí,\nsnaž se mě hochu trochu pochopit. [E] [A]\n\n[E]Já šel, šel dál, baby, kam mě Pánbůh zval, [A]\njá šel, šel dál, baby, a furt jen tancoval, [E] [D7]\n[A]na každý divný hranici, na policejní stanici [D]\n[E]hrál jsem jenom rock'n'roll for you. [A]\n\n[A]Přiletěl se mnou černej čáp, zobákem dělal rockin' klap [D]\na nad kolíbkou Elvis Presley stál,\nobrovskej bourák v ulici, po boku krásnou slepici\na lidí šeptaj: přijel ňákej král. [E] [A]\n\nRefrén\n...hrál jsem jenom rock'n'roll for you."},
-  {id:32,title:"Nagasaki Hirošima",artist:"",key:"G",content:"R. [G]Tramvají dvojkou jezdival jsem - do Židenic, [D] [C] [D] [G]\nz takový lásky - většinou nezbyde nic,\n[C]z takový lásky - jsou kruhy pod očima [G] [C] [G] [D]\na dvě - spálený srdce – Nagasaki, Hirošima.\n\n[G]Jsou jistý věci, co bych tesal do kamene,\ntam, kde je láska, tam je všechno dovolené,\n[C]a tam, kde není, tam mě to nezajímá,\njó, dvě spálený srdce – Nagasaki, Hirošima.\n\n[G]Já nejsem svatej, ani ty nejsi svatá,\njablka z ráje bejvala jedovatá,\n[C]jenže! - hezky jsi hřála, když mi někdy byla zima,\njó, dvě spálený srdce – Nagasaki, Hirošima.\n\nR: a dvě spálený srdce – Nagasaki, Hirošima  3x"},
-  {id:33,title:"Amerika",artist:"",key:"D",content:"[D]Nandej mi do hlavy tvý brouky, a Bůh nám seber beznadějl [A] [Emi] [D]\nV duši zbylo světlo z jedny holky, tak mi teď za to vynadej.\n\n[D]Zima a promarnéný touhy, do vrásek stromů padá déšt.\nZbejvaj roky asi ne moc dlouhý,\n[Emi]do vlasů mi zabroukej... pa pa pa pá [G] [D]\n\nRef: [D]pa pa pa pá, pá pa pa pá   jejé [A] [Hmi] [D]\n[D]pa pa pa pá, pá pa pa pá [C#7] [Hmi] [D]\n\n[D]Tvoje oči jenom žavý tóny, dotek slunce zapadá.\nHorkej vítr rozezní mý zvony,\n[Emi]do vlasů ti zabroukám ... pá pa pá pá [G] [D]\n\nRef. (opakuje se)\n\n[D]Na obloze křídla tažnejch ptáků, tak už na svý bráchy zavolej.\nNa tváře ti padaj slzy z mraků a Bůh nám sebral beznadějl.\n\nRef. + D, C#7, Hmi"},
-  {id:34,title:"Made in Valmez",artist:"",key:"D",content:"[D]jako je sama skála [Gmaj7] [Emi] [A]\ntak jsem sám i já\n[D]jako je prázdná duha [Gmaj7] [Emi] [A]\ntak jsem prázdný i já\n[D]jako je zrádná voda [Gmaj7] [Emi] [A]\ntak zradím i já\n\nRef. [D]zkouším se prokopat ven - zkouší se prokopat ven!\n[Gmaj7]zkouším se prokopat ven! [Emi] [A] (opakuje se)\n\n[D]O půl třetí na náměstí ve Valašském Meziříčí [Gmaj7] [Emi] [A]\njdu co noha nohu mine, a každý sám sobě jsme stínem\nnic mi není přitom melu z posledního,\ntěžko říct o tom něco konkrétního\nstejná slova kolem stejný tváře\na každý sám sobě jsme lhářem a já už zase\n\nRefrén\nOutro: [D]zkouším se prokopat ven [Gmaj7] [Emi] [A] [D]"},
-  {id:35,title:"Nebude to taky lehké",artist:"",key:"Am",content:"[Ami]Vraj zmenila si číslo [G]\nA do zámku nepasuje viac môj kľúč [Ami] [G] [Fmaj7]\nHlavou mi blyslo, asi chceš aby som bol už fuč.\n\n[C]Nebude to také lahké drahá [G] [F]\nMňa sa nezbaviš s tým sa lúč [C] [G] [F]\n[C]Nebude to také lahké drahá\nNemožeš ma vymeniť ako rúž [G] [F] [G] (stop)\n[Ami]Som tvoj muž\n\nMedzihra: Ami G Ami G\n\nVraj koketuješ s iným, dolámem mu kosti, nos a sny\nTak dopúšťaš sa viny, tak vrav, povedz čo máš s ním.\n\nR:\n\n[F]Predsa sme si súdený [G]\nJa nemožem žiť bez ženy [F] [G]\n[F]Ja nemožem žiť bez teba to mi ver [G] [Ami]\n[F]A v kostole pred pánom, sľubovala si nám dvom [G]\n[F]Nekonečnú lásku, vernosť, mier, mier, mier [G] [Ami]\nR:"},
-  {id:36,title:"Kdyby tady byla",artist:"",key:"A",content:"[A]|: Kdyby tady byla taková panenka, která by mě chtěla. :| [E] [A]\n[D]|: Která by mě chtěla syna vychovala, přitom pannou byla. :| [A] [E] [A]\n\n[A]|: Kdybych já ti měla syna vychovati, přitom pannou býti. :| [E] [A]\n[D]|: Ty by jsi mě musel kolébku dělati, do dřeva netíti. :| [A] [E] [A]\n\n[A]|: Kdybych já ti musel kolébku dělati, do dřeva netíti. :| [E] [A]\n[D]|: Ty bys mi musela košiličku šíti, bez jahel a niti. :| [A] [E] [A]\n\n[A]|: Kdybych já ti měla košiličku šíti, bez jahel a niti. :| [E] [A]\n[D]|: Ty by si mě musel žebřík udělati, až k nebeské výši. :| [A] [E] [A]\n\n[A]|: Kdybych já ti musel žebřík udělati, až k nebeské výši. :| [E] [A]\n[D]|: Lezli bysme spolu, spadli bysme dolů, byl by konec všemu. :| [A] [E] [A]"},
-  {id:37,title:"Pocity",artist:"",key:"G",content:"[G]Z posledních pocitů poskládám ještě jednou úžasnou chvíli [D] [Emi] [C]\nJe to tím, že jsi tu, možná tím, že kdysi jsme byli Ty a Já,\ndvě nahý těla, tak neříkej, že jinak si to chtěla,\ntak neříkej, neříkej, neříkej mi nic.\n\n[G]Stala ses do noci z ničeho nic moje platonická láska [D] [Emi] [C]\nunaven, bezmocný, usínám vedle Tebe, něco ve mně praská.\n\nR: [G]Jenže ty neslyšíš, jenže ty neposloucháš, [D] [Emi] [C]\nsnad ani nevidíš, nebo spíš nechceš vidět\na druhejm závidiš a v očích kapky slaný vody\nzkus změnu, uvidíš. Pak vitej do svobody\n\n[G]Jsi andělí, netušíš. Anděl, co ze strachu mu utrhali křídla.\nA až to ucítíš, zkus kašlat na pravidla.\n\nR: Jenže ty neslyšíš..."},
-  {id:38,title:"Zafůkané",artist:"",key:"Am",content:"[Ami]Větr sněh zaněsl z hor do polí, já idu přes kopce, přes údolí, [C] [G] [Ami]\nidu k tvej dědinë zatúlanej, cestičky sněhem sú zafůkané. [C] [G] [C] [F] [C] [E] [Ami]\n\n[Ami]Zafůkané, zafůkané, kolem mňa všecko je zafůkané. [C] [G] [C] [F] [C] [Dmi] [E]\n[Ami]Zafůkané, zafůkané, kolem mňa všecko je zafůkané.\n\nMEZIHRA: Emi D G H7 Emi D G H7 Emi\n\n[Ami]Už vašu chalupu z dálky vidím, srdce sa ozvalo, bít ho slyším,\nsnáď enom pár kroků mi zostává, a budu u tvého okénka stát.\n\nR: okénko k tobě je zafůkané\n\n[Ami]Od tvého okna sa smutný vracám, v závějoch zpátky dom cestu hledám,\nspadl sněh na srdce zatúlané, aj na mé stopy - sú zafůkané.\n\nR: mé stopy k tobě sú zafůkané"},
-  {id:39,title:"Honolulu",artist:"",key:"G",content:"[G]Letecká linka do ráje [C] [D] [C]\nk ostrovům slunné Havaje\nnabrala kurs vlastní osy\ntam holky plavky nenosí [C] [D] [G]\n\n[G]Na pláži Beach Boys čekají [C] [D] [C]\nbanány z palem padají\nna runway Boeing dosedá\na slunce pálí, to se má [C] [D] [G]\n\n[D]Honolulu, ukululu, tohle mám rád [C] [G]\nreagge, reagge, reagge\n[D]Honolulu, ukululu... [C]\n[G]hej [C] [D] [C] [G]\n\n[G]Tu náhle signál budíku [C] [D]\nvytáh' mě z pláže rovníku\nšalinou za pětikačku\njedu vorazit štípačku [C] [D] [G]\n\nRefrén"},
-  {id:40,title:"Sen",artist:"",key:"E",content:"[E]Stíny dnů a snů se k obratníkům stáčí [A]\n[E]Ruce snů černejch se snaží zakrýt oči [A]\n[F#mi]Světlo tvý prozradí proč já vím [A] [E]\n[F#mi]S novým dnem, že se zas navrátí [A] [H]\n\n[E]Mraky se plazí, vítr je láme [A]\n[E]Stíny tvý duše rozplynou se v šeru [A]\n[F#mi]Ve vlnách opouští, po hodinách mizí [A] [E]\n[F#mi]A měsíc nový stíny vyplaší [A] [H]\n\nR: [E]Proud motýlů unáší strach\n[A]Na listy sedá hvězdnej prach\n[C#mi]Proletí ohněm a mizí stále dál [H]\n[E]Neslyšný kroky stepujou\n[A]V nebeským rytmu swingujou\n[C#mi]Že se ráno vytratí [H]\n\nR: Proud motýlů unáší strach..."},
-  {id:41,title:"Jasná zpráva",artist:"",key:"G",content:"[G]Skončili jsme jasná zpráva,\n[Emi]proč o tebe zakopávam dál, [C] [D]\n[Ami]projít bytem já abych se bál. [C] [G]\n[G]Dík tobě se vidím zvenčí,\n[Emi]připadám si starší menší sám, [C] [D]\n[Ami]kam se kouknu, kousek tebe mám. [C] [G]\n\nRef. [Emi]Pěnu s vůní jablečnou, vyvanulý sprej, [Hmi] [Emi] [Hmi]\n[Emi]telefon, cos ustřihla mu šňůru. [G] [D]\n[Emi]knížku krásně zbytečnou, co má lživý děj,\n[Emi]píše se v ni, jak se lítá vzhůru,\n[Ami]lítá vzhůru, ve dvou vzhůru. [D]\n\n[G]Odešla's mi před usvitem,\n[Emi]mám snad bloudit vlastním bytem sám, [C] [D]\n[Ami]kam se kouknu, kousek tebe mám. [C] [G]\n\nRefrén\n\n[G]Skončili jsme jasná zpráva,\n[Emi]není komu z okna mávat víc, [C] [D]\n[Ami]jasná zpráva, rub, co nemá líc. [C] [G]"},
-  {id:42,title:"Mezi horami",artist:"",key:"Am",content:"[Ami]Mezi horami, [G]lipka zelená. [Ami] [C] [G] [C]\n|: Zabili Janka, Janička, Janka, miesto jeleňa. :| [C] [G] [Ami] [Emi] [Ami]\n\n[Ami]|: Keď ho zabili, zamordovali. :|  |: Na jeho hrobě, kříž postavili. :|\n\n[Ami]|: Ej křížu, křížu, ukřižovaný. :|  |: Zde leží Janík, zamordovaný. :|\n\n[Ami]|: Tu šla Anička, plakat Janička. :|  |: Hned na hrob padla a viac nevstala. :|\n\n---\ncap.3\n[Dmi]Mezi horami, [C]lipka zelená. (další sloky v Dmi)"},
-  {id:43,title:"Sbohem galánečko",artist:"",key:"G",content:"[G]Sbohem galánečko já už musím jiti [Emi] [Ami] [D] [G] [A7]\nsbohem galánečko já už musím jiti [D] [Hmi] [Emi] [A] [D]\n|: Kyselé vínečko, kyselé vínečko [Ami] [D] [G] [Ami] [D]\n[G]Podalas mně k pití :| [Ami] [D] [G]\n\n[G]Sbohem galánečko ozlučme sa v pánu\n|: Kyselé vínečko, kyselé vínečko\n[G]Podalas mně v džbánu :| [Ami] [D] [G]\n\n[G]Ač bylo kyselé přeca sem sa opil\n|: Ešte včil sa stydím, ešte včil sa stydím\n[G]Co jsem všechno tropil :| [Ami] [D] [G]\n\n[G]Ale sa nehněvám žes mňa ošidila\n|: To ta moja žízeň, to ta moja žízeň\n[G]Ta to zavinila :| [Ami] [D] [G]"}
+  {
+    "id": 1771577498254,
+    "title": "test",
+    "artist": "",
+    "key": "",
+    "content": "[G]          [D]        [Ami]       [C]\n1. Nad stádem koní  í-í-í, podkovy zvoní, zvoní\n   Černý vůz vlečou-o-o-ou a slzy tečou a já volám"
+  },
+  {
+    "id": 1,
+    "title": "Nad stádem koní",
+    "artist": "",
+    "key": "D",
+    "content": "[D]Nad stádem koní í-í-í, [A]podkovy zvoní, [Emi]zvoní [G]\nČerný vůz vlečou a slzy tečou a já volám\n[D]Tak neplač mů-ůj kamaráde, [A]náhoda je blbec, [Emi]když krade [G]\nJe tuhý jak veka a řeka ho splaví, máme ho rádi\n\n[C]No tak co, [G]tak co, [A]tak co\n\n[D]Vždycky si přál, až bude popel, [A]i s kytarou [Emi] [G]\nVodou ať plavou, jen žádný hotel, s křížkem nad hlavou\n[D]Az najdes misto, kde je ten pramen a kamen co praska [A] [Emi] [G]\nBudeš mít jisto, patří sem popel a každá láska\n\nRef: No tak co, tak co, tak co.\n\n[D]Vysyp ten popel kamaráde, [A]do bílé vody, vody, [G] [D] [A] [G]\n[D]vyhasnul kotel a náhoda je, [A]štěstí od podkovy. [Emi] [G]\n\nVysyp ten... 3x"
+  },
+  {
+    "id": 2,
+    "title": "Rána v trávě",
+    "artist": "",
+    "key": "Am",
+    "content": "capo 3\n\n[Ami]Každý ráno boty zouval, [G]orosil si nohy v trávě,\nže se lidi mají rádi doufal a procitli právě.\n[Ami]Každý ráno dlouze zíval, [G]utřel čelo do rukávu,\na při chůzi tělem sem tam kýval, před sebou sta sáhů.\n\n[C]Poznal Moravěnku krásnou [G]a vínečko ze zlata,\nv Čechách slávu muzikantů, umazanou od bláta.\n\nRef: Každý ráno boty zouval...\n\n[C]Toužil najít studánečku, [G]a do ní se podívat,\nby mu řekla: proč holečku, musíš světem chodívat.\n\n[C]Studánečka promluvila: [G]to ses' musel nachodit,\nabych já ti pravdu řekla, měl ses' jindy narodit.\n\n[Ami]před sebou sta sáhů, [Emi]před sebou sta sáhů."
+  },
+  {
+    "id": 3,
+    "title": "Stánky",
+    "artist": "",
+    "key": "D",
+    "content": "[D]U stánků na levnou krásu, [G]\npostávaj a smějou se času [D] [Gmi]\ns cigaretou a s holkou, co nemá kam jít. [D] [A7] [D]\n\n[G]Skleniček pár a pár tahů z trávy, [D] [Gmi]\nuteče den jak večerní zprávy.\nNeuměj žít a bouřej se a neposlouchaj.\n\nRef. [G]Jen zahlídli svět, maj na duši vrasky. [A7]\n[D]Tak málo je, [Gmi]málo je lásky.\n[D]Ztracená víra hrozny z vinic neposbírá. [A7] [D]\n\nRef. 2x"
+  },
+  {
+    "id": 4,
+    "title": "Nejlíp jim bylo",
+    "artist": "",
+    "key": "C",
+    "content": "[C]Nejlip jim bylo [Fmaj7] [C]\nkdyž nevěděli co dělaj' [Fmaj7] [C] [Fmaj7]\njenom se potkali [G]\na neznélo to špatně. [F] [C]\n\n[C]Tak se snažili [Fmaj7] [C]\na opravdu si užívali [Fmaj7] [C] [Fmaj7]\njenom existovali [G]\na čas běžel skvěle. [F] [C]\n\nRef. [F]Nechám si projít hlavou, [C]\n[G]kam všechny věci plavou. [Ami]\n[F]jestli je všechno jen dech, [C]\n[G]tak jako kdysi v noci [Ami] [C] [Fmaj7]\nspolupotmě na schodech.\n\nRef 2x"
+  },
+  {
+    "id": 5,
+    "title": "Do nebe",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Haló pane, vy s výhledem na celej svět, [D] [Emi] [C]\nco se stane, když neumim dát odpověď?\nSnad se nezlobíte, snad mi to odpustíte, vždyť víte… že chci\n\nRef. [G]Do nebe, do nebe, do nebe, [D]\n[Emi]do nebe, do nebe, do nebe, [C]\n[G]do nebe, do nebe, do nebe, [D]\n[Emi]do nebezpečna [C]\n\n[G]Haló pane, nad střechami paneláků, [D] [Emi] [C]\naž déšt ustane, až uschnou křídla ptáků.\nBudu relativně šťastný, budu žádaný a krásný,\nbudu obdivován v očích půvabných dam, ale sám… pudu\n\nRefrén 2x\n\n[C]Jsi moja věčná, půvabná slečna! [G]"
+  },
+  {
+    "id": 6,
+    "title": "Každej už to ví",
+    "artist": "",
+    "key": "Em",
+    "content": "[Emi]Každej už to ví, [C]už je to napsaný na [D]zdí\nŽe ty a já jsme dva, stejný blázní,\n\n[Emi]Teď máme svátej klid a [C]svět je jako by krásnej, [D]\nMužem klidně žit, já to vím,\n\n[G]Nanananannnananannannananna 2x [D] [Emi] [C] [G] [D] [Emi]\n\n[Emi]Za plotem žiju dál, [C]na zahradě si snídám [D]\nA jak tak vzpomínám, čím dál víc si zpívám\n\n[G]Na tuhle ženu nezapomenu, to ti přisahám. [D] [Emi] [C]\n[G]Co na tom sejde, stejně to nejde – dávno tě pod kůží mám [D] [Emi] [C]\n\n[G]Na tuhle ženu, nezapomenu, v mi hlavě místo má, [D] [Emi] [C]\n[G]Co na tom sejde, když se tam vejde, já jí to nevyčítám. [D] [Emi] [C]"
+  },
+  {
+    "id": 7,
+    "title": "Hruška",
+    "artist": "",
+    "key": "D",
+    "content": "[D]Stojí hruška v širém poli vršek se jí zelená [A] [D] [G] [A]\npod ní se pase kůň vraný pase ho má milá\n\n[A]Proč má milá dnes pasete z večera do rána [D] [A] [D] [G] [A]\nkam můj milý pojedete já pojedu s váma\n\n[A]Ó já pojedu daleko přes vody hluboké [D] [A] [D] [G] [A]\nkéž bych byl nikdy nepoznal panny černooké"
+  },
+  {
+    "id": 8,
+    "title": "Tisíc mil",
+    "artist": "",
+    "key": "G",
+    "content": "[G]V nohách mám už tisíc mil [Em]\n[Am]stopy déšt a vítr smyl [C]\n[Am]a můj kůň i já jsme cestou znavení. [D7] [G]\n\n[G]Těch tisíc mil těch tisíc mil [Em]\n[Am]má jeden směr a jeden cíl [C]\n[Am]bílej dům to malý bílý stavení. [D7] [G]\n\n[G]Je tam stráň a příkrej sráz [Em]\nmodrá tůň a bobří hráz [Am] [C]\n[Am]táta s mámou kteří věřej dětskejm snům. [D7] [G]\n\n[G]Těch tisíc mil těch tisíc mil [Em]\n[Am]má jeden směr a jeden cíl, [C]\n[Am]jeden cíl ten starej známej bílej dům. [D7] [G]\n\n[G]Kousek dál a já to vím [Em]\nuvidím už stoupat dým [Am] [C]\n[Am]šikmej štít střechy čnít k nebesům. [D7] [G]\n\n[G]Těch tisíc mil těch tisíc mil [Em]\n[Am]má jeden směr a jeden cíl [C]\n[Am]bílej dům to malý bílý stavení. [D7] [G]"
+  },
+  {
+    "id": 9,
+    "title": "Růže z papíru",
+    "artist": "",
+    "key": "Dm",
+    "content": "3. cappo\n\n[Dmi]Do tvých očí jsem se zbláznil a teď nemám, nemám klid, [E7] [Gmi]\n[Ami]hlava třeští, asi tě mám rád,\nstále někdo říká: vzbuď se, věčně trhá nit,\n[Ami]studenou sprchu měl bych si dát. [Dmi]\n\n[D7]Na pouti jsem vystřelil růži z papíru, [Gmi]\n[C7]dala sis ji do vlasů, kde hladívám tě já, [F] [A7]\n[Dmi]v tomhle smutným světě jsi má naděj na víru,\n[Ami]že nebe modrý ještě smysl má. [Dmi]\n\n[Dmi]Přines' jsem ti kytku, no co koukáš, to se má, [E7] [Gmi]\n[Ami]tak jsem asi jinej, teď to víš,\nmožná trochu zvláštní v dnešní době, no tak ať,\n[Ami]třeba z ní mou lásku vytušíš. [Dmi]\n\nMezihra: Dmi E7 Gmi Ami Dmi E7 Gmi Ami Dmi\n\nRefrén"
+  },
+  {
+    "id": 10,
+    "title": "Jdem zpátky do lesů",
+    "artist": "",
+    "key": "G",
+    "content": "[Am7]Sedím na kolejích, které nikam nevedou, [D] [G] [C]\nkoukám na kopretinu, jak miluje se s lebedou,\nmraky vzaly slunce zase pod svou ochranu,\njen ty nejdeš, holka zlatá, kdypak já tě dostanu?\n\n[G]Z ráje, my vyhnaní z ráje, [Emi]\n[Ami7]kde není už místa, [C]prej něco se chystá, [G] [D7]\n[G]z ráje nablýskaných plesů, [Emi]\n[Ami7]jdem zpátky [C]do lesů [G]\nza nějaký čas.\n\n[C]Vlak nám včera ujel ze stanice do nebe, [D] [G]\nmálo jsi se snažil, málo šel jsi do sebe,\nšel jsi vlastní cestou, a to se zrovna nenosí,\ni pes, kterej chce přízeň, napřed svýho pána poprosí.\n\nR: 2x"
+  },
+  {
+    "id": 11,
+    "title": "Dobrák od kosti",
+    "artist": "",
+    "key": "D",
+    "content": "[D]Má milá jak ti je, tak jak ti je? [A] [G]\nJsem ten, kdo jednou tvý tělo zakryje.\nJsem ten, kdo tě jednou oddělá.\nPotkala's zkrátka koho's neměla.\n\n[D]Je to vážně silná káva,\n[A]pláč a nebo vztek, nic už s tím nenadělás [G]\n[D]nech mě jenom hádat,\n[A]jak jsi hebká na dotek, krásná a nedospělá [G]\n\n[D]Víš, všechno má aspoň malý kaz [A] [G]\njsem ten, kdo ti jednou zlomí vaz [D] [A] [G]\nMá milá vždyť mě znáš jsem dobrák od kosti\na ty jsi ta co mi to jednou všechno odpustí\n\nR:\n[D]Má milá jak ti je, tak jak ti je? [A] [G]"
+  },
+  {
+    "id": 12,
+    "title": "Povídej",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Povídej, jestli tě má hodně rád, víc než já, [D] [G]\njestli, když večer jdeš spát, ti polibek dá,\n[Hmi]tak jako já, [C]to už je dávno, [G]tak povídej, [D]hej, [G]povídej.\n\n[G]Povídej, nechal tě být, vždyt měl tě tak rád, [D] [G]\nnebos' ho nechala jít, když šel k jiný spát,\n[Hmi]tak jako mě, [C]to už je dávno, [G]tak povídej, [D]hej, [G]povídej.\n\n[Hmi]Povídej, jestli se ti po mně stýská, [G]když večer jdeš spát, [A7] [C] [G]\njestli, když v noci se blýská, nepřestala ses bát.\n\n[G]Povídej, ne, já se nevrátím, jdi domů spát,\ntvou lásku ti vyplatím, víc nemůžu dát,\n[Hmi]jak jsem dal dřív, [C]to už je dávno, [G]tak povídej, [D]hej, [G]povídej.\n[Hmi]Povídej, [C]povídej, [G]povídej."
+  },
+  {
+    "id": 13,
+    "title": "Zatanči",
+    "artist": "",
+    "key": "Em",
+    "content": "[Emi]Zatanči, má milá, zatanči pro mé oči, [G] [D] [Emi]\nzatanči a vetkni nůž do mých zad,\nať tvůj šat, má milá, ať tvůj šat na zemi skončí,\nať tvůj šat, má milá, rázem je sňat. [G] [D] [Emi]\n\n[Emi]Zatanči, jako se okolo ohně tančí, [G] [D] [Emi]\nzatanči jako na vodě loď,\nzatanči jako to slunce mezi pomeranči,\nzatanči, a pak ke mně pojď. [G] [D] [Emi]\n\n[Emi]Polož dlaň, má milá, polož dlaň na má prsa, [G] [D] [Emi]\npolož dlaň nestoudně na moji hruď,\nobejmi, má milá, obejmi moje bedra,\nobejmi je pevně a moji buď. [G] [D] [Emi]\n\n[Emi]Nový den než začne, má milá, nežli začne, [G] [D] [Emi]\nnový den než začne, nasyt můj hlad,\nzatanči, má milá, pro moje oči lačné,\nzatanči a já budu ti hrát. [G] [D] [Emi]"
+  },
+  {
+    "id": 14,
+    "title": "Igelit",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Ukrytý v stínu lesa, igelit, to kdyby přišel k ránu déšt, [D] [C] [G]\npod hlavou boty, nůž, tátovu bundu šitou z maskáčů,\nk ránu se mlhy zvednou a ptáci volaj': hele, lidi, svítá,\npak větvičky si nalámou na oheň, aby uvařili čaj.\n\nR: [Emi]A všichni se znaj', znaj', znaj' a bláznějí a zpívaj' [D7] [G] [C] [G]\na po cestách dál, dál, dál hledaj' normální svět.\n\n[G]Ukrytý v stínu lesa, k večeru znavený nohy skládaj', [D] [C] [G]\nkytara zpívá o tom, jak dřív bylo líp,\nta chvilka, co máš na život, ti uplyne jak od ohýnku dým.\n\nRefrén"
+  },
+  {
+    "id": 15,
+    "title": "Zabili",
+    "artist": "",
+    "key": "D",
+    "content": "[D]Zabili zabili, chlapa z koločavy [G] [Emi] [G] [D]\nřekněte hrobaři, kde je pochovaný\n\nRef: [D]Bylo tu není tu, havrani na plotu [G]\n[D]bylo vino v sudě, teď tam voda bude [G]\n[G]není není tu [D]\n\n[D]Špatně ho zabili špatně pochovali [G] [Emi] [G] [D]\nvlci ho pojedli ptáci rozklovali\n\nRef:\n\n[D]Kráká starý havran krákat nepřestane [G] [Emi] [G] [D]\ndokud v Koločavě živý chlap zůstane\n[Emi]živý chlap zůstane [G] [D]"
+  },
+  {
+    "id": 16,
+    "title": "Bedna od whiskey",
+    "artist": "",
+    "key": "Am",
+    "content": "[Am]Dneska už mně fóry ňák nejdou přes pysky, [C] [Am] [E]\nstojím s dlouhou kravatou na bedně vod whisky,\ntu kravatu, co nosím, mi navlík' soudce Lynč\n\n[D]Tak kopni do tý bedny, ať panstvo nečeká, [E] [A]\njsou dlouhý schody do nebe a štreka daleká\ndo nebeského baru, já sucho v krku mám,\ntak kopni do tý bedny, ať na cestu se dám.\n\n[Am]Mít tak všechny bedny vod whisky vypitý,\npostavil bych malej dům a chlastal bych tam s Bilem a s Benem.\n\n[Am]Kdyby jsi se, hochu, jen porád nechtěl rvát,\nnemusel jsi dneska na týhle bedně stát.\n\n[Am]Když jsem štípnul koně a ujel jen pár mil,\nzatracená smůla zlá, zatracenej pech,\nkdyž kůň cucá whisku jak u potoka mech.\n\nTak kopni do tý bedny!"
+  },
+  {
+    "id": 17,
+    "title": "Veď mě dál",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Někde v dálce cesty končí, každá však cíl svůj skrývá. [Emi] [D] [C] [G]\nNěkde v dálce každá má svůj cíl, ať je pár mil dlouhá nebo tisíc mil.\n\nRef. [G]Veď mě dál, cesto má, veď mě dál, vždyť i já, [D] [Emi] [C]\n[G]tam, kde končíš, chtěl bych dojít, veď mě dál cesto má. [D] [C] [G]\n\n[G]Chodim dlouho po všech cestách, všechny znám je, jen ta má mi zbývá [Emi] [D] [C] [G]\nJe jak dívky, co jsem měl tak rád, plná žaru bývá, hned zas samý chlad.\n\nRefrén\n\n[Emi]Pak na patník poslední napíšu křídou jmeno své a [D] [G] [C]\n[G]pod něj, že jsem žil hrozně rád [D]\n[Emi]Písně své co mi v kapsách zbydou, dám si bandou cvrčků [F] [C] [G]\n[D]hrát a půjdu spát, půjdu spát.\n\nRef. 2x\n|: Veď mě dál cesto má. :| [D] [G]"
+  },
+  {
+    "id": 18,
+    "title": "Husličky",
+    "artist": "",
+    "key": "Am",
+    "content": "[G]|: Čí že ste, husličky, čie, [C] [G]\n[Ami]kdo vás tu zanechal :| [Emi] [D]\n[Ami7]na trávě poválané, [D] [G] [C]\n[Ami]u paty ořecha? [Emi] [D]\n\n[G]|: A kdože tu trávu tak zvával, [C] [G]\n[Ami]aj modré fialy :| [Emi] [D]\n[Ami7]že ste husličky samé, [D] [G] [C]\n[Ami]na světě zostaly? [Emi] [D]\n\n[G]|: A který tu muzikant usnul [C] [G]\n[Ami]a co sa mu přišlo zdát :| [Emi] [D]\n[Ami7]co sa mu v noci zdálo, [D] [G] [C]\n[Ami]že už vjec nechtěl hrát? [Emi] [D]\n\n[G]|: Zahrajte, husličky samy, [C] [G]\n[Ami]zahrajte zvesela :| [Emi] [D]\n[Ami7]až sa tá bude trápit, [D] [G] [C]\n[Ami]která ho nechtěla [Emi] [D]\n\nAmi Emi Hmi C D G"
+  },
+  {
+    "id": 19,
+    "title": "Ráda se miluje",
+    "artist": "",
+    "key": "Am",
+    "content": "[Ami]Ráda se miluje, ráda jí, ráda si jenom tak zpívá, [G] [C] [F] [Emi] [Ami]\nvrabci se na plotě hádají, kolik že času jí zbývá.\n\n[F]Než vítr dostrká k útesu tu její legrační bárku [C] [F] [C] [E]\n[Ami]a Pámbu si ve svým notesu udělá jen další čárku.\n\nRef: (opakuje se)\n\n[F]Psáno je v nebeské režii, a to hned na první stránce,\n[Ami]že naše duše nás přežijí v jinačí tělesný schránce.\n\n[F]Úplně na konci paseky, tam, kde se ozvěna tříští,\n[Ami]sedí šnek ve snacku pro šneky - snad její podoba příští.\n\nOriginál: Capo 2, Ami G C Fmaj Emi"
+  },
+  {
+    "id": 20,
+    "title": "Jesse James",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Jesse James chlapík byl, hodně lidí vodpravil, [C] [G]\nvlaky přepadával rád. [D7]\n[G]Boháčům uměl brát, chudákům daval zas, [C] [G]\npřál bych vám abyste ho mohli znát. [D7] [G]\n\nRef. [C]Jó, Jesse ženu svou tady nechal ubohou [G]\na tři děcka říkám vám, [D7]\n[G]ale tenhle přítel hadí ten vám Jesse zradí. [C] [G]\nJá vím tenkrát v noci prask ho sám. [D7] [G]\n\n[G]Jednou vám byla noc, měsic tenkrát svítil moc,\nkdyž tu vláček zůstal stát.\nKdekdo ví že ten vlak přepad James kabrňák\nčistě sám se svým bráchou akorát.\n\nRefrén\n\n[G]Jedenkrát Jesse James sedí doma za stolem\na svým dětem vypráví\nRoberd Ford v nočních tmách připlíží se jako vrah\na on vám Jesse Jamese odpraví.\n\nRefrén"
+  },
+  {
+    "id": 21,
+    "title": "Zachraňte koně",
+    "artist": "",
+    "key": "Em",
+    "content": "[Em]Peklo byl ráj když hořela stáj, příteli [Am7]\n[C]Věř mi, koně pláčou povídám [D] [G] [H7]\n[Em]To byla půlnoc v tom křik o pomoc\n[C]hejna kohoutů a bůhví kam [Hm] [Em]\n\nRef. [G]Zachraňte koně, křičel jsem tisíckrát [Hm] [C]\n[G]žil jsem jen pro ně, bránil je nejvíckrát [Hm] [C]\n[Am]než přišla chvíle, kdy hřívy bíle,\n[Am]procesál plamen, spálil na troud [H7]\n\n[Em]Ohrady a stáj a v plamenech kraj už nedýchal [Am7]\n[C]já viděl jak to hříbě umírá\n[Em]klisna u něj a smuteční děj se odbývá\n[C]jak tiše pláče oči přivírá [Hm] [Em]\n\nRefrén 2x\n[Em]zachraňte koně"
+  },
+  {
+    "id": 22,
+    "title": "Knock knock / Nebeská brána",
+    "artist": "Bob Dylan / trad.",
+    "key": "G",
+    "content": "[G]Mama, take this badge off of me [D] [Ami]\nI can't use it anymore [G] [D] [C]\n[G]It's gettin' dark, too dark for me to see\nFeel like I'm knockin' on heaven's door\n\nRef. (4x) [G]Knock, knock, knockin' on heaven's door [D] [Ami/C]\n\n[G]Mama, put my guns on the ground\nI can't shoot them any more\nThat long black cloud is comin' down\nFeels like I'm knockin' on heaven's door\n\n---\n\n[G]Mámo sundej kytku z kabátu [D] [Ami]\nza chvíli mi bude k ničemu [G] [D] [C]\n[G]můj kabát a kudlu vem pro tátu\njá už stojim před branou s klíčem\n\nRef. [G]Cejtím že zaklepu na nebeskou bránu [D] [Ami/C] (3x)\n\nNeberu s sebou milý tváře, žijte si tu co se do vás vejde,\naž popíšem všechny diáře, všichni se tam za tou branou sejdem\n\nRef. [G]Všichni jednou zaklepem na nebeskou bránu [D] [Ami7] [C] (3x)"
+  },
+  {
+    "id": 23,
+    "title": "Budu všechno co si budeš přát",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Záplavou uprostřed pouště všedních dní, [G7] [C] [D] [G]\nhouslistou, co tvoje struny rozezní,\nmůžu být, když si to budeš přát. [C] [D] [G]\n\n[G]Požárem co rozpálí tě do běla, [G7] [C] [D] [G]\nzlodějem, co státní banku udělá,\nmůžu být, když si to budeš přát. [C] [D] [G]\n\nRef. [G]Bláznem co staví na poušti most [D]\na v dešti tančí pro radost. [D7] [H7] [Emi]\n[Emi]budu všechno co si budeš přát. [C] [D]\n[G]Slunečním světlem a půlnoční tmou, [D]\ntvou stopou v písku ztracenou, [D7] [H7] [Emi]\n[Emi]budu všechno co si budeš přát [C]\n[D]a ještě k tomu rád. [G]\n\n[G]Šachistou co pátým tahem dává mat, [G7] [C] [D] [G]\nsvítáním ve tmě, kde začala ses bát,\nmůžu být, když si to budeš přát. [C] [D] [G]\n\nRefrén 2x\n\n[G7]Máš to mít, když si to budeš přát. [C] [D] [G] (4x)"
+  },
+  {
+    "id": 24,
+    "title": "Panenka",
+    "artist": "",
+    "key": "C",
+    "content": "[C]Co skrýváš za víčky a plameny svíčky, [F] [C] [F]\nsnad houř bílých holubic nebo jen žal,\ntak odplul ten prvý den smáčený krví,\nani poutovou panenku nezanechal. [C] [G] [C]\n\nRef: [C]Otevři oči, ty uspěchaná dámo uplakaná, [F] [C] [G] [F] [C] [G]\n[F]otevří oči, ta hloupá noc končí a mír je mezi náma. [C] [F] [C] [G] [C]\n\n[C]Už si oblékni šaty i řetízek zlatý\na umyj se, půjdeme na karneval,\na na bílou kůži ti napíšu tuší,\nže dámou jsi byla a zůstáváš dál.\n\nRefrén"
+  },
+  {
+    "id": 25,
+    "title": "Colorado",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Táta vždycky říkal hochu žádný strachy. [C]\nSeš kovboj v Coloradu můžeš kravy pást. [G] [D]\n[G]Já radši utratil jsem psa a všechny prachy.\nDo srdce Evropy já odjel v klidu krást. [G] [D] [G]\n\n[G]Narvaný kapsy, prsteny, řetězy zlatý, [C]\ntam kolem krku místní indiáni maj.\nA ti, co nemakaj tak jsou nejvíc bohatý.\nMusim si pohnout dokavaď tam rozdávaj. [G] [D] [G]\n\nRef. [G]Z Billa na Nováka změním si svý jméno [C]\na až tu malou zemi celou rozkradem, [G] [D]\n[G]tak se vrátím ve svý rodný Colora - do [Emi] [C]\na o tý zlatý žíle řeknu doma všem. [G] [D] [G]\n\nRefrén\nOutro: [G]O tý zlatý žíle řeknu doma všem [D] [G]"
+  },
+  {
+    "id": 26,
+    "title": "Měsíc",
+    "artist": "",
+    "key": "Em",
+    "content": "[Emi]Děkuju ti za to, žes mi ještě zavolala, [D] [G] [C] [G] [D]\nmoje duše černá už to ani nečekala.\n[Emi]Jenže, moje drahá, je to všechno trochu na nic,\njá už jsem se rozhod, zitra budu znovu panic.\n\n[Emi]Děkuju ti za to, žes to rovnou nepoložil,\nže jsi nezapomněl, co jsi se mnou všechno prožil\n[Emi]Teďka svítí měsíc pro každýho zvlášť, mně je to líto,\njenže už je konec, však víš to.\n\n[Emi]Měsíc, [D]svítí měsíc. [G] [C] [G] [D] (4x)\n[Emi]Měsíc."
+  },
+  {
+    "id": 27,
+    "title": "Vizovice",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Když se s vinem probouzí den. [D] [G]\nJen já a to vino tady sem [C] [G] [D]\nJá včera s vínem šel jsem i spát\na to mam rád. [C]\n\n[G]Po vinu a po slivovici [D] [G]\nJako balón ja mám makovici.\nStejně si musim ale panaka dát.\nJá to mám rád. [C]\n\n[G]Tam kde leží Vizovice [D] [G]\nTam jsme přece my a slivovice.\na dobrych lidí, co mám tu čest znát.\nco je mam rád [C]\n\n[G]Tam vychazí trnky brnky [D] [G]\nV lesích jsou jak žirafy tak i srnky.\nTam ti nikdo život nebude brát,\njenom o játra se musiš bát. [G] [D] [G]\n\n[G]Touhle písní chtěl jsem jen říct [D] [G]\nže jsou místa, kde bude vám líp. [C] [G] [D]\n|: Každý má někde svoje Vizovice,\nkde jsou známí a ne pijavice. :| [G] [D] [G]"
+  },
+  {
+    "id": 28,
+    "title": "Dej mi víc své lásky",
+    "artist": "",
+    "key": "Am",
+    "content": "[Ami]Vymyslel jsem spoustu nápadů, aů, [C]\nco podporujou hloupou náladu, aů, [Ami] [G] [E]\n[Ami]hodit klíče do kanálu, sjet po zadku holou skálu,\n[Ami]v noci chodit strašit do hradu [E] [Ami]\n\n[Ami]Dám si dvoje housle pod bradu, aů, [C]\nv bílé plachtě chodím pozadu, aů,\n[Ami]úplně melancholicky, s citem pro věc jako vždycky\n[Ami]vyrábím tu hradní záhadu, aů [E] [Ami] [G]\n\n[C]Má drahá, dej mi víc, má drahá, dej mi víc, [E]\n[Ami]má drahá, dej mi víc své lásky, aů, [F] [C] [G]\n[C]já nechci skoro nic, já nechci skoro nic, [E]\n[Ami]já chci jen pohladit tvé vlásky, aů. [F] [C] [E]\n\n[Ami]Nejlepší z těch divnejch nápadů, aů,\nmi dokonale zvednul náladu, aů,\n[Ami]natrhám ti sedmikrásky, tebe celou s tvými vlásky\n[Ami]zamknu si na sedm západů, aů [E] [Ami] [G]\n\nRefrén"
+  },
+  {
+    "id": 29,
+    "title": "Cesta",
+    "artist": "",
+    "key": "C",
+    "content": "[C]Tou cestou, tím směrem prý bych se dávno měl dát. [G]\nKdyž sněží, jde to stěži, ale sněhy pak tají,\n[F]kus něhy ti za nehty slíbí a dají [G]\n\n[C]Víc síly se prát, na dně víc dávat než brát. [G]\nA i když se vleče a je schůdná jen v kleče,\n[F]donutí přestat se zbytečně ptát, [G]\n\nRef. [C]Jestli se blížím k cíli, kolik zbýva víry, [G]\n[Ami]kam zvou svodidla, co po tmě mi lžou? [F] [G]\n[C]Zda couvam zpátky a plýtvam řadky, [G]\n[Ami]co řvou, že už mi doma neotevřou... [F] [G]\n\n[C]Ale zpívat a hrát, kotníky líbat, a stát. [G]\nNa křídlech všech slavíků, a vlastně už ze zvyku\n[F]přestat se zbytečně ptát, [G]\n\nRef. 2x"
+  },
+  {
+    "id": 30,
+    "title": "Malování",
+    "artist": "",
+    "key": "Dm",
+    "content": "[Dmi]Nesnaž se, znáš se, řekni mi co je jiný, [B] [C] [Dmi]\njak v kleci máš se pro nevinný\nnoci dlouhý jsou plný touhy a lásky nás dvou\n\nRef. [B]To je to tvoje malování vzdušnejch zámků, [C] [Dmi] [B] [C]\nmalování po zdech holejma rukama [Dmi] [B] [C]\ntě nezachráni, už máš na kahánku, [Dmi] [B] [C]\nza náma, na zádech, [Dmi] [B] [C]\nje to za náma, ty čteš poslední stranku, [Dmi] [B] [C]\nza náma, [Dmi] [B] [Gmi] [Ami]\nmezi náma, mi taky došel dech.\n\nRefrén\n\n[Dmi]Znáš se, řekni mi co je jiný [B] [C] [Dmi]\njak v kleci máš se pro nevinný\nnoci dlouhý jsou plny touhy a lásky nás tří."
+  },
+  {
+    "id": 31,
+    "title": "Fotr",
+    "artist": "",
+    "key": "A",
+    "content": "[A]Jednou mi fotr povídá, zůstali jsme už sami dva, [D]\nže si chce začit taky trochu žít, [E] [A]\n[A]nech si to projít palicí a nevracej se s vopicí,\nsnaž se mě hochu trochu pochopit. [E] [A]\n\n[E]Já šel, šel dál, baby, kam mě Pánbůh zval, [A]\njá šel, šel dál, baby, a furt jen tancoval, [E] [D7]\n[A]na každý divný hranici, na policejní stanici [D]\n[E]hrál jsem jenom rock'n'roll for you. [A]\n\n[A]Přiletěl se mnou černej čáp, zobákem dělal rockin' klap [D]\na nad kolíbkou Elvis Presley stál,\nobrovskej bourák v ulici, po boku krásnou slepici\na lidí šeptaj: přijel ňákej král. [E] [A]\n\nRefrén\n...hrál jsem jenom rock'n'roll for you."
+  },
+  {
+    "id": 32,
+    "title": "Nagasaki Hirošima",
+    "artist": "",
+    "key": "G",
+    "content": "R. [G]Tramvají dvojkou jezdival jsem - do Židenic, [D] [C] [D] [G]\nz takový lásky - většinou nezbyde nic,\n[C]z takový lásky - jsou kruhy pod očima [G] [C] [G] [D]\na dvě - spálený srdce – Nagasaki, Hirošima.\n\n[G]Jsou jistý věci, co bych tesal do kamene,\ntam, kde je láska, tam je všechno dovolené,\n[C]a tam, kde není, tam mě to nezajímá,\njó, dvě spálený srdce – Nagasaki, Hirošima.\n\n[G]Já nejsem svatej, ani ty nejsi svatá,\njablka z ráje bejvala jedovatá,\n[C]jenže! - hezky jsi hřála, když mi někdy byla zima,\njó, dvě spálený srdce – Nagasaki, Hirošima.\n\nR: a dvě spálený srdce – Nagasaki, Hirošima  3x"
+  },
+  {
+    "id": 33,
+    "title": "Amerika",
+    "artist": "",
+    "key": "D",
+    "content": "[D]Nandej mi do hlavy tvý brouky, a Bůh nám seber beznadějl [A] [Emi] [D]\nV duši zbylo světlo z jedny holky, tak mi teď za to vynadej.\n\n[D]Zima a promarnéný touhy, do vrásek stromů padá déšt.\nZbejvaj roky asi ne moc dlouhý,\n[Emi]do vlasů mi zabroukej... pa pa pa pá [G] [D]\n\nRef: [D]pa pa pa pá, pá pa pa pá   jejé [A] [Hmi] [D]\n[D]pa pa pa pá, pá pa pa pá [C#7] [Hmi] [D]\n\n[D]Tvoje oči jenom žavý tóny, dotek slunce zapadá.\nHorkej vítr rozezní mý zvony,\n[Emi]do vlasů ti zabroukám ... pá pa pá pá [G] [D]\n\nRef. (opakuje se)\n\n[D]Na obloze křídla tažnejch ptáků, tak už na svý bráchy zavolej.\nNa tváře ti padaj slzy z mraků a Bůh nám sebral beznadějl.\n\nRef. + D, C#7, Hmi"
+  },
+  {
+    "id": 34,
+    "title": "Made in Valmez",
+    "artist": "",
+    "key": "D",
+    "content": "[D]jako je sama skála [Gmaj7] [Emi] [A]\ntak jsem sám i já\n[D]jako je prázdná duha [Gmaj7] [Emi] [A]\ntak jsem prázdný i já\n[D]jako je zrádná voda [Gmaj7] [Emi] [A]\ntak zradím i já\n\nRef. [D]zkouším se prokopat ven - zkouší se prokopat ven!\n[Gmaj7]zkouším se prokopat ven! [Emi] [A] (opakuje se)\n\n[D]O půl třetí na náměstí ve Valašském Meziříčí [Gmaj7] [Emi] [A]\njdu co noha nohu mine, a každý sám sobě jsme stínem\nnic mi není přitom melu z posledního,\ntěžko říct o tom něco konkrétního\nstejná slova kolem stejný tváře\na každý sám sobě jsme lhářem a já už zase\n\nRefrén\nOutro: [D]zkouším se prokopat ven [Gmaj7] [Emi] [A] [D]"
+  },
+  {
+    "id": 35,
+    "title": "Nebude to taky lehké",
+    "artist": "",
+    "key": "Am",
+    "content": "[Ami]Vraj zmenila si číslo [G]\nA do zámku nepasuje viac môj kľúč [Ami] [G] [Fmaj7]\nHlavou mi blyslo, asi chceš aby som bol už fuč.\n\n[C]Nebude to také lahké drahá [G] [F]\nMňa sa nezbaviš s tým sa lúč [C] [G] [F]\n[C]Nebude to také lahké drahá\nNemožeš ma vymeniť ako rúž [G] [F] [G] (stop)\n[Ami]Som tvoj muž\n\nMedzihra: Ami G Ami G\n\nVraj koketuješ s iným, dolámem mu kosti, nos a sny\nTak dopúšťaš sa viny, tak vrav, povedz čo máš s ním.\n\nR:\n\n[F]Predsa sme si súdený [G]\nJa nemožem žiť bez ženy [F] [G]\n[F]Ja nemožem žiť bez teba to mi ver [G] [Ami]\n[F]A v kostole pred pánom, sľubovala si nám dvom [G]\n[F]Nekonečnú lásku, vernosť, mier, mier, mier [G] [Ami]\nR:"
+  },
+  {
+    "id": 36,
+    "title": "Kdyby tady byla",
+    "artist": "",
+    "key": "A",
+    "content": "[A]|: Kdyby tady byla taková panenka, která by mě chtěla. :| [E] [A]\n[D]|: Která by mě chtěla syna vychovala, přitom pannou byla. :| [A] [E] [A]\n\n[A]|: Kdybych já ti měla syna vychovati, přitom pannou býti. :| [E] [A]\n[D]|: Ty by jsi mě musel kolébku dělati, do dřeva netíti. :| [A] [E] [A]\n\n[A]|: Kdybych já ti musel kolébku dělati, do dřeva netíti. :| [E] [A]\n[D]|: Ty bys mi musela košiličku šíti, bez jahel a niti. :| [A] [E] [A]\n\n[A]|: Kdybych já ti měla košiličku šíti, bez jahel a niti. :| [E] [A]\n[D]|: Ty by si mě musel žebřík udělati, až k nebeské výši. :| [A] [E] [A]\n\n[A]|: Kdybych já ti musel žebřík udělati, až k nebeské výši. :| [E] [A]\n[D]|: Lezli bysme spolu, spadli bysme dolů, byl by konec všemu. :| [A] [E] [A]"
+  },
+  {
+    "id": 37,
+    "title": "Pocity",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Z posledních pocitů poskládám ještě jednou úžasnou chvíli [D] [Emi] [C]\nJe to tím, že jsi tu, možná tím, že kdysi jsme byli Ty a Já,\ndvě nahý těla, tak neříkej, že jinak si to chtěla,\ntak neříkej, neříkej, neříkej mi nic.\n\n[G]Stala ses do noci z ničeho nic moje platonická láska [D] [Emi] [C]\nunaven, bezmocný, usínám vedle Tebe, něco ve mně praská.\n\nR: [G]Jenže ty neslyšíš, jenže ty neposloucháš, [D] [Emi] [C]\nsnad ani nevidíš, nebo spíš nechceš vidět\na druhejm závidiš a v očích kapky slaný vody\nzkus změnu, uvidíš. Pak vitej do svobody\n\n[G]Jsi andělí, netušíš. Anděl, co ze strachu mu utrhali křídla.\nA až to ucítíš, zkus kašlat na pravidla.\n\nR: Jenže ty neslyšíš..."
+  },
+  {
+    "id": 38,
+    "title": "Zafůkané",
+    "artist": "",
+    "key": "Am",
+    "content": "[Ami]Větr sněh zaněsl z hor do polí, já idu přes kopce, přes údolí, [C] [G] [Ami]\nidu k tvej dědinë zatúlanej, cestičky sněhem sú zafůkané. [C] [G] [C] [F] [C] [E] [Ami]\n\n[Ami]Zafůkané, zafůkané, kolem mňa všecko je zafůkané. [C] [G] [C] [F] [C] [Dmi] [E]\n[Ami]Zafůkané, zafůkané, kolem mňa všecko je zafůkané.\n\nMEZIHRA: Emi D G H7 Emi D G H7 Emi\n\n[Ami]Už vašu chalupu z dálky vidím, srdce sa ozvalo, bít ho slyším,\nsnáď enom pár kroků mi zostává, a budu u tvého okénka stát.\n\nR: okénko k tobě je zafůkané\n\n[Ami]Od tvého okna sa smutný vracám, v závějoch zpátky dom cestu hledám,\nspadl sněh na srdce zatúlané, aj na mé stopy - sú zafůkané.\n\nR: mé stopy k tobě sú zafůkané"
+  },
+  {
+    "id": 39,
+    "title": "Honolulu",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Letecká linka do ráje [C] [D] [C]\nk ostrovům slunné Havaje\nnabrala kurs vlastní osy\ntam holky plavky nenosí [C] [D] [G]\n\n[G]Na pláži Beach Boys čekají [C] [D] [C]\nbanány z palem padají\nna runway Boeing dosedá\na slunce pálí, to se má [C] [D] [G]\n\n[D]Honolulu, ukululu, tohle mám rád [C] [G]\nreagge, reagge, reagge\n[D]Honolulu, ukululu... [C]\n[G]hej [C] [D] [C] [G]\n\n[G]Tu náhle signál budíku [C] [D]\nvytáh' mě z pláže rovníku\nšalinou za pětikačku\njedu vorazit štípačku [C] [D] [G]\n\nRefrén"
+  },
+  {
+    "id": 40,
+    "title": "Sen",
+    "artist": "",
+    "key": "E",
+    "content": "[E]Stíny dnů a snů se k obratníkům stáčí [A]\n[E]Ruce snů černejch se snaží zakrýt oči [A]\n[F#mi]Světlo tvý prozradí proč já vím [A] [E]\n[F#mi]S novým dnem, že se zas navrátí [A] [H]\n\n[E]Mraky se plazí, vítr je láme [A]\n[E]Stíny tvý duše rozplynou se v šeru [A]\n[F#mi]Ve vlnách opouští, po hodinách mizí [A] [E]\n[F#mi]A měsíc nový stíny vyplaší [A] [H]\n\nR: [E]Proud motýlů unáší strach\n[A]Na listy sedá hvězdnej prach\n[C#mi]Proletí ohněm a mizí stále dál [H]\n[E]Neslyšný kroky stepujou\n[A]V nebeským rytmu swingujou\n[C#mi]Že se ráno vytratí [H]\n\nR: Proud motýlů unáší strach..."
+  },
+  {
+    "id": 41,
+    "title": "Jasná zpráva",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Skončili jsme jasná zpráva,\n[Emi]proč o tebe zakopávam dál, [C] [D]\n[Ami]projít bytem já abych se bál. [C] [G]\n[G]Dík tobě se vidím zvenčí,\n[Emi]připadám si starší menší sám, [C] [D]\n[Ami]kam se kouknu, kousek tebe mám. [C] [G]\n\nRef. [Emi]Pěnu s vůní jablečnou, vyvanulý sprej, [Hmi] [Emi] [Hmi]\n[Emi]telefon, cos ustřihla mu šňůru. [G] [D]\n[Emi]knížku krásně zbytečnou, co má lživý děj,\n[Emi]píše se v ni, jak se lítá vzhůru,\n[Ami]lítá vzhůru, ve dvou vzhůru. [D]\n\n[G]Odešla's mi před usvitem,\n[Emi]mám snad bloudit vlastním bytem sám, [C] [D]\n[Ami]kam se kouknu, kousek tebe mám. [C] [G]\n\nRefrén\n\n[G]Skončili jsme jasná zpráva,\n[Emi]není komu z okna mávat víc, [C] [D]\n[Ami]jasná zpráva, rub, co nemá líc. [C] [G]"
+  },
+  {
+    "id": 42,
+    "title": "Mezi horami",
+    "artist": "",
+    "key": "Am",
+    "content": "[Ami]Mezi horami, [G]lipka zelená. [Ami] [C] [G] [C]\n|: Zabili Janka, Janička, Janka, miesto jeleňa. :| [C] [G] [Ami] [Emi] [Ami]\n\n[Ami]|: Keď ho zabili, zamordovali. :|  |: Na jeho hrobě, kříž postavili. :|\n\n[Ami]|: Ej křížu, křížu, ukřižovaný. :|  |: Zde leží Janík, zamordovaný. :|\n\n[Ami]|: Tu šla Anička, plakat Janička. :|  |: Hned na hrob padla a viac nevstala. :|\n\n---\ncap.3\n[Dmi]Mezi horami, [C]lipka zelená. (další sloky v Dmi)"
+  },
+  {
+    "id": 43,
+    "title": "Sbohem galánečko",
+    "artist": "",
+    "key": "G",
+    "content": "[G]Sbohem galánečko já už musím jiti [Emi] [Ami] [D] [G] [A7]\nsbohem galánečko já už musím jiti [D] [Hmi] [Emi] [A] [D]\n|: Kyselé vínečko, kyselé vínečko [Ami] [D] [G] [Ami] [D]\n[G]Podalas mně k pití :| [Ami] [D] [G]\n\n[G]Sbohem galánečko ozlučme sa v pánu\n|: Kyselé vínečko, kyselé vínečko\n[G]Podalas mně v džbánu :| [Ami] [D] [G]\n\n[G]Ač bylo kyselé přeca sem sa opil\n|: Ešte včil sa stydím, ešte včil sa stydím\n[G]Co jsem všechno tropil :| [Ami] [D] [G]\n\n[G]Ale sa nehněvám žes mňa ošidila\n|: To ta moja žízeň, to ta moja žízeň\n[G]Ta to zavinila :| [Ami] [D] [G]"
+  }
 ];
 </script>
 
 <script>
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // STORAGE KEYS
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const STORAGE_KEY = 'zpevnik_v1';
 const STORAGE_SEEDED = 'zpevnik_seeded_v1';
 const STORAGE_NL = 'zpevnik_nl_v1';
 const STORAGE_THEME = 'zp_theme';
 
-// ════════════════════════════════════════════════════════
-// SONGS — load from localStorage, seed DEFAULTS only once
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// SONGS â load from localStorage, seed DEFAULTS only once
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function loadSongs() {
   try {
     const r = localStorage.getItem(STORAGE_KEY);
@@ -718,27 +983,27 @@ function persist() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(song
 // Seed defaults only if never seeded before
 let songs = loadSongs();
 if (!songs) {
-  // Load DEFAULTS from inline data — only runs ONCE ever
+  // Load DEFAULTS from inline data â only runs ONCE ever
   songs = (typeof DEFAULTS !== 'undefined') ? DEFAULTS.map(s=>({...s})) : [];
   persist();
   try { localStorage.setItem(STORAGE_SEEDED, '1'); } catch(e) {}
 }
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // STATE
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 let cur = null, showChords = true, fontSize = 17;
 let scrolling = false, scrollLevel = 2, raf = null;
 const SPEEDS = [0.2, 0.5, 1.0, 1.8, 3.0];
 let isDark = false;
 
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // THEME
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function applyTheme() {
   document.body.classList.toggle('dark', isDark);
-  document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+  document.getElementById('theme-btn').textContent = isDark ? 'âï¸' : 'ð';
 }
 function toggleTheme() {
   isDark = !isDark;
@@ -747,9 +1012,9 @@ function toggleTheme() {
 }
 (()=>{ try { if (localStorage.getItem(STORAGE_THEME)==='1') isDark=true; } catch(e){} applyTheme(); })();
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // NAVIGATION
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -771,7 +1036,7 @@ function openSong(id) {
   document.getElementById('v-artist').textContent = cur.artist || '';
   stopScroll();
   const sc = document.getElementById('sc-toggle');
-  sc.textContent = '▶ Scroll'; sc.classList.remove('on');
+  sc.textContent = 'â¶ Scroll'; sc.classList.remove('on');
   renderSong();
   show('screen-song');
   document.getElementById('song-body').scrollTop = 0;
@@ -788,9 +1053,9 @@ function showEdit() {
 }
 function cancelEdit() { if (cur) openSong(cur.id); else showHome(); }
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // RENDER LIST
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function renderList() {
@@ -815,7 +1080,7 @@ function renderList() {
           const raw = plain.slice(start, end).replace(/\n/g, ' ').trim();
           // Highlight match
           const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
-          snippet = (start > 0 ? '…' : '') + raw.replace(re, '<mark>$1</mark>') + (end < plain.length ? '…' : '');
+          snippet = (start > 0 ? 'â¦' : '') + raw.replace(re, '<mark>$1</mark>') + (end < plain.length ? 'â¦' : '');
         }
       }
       acc.push({song: s, snippet});
@@ -823,26 +1088,26 @@ function renderList() {
     }, []);
   }
   const n = f.length;
-  document.getElementById('cnt').textContent = n===0 ? 'Žádné výsledky' : n===1 ? '1 píseň' : n<5 ? n+' písně' : n+' písní';
+  document.getElementById('cnt').textContent = n===0 ? 'Å½Ã¡dnÃ© vÃ½sledky' : n===1 ? '1 pÃ­seÅ' : n<5 ? n+' pÃ­snÄ' : n+' pÃ­snÃ­';
   const el = document.getElementById('list');
-  if (!f.length) { el.innerHTML = '<div class="empty">Nic nenalezeno 🔍</div>'; return; }
+  if (!f.length) { el.innerHTML = '<div class="empty">Nic nenalezeno ð</div>'; return; }
   el.innerHTML = f.map(({song: s, snippet}) => `
     <div class="card" onclick="openSong(${s.id})">
       <div style="flex:1;min-width:0">
         <div class="card-t">${esc(s.title)}</div>
-        <div class="card-a">${esc(s.artist || 'Neznámý')}</div>
+        <div class="card-a">${esc(s.artist || 'NeznÃ¡mÃ½')}</div>
         ${snippet ? `<div class="card-snippet">${snippet}</div>` : ''}
       </div>
       <div class="card-r">
         ${s.key ? `<span class="kbdg">${esc(s.key)}</span>` : ''}
-        ${isAdmin ? `<button class="delbtn" onclick="event.stopPropagation();deleteSong(${s.id})">🗑</button>` : ''}
+        ${isAdmin ? `<button class="delbtn" onclick="event.stopPropagation();deleteSong(${s.id})">ð</button>` : ''}
       </div>
     </div>`).join('');
 }
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // RENDER SONG with clickable chords
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function renderSong() {
   if (!cur) return;
   const body = document.getElementById('song-body');
@@ -866,8 +1131,8 @@ function renderSong() {
         if (!showChords) return '';
         return `<span class="ch-wrap" data-li="${p.li}" data-ci="${p.ci}">` +
           `<span class="ch-move-bar">` +
-          `<button class="ch-mv-btn" onpointerdown="event.stopPropagation();mvChord(${p.li},${p.ci},-1)">←</button>` +
-          `<button class="ch-mv-btn" onpointerdown="event.stopPropagation();mvChord(${p.li},${p.ci},1)">→</button>` +
+          `<button class="ch-mv-btn" onpointerdown="event.stopPropagation();mvChord(${p.li},${p.ci},-1)">â</button>` +
+          `<button class="ch-mv-btn" onpointerdown="event.stopPropagation();mvChord(${p.li},${p.ci},1)">â</button>` +
           `</span>` +
           `<span class="ch" onclick="selectChordWrap(this.parentNode)">${esc(p.val)}</span>` +
           `</span>`;
@@ -878,9 +1143,9 @@ function renderSong() {
   }).join('');
 }
 
-// ════════════════════════════════════════════════════════
-// CHORD MOVE — popup toolbar on chord
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// CHORD MOVE â popup toolbar on chord
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 let selectedWrap = null;
 
 function selectChordWrap(wrap) {
@@ -952,7 +1217,7 @@ function mvChord(li, ci, dir) {
       else tokens.splice(tokenIdx+1, 0, {type:'text', val:ch});
       lines[li] = tokensToLine(tokens);
     } else if (li > 0) {
-      // At start of line — move chord to END of previous line
+      // At start of line â move chord to END of previous line
       tokens.splice(tokenIdx, 1); // remove chord from current line
       lines[li] = tokensToLine(tokens);
       // Rebuild chord count for new position
@@ -1004,7 +1269,7 @@ function mvChord(li, ci, dir) {
       else tokens.splice(tokenIdx, 0, {type:'text', val:ch});
       lines[li] = tokensToLine(tokens);
     } else if (li < lines.length - 1) {
-      // At end of line — move chord to START of next line
+      // At end of line â move chord to START of next line
       const origLine = cur.content.split('\n')[li];
       const origTokens = tokenizeLine(origLine);
       let cc2 = 0; let chordV = '';
@@ -1044,9 +1309,9 @@ function mvChord(li, ci, dir) {
   }, 0);
 }
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // TRANSPOSE
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const CHROMATIC = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const ENHARMONIC = {'Db':'C#','Eb':'D#','Gb':'F#','Ab':'G#','Bb':'A#'};
 
@@ -1076,13 +1341,13 @@ function transposeAll(steps) {
   renderSong();
 }
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // SONG CONTROLS
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function toggleChords() {
   showChords = !showChords;
   const b = document.getElementById('chord-btn');
-  b.textContent = showChords ? 'Akordy ✓' : 'Akordy';
+  b.textContent = showChords ? 'Akordy â' : 'Akordy';
   b.classList.toggle('on', showChords);
   renderSong();
 }
@@ -1091,13 +1356,13 @@ function changeFontSize(d) {
   if (cur) document.getElementById('song-body').style.fontSize = fontSize+'px';
 }
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // AUTOSCROLL
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function toggleScroll() {
   const b = document.getElementById('sc-toggle');
-  if (scrolling) { stopScroll(); b.textContent='▶ Scroll'; b.classList.remove('on'); }
-  else { startScroll(); b.textContent='⏸ Scroll'; b.classList.add('on'); }
+  if (scrolling) { stopScroll(); b.textContent='â¶ Scroll'; b.classList.remove('on'); }
+  else { startScroll(); b.textContent='â¸ Scroll'; b.classList.add('on'); }
 }
 function startScroll() {
   scrolling = true;
@@ -1109,7 +1374,7 @@ function startScroll() {
     if (acc >= 1) { const px=Math.floor(acc); el.scrollTop+=px; acc-=px; }
     if (el.scrollTop + el.clientHeight >= el.scrollHeight - 2) {
       stopScroll();
-      document.getElementById('sc-toggle').textContent='▶ Scroll';
+      document.getElementById('sc-toggle').textContent='â¶ Scroll';
       document.getElementById('sc-toggle').classList.remove('on');
       return;
     }
@@ -1120,16 +1385,16 @@ function startScroll() {
 function stopScroll() { scrolling=false; if(raf){cancelAnimationFrame(raf);raf=null;} }
 function changeSpeed(d) {
   scrollLevel = Math.max(0, Math.min(4, scrollLevel+d));
-  document.getElementById('spdlbl').textContent = ['×1','×2','×3','×4','×5'][scrollLevel];
+  document.getElementById('spdlbl').textContent = ['Ã1','Ã2','Ã3','Ã4','Ã5'][scrollLevel];
 }
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // SAVE / EDIT SONG
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function saveSong() {
   const t = document.getElementById('f-title').value.trim();
   const c = document.getElementById('f-content').value.trim();
-  if (!t||!c) { alert('Vyplň název a text!'); return; }
+  if (!t||!c) { alert('VyplÅ nÃ¡zev a text!'); return; }
   const id = Date.now();
   songs.unshift({id, title:t, artist:document.getElementById('f-artist').value.trim(), key:document.getElementById('f-key').value.trim(), content:c});
   persist(); showHome();
@@ -1137,7 +1402,7 @@ function saveSong() {
 function saveEdit() {
   const t = document.getElementById('e-title').value.trim();
   const c = document.getElementById('e-content').value.trim();
-  if (!t||!c) { alert('Vyplň název a text!'); return; }
+  if (!t||!c) { alert('VyplÅ nÃ¡zev a text!'); return; }
   const idx = songs.findIndex(s => s.id === cur.id);
   if (idx === -1) return;
 
@@ -1168,15 +1433,15 @@ function saveEdit() {
 function deleteSong(id) {
   const s = songs.find(s => s.id === id);
   if (!s) return;
-  if (!confirm(`Smazat píseň "${s.title}"?`)) return;
+  if (!confirm(`Smazat pÃ­seÅ "${s.title}"?`)) return;
   songs = songs.filter(s => s.id !== id);
   persist();
   renderList();
 }
 
-// ════════════════════════════════════════════════════════
-// NÁPOJOVÝ LÍSTEK
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// NÃPOJOVÃ LÃSTEK
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 let drinks = [];
 function loadDrinks() {
   try { const r = localStorage.getItem(STORAGE_NL); if(r) drinks=JSON.parse(r); } catch(e) {}
@@ -1201,7 +1466,7 @@ function tally(n) {
   let s = '';
   const full = Math.floor(n/5);
   const rem = n%5;
-  for (let i=0;i<full;i++) s += '𝍸 '; // or just use text
+  for (let i=0;i<full;i++) s += 'ð¸ '; // or just use text
   // Use simple I marks
   s = '';
   for (let i=0;i<full;i++) s += 'IIIII ';
@@ -1212,43 +1477,43 @@ function tally(n) {
 function timeAgo(ts) {
   if (!ts) return '';
   const mins = Math.floor((Date.now() - ts) / 60000);
-  if (mins < 1) return 'Právě teď';
-  if (mins === 1) return 'Před 1 minutou';
-  if (mins < 5) return `Před ${mins} minutami`;
-  if (mins < 60) return `Před ${mins} min`;
+  if (mins < 1) return 'PrÃ¡vÄ teÄ';
+  if (mins === 1) return 'PÅed 1 minutou';
+  if (mins < 5) return `PÅed ${mins} minutami`;
+  if (mins < 60) return `PÅed ${mins} min`;
   const hrs = Math.floor(mins / 60);
   const rem = mins % 60;
-  if (rem === 0) return `Před ${hrs} hod`;
-  return `Před ${hrs} hod ${rem} min`;
+  if (rem === 0) return `PÅed ${hrs} hod`;
+  return `PÅed ${hrs} hod ${rem} min`;
 }
 
 function renderDrinks() {
   const el = document.getElementById('nl-body');
   if (!drinks.length) {
-    el.innerHTML = '<div class="nl-empty">Žádné nápoje.<br>Přidej první! 🍺</div>';
+    el.innerHTML = '<div class="nl-empty">Å½Ã¡dnÃ© nÃ¡poje.<br>PÅidej prvnÃ­! ðº</div>';
     document.getElementById('nl-total').style.display = 'none';
     return;
   }
   el.innerHTML = drinks.map((d,i) => `
     <div class="nl-item">
       <div style="flex:1;min-width:0">
-        <div class="nl-item-name">${esc(d.name)}${d.price ? `<span style="color:var(--text3);font-size:12px;font-weight:500;margin-left:6px">${d.price} Kč/ks</span>` : ''}</div>
+        <div class="nl-item-name">${esc(d.name)}${d.price ? `<span style="color:var(--text3);font-size:12px;font-weight:500;margin-left:6px">${d.price} KÄ/ks</span>` : ''}</div>
         ${d.lastAt ? `<div class="nl-time">${timeAgo(d.lastAt)}</div>` : ''}
         <div class="nl-tally">${tally(d.count)}</div>
-        ${d.price && d.count ? `<div style="font-size:12px;color:var(--accent);font-weight:700">${d.count * d.price} Kč</div>` : ''}
+        ${d.price && d.count ? `<div style="font-size:12px;color:var(--accent);font-weight:700">${d.count * d.price} KÄ</div>` : ''}
       </div>
       <div style="display:flex;align-items:center;gap:4px;margin-left:8px">
-        <button class="nl-btn" onclick="changeDrink(${i},-1)">−</button>
+        <button class="nl-btn" onclick="changeDrink(${i},-1)">â</button>
         <span class="nl-count">${d.count}</span>
         <button class="nl-btn plus" onclick="changeDrink(${i},1)">+</button>
-        <button class="nl-delbtn" onclick="deleteDrink(${i})">🗑</button>
+        <button class="nl-delbtn" onclick="deleteDrink(${i})">ð</button>
       </div>
     </div>`).join('');
   const total = drinks.reduce((sum, d) => sum + (d.price ? d.count * d.price : 0), 0);
   const totalEl = document.getElementById('nl-total');
   const hasPrices = drinks.some(d => d.price);
   if (hasPrices) {
-    totalEl.textContent = `Celková útrata: ${total} Kč`;
+    totalEl.textContent = `CelkovÃ¡ Ãºtrata: ${total} KÄ`;
     totalEl.style.display = '';
   } else {
     totalEl.style.display = 'none';
@@ -1264,19 +1529,19 @@ function changeDrink(i, d) {
   scheduleDrinkTimer();
 }
 function deleteDrink(i) {
-  if (!confirm('Smazat nápoj?')) return;
+  if (!confirm('Smazat nÃ¡poj?')) return;
   drinks.splice(i,1);
   persistDrinks();
   renderDrinks();
 }
 function resetAll() {
-  if (!confirm('Vynulovat všechny čárky?')) return;
+  if (!confirm('Vynulovat vÅ¡echny ÄÃ¡rky?')) return;
   drinks.forEach(d => { d.count=0; delete d.lastAt; });
   persistDrinks();
   renderDrinks();
 }
 
-// Live timer — refresh time labels every 30s while NL panel is open
+// Live timer â refresh time labels every 30s while NL panel is open
 let drinkTimer = null;
 function scheduleDrinkTimer() {
   if (drinkTimer) return;
@@ -1292,11 +1557,11 @@ function scheduleDrinkTimer() {
 
 function quickDrink(name) {
   if (drinks.find(d => d.name === name)) {
-    // Nápoj už existuje — jen zavři modal
+    // NÃ¡poj uÅ¾ existuje â jen zavÅi modal
     closeDrinkModal();
     return;
   }
-  // Nápoj neexistuje — předvyplň název a nech zadat cenu
+  // NÃ¡poj neexistuje â pÅedvyplÅ nÃ¡zev a nech zadat cenu
   document.getElementById('drink-inp').value = name;
   document.getElementById('drink-price').value = '';
   document.getElementById('modal-divider-or').style.display = 'none';
@@ -1328,15 +1593,15 @@ document.getElementById('drink-inp').addEventListener('keydown', e => {
   if (e.key === 'Enter') addDrink();
 });
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // ADMIN AUTH
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const ADMIN_PWD = 'Zpevnik1.!:::';
 let isAdmin = false;
 
 function logoClick() {
   if (isAdmin) {
-    if (confirm('Jsi přihlášen jako admin. Chceš se odhlásit?')) {
+    if (confirm('Jsi pÅihlÃ¡Å¡en jako admin. ChceÅ¡ se odhlÃ¡sit?')) {
       isAdmin = false;
       applyAdminUI();
     }
@@ -1360,7 +1625,7 @@ function doAdminLogin() {
     closeAdminModal();
     applyAdminUI();
   } else {
-    document.getElementById('admin-err').textContent = '❌ Špatné heslo';
+    document.getElementById('admin-err').textContent = 'â Å patnÃ© heslo';
     document.getElementById('admin-pwd').value = '';
     document.getElementById('admin-pwd').focus();
   }
@@ -1377,9 +1642,9 @@ function applyAdminUI() {
   renderList();
 }
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // GITHUB UPDATE
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const GH_TOKEN = '';
 const GH_REPO = 'pastikaalois-cloud/Zpevnik';
 const GH_FILE = 'index.html';
@@ -1390,7 +1655,7 @@ function showGithubUpdate() {
   document.getElementById('gh-status').textContent = '';
   document.getElementById('gh-status').className = 'gh-status';
   document.getElementById('gh-confirm-btn').disabled = false;
-  document.getElementById('gh-confirm-btn').textContent = 'Uložit na GitHub';
+  document.getElementById('gh-confirm-btn').textContent = 'UloÅ¾it na GitHub';
   document.getElementById('gh-token-inp').value = '';
   setTimeout(() => document.getElementById('gh-token-inp').focus(), 100);
 }
@@ -1403,31 +1668,31 @@ async function doGithubUpdate() {
   const status = document.getElementById('gh-status');
   const token = document.getElementById('gh-token-inp').value.trim();
   if (!token) {
-    status.textContent = '❌ Zadej GitHub token!';
+    status.textContent = 'â Zadej GitHub token!';
     status.className = 'gh-status err';
     return;
   }
   btn.disabled = true;
-  btn.textContent = '⏳ Nahrávám…';
-  status.textContent = 'Načítám soubor z GitHubu…';
+  btn.textContent = 'â³ NahrÃ¡vÃ¡mâ¦';
+  status.textContent = 'NaÄÃ­tÃ¡m soubor z GitHubuâ¦';
   status.className = 'gh-status';
   try {
     const getResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
       headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
-    if (!getResp.ok) throw new Error('Chyba načtení: ' + getResp.status);
+    if (!getResp.ok) throw new Error('Chyba naÄtenÃ­: ' + getResp.status);
     const fileData = await getResp.json();
     const sha = fileData.sha;
     const currentContent = atob(fileData.content.replace(/\n/g,''));
-    status.textContent = 'Aktualizuji písně…';
+    status.textContent = 'Aktualizuji pÃ­snÄâ¦';
     const newDefaults = JSON.stringify(songs, null, 2).replace(/</g,'\\u003c').replace(/>/g,'\\u003e');
     const newContent = currentContent.replace(
       /const DEFAULTS = \[[\s\S]*?\];\s*\n<\/script>/,
       `const DEFAULTS = ${newDefaults};\n<\/script>`
     );
-    if (newContent === currentContent) throw new Error('Nepodařilo se najít sekci DEFAULTS.');
+    if (newContent === currentContent) throw new Error('NepodaÅilo se najÃ­t sekci DEFAULTS.');
     const encoded = btoa(unescape(encodeURIComponent(newContent)));
-    status.textContent = 'Nahrávám na GitHub…';
+    status.textContent = 'NahrÃ¡vÃ¡m na GitHubâ¦';
     const putResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
       method: 'PUT',
       headers: {
@@ -1436,27 +1701,27 @@ async function doGithubUpdate() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        message: `Zpěvník: aktualizace písní (${new Date().toLocaleDateString('cs-CZ')})`,
+        message: `ZpÄvnÃ­k: aktualizace pÃ­snÃ­ (${new Date().toLocaleDateString('cs-CZ')})`,
         content: encoded,
         sha,
         branch: GH_BRANCH
       })
     });
     if (!putResp.ok) { const err = await putResp.json(); throw new Error('GitHub: ' + (err.message || putResp.status)); }
-    status.textContent = '✅ Hotovo! Za 1–2 min uvidí změny všichni.';
+    status.textContent = 'â Hotovo! Za 1â2 min uvidÃ­ zmÄny vÅ¡ichni.';
     status.className = 'gh-status ok';
-    btn.textContent = '✅ Uloženo';
+    btn.textContent = 'â UloÅ¾eno';
   } catch(e) {
-    status.textContent = '❌ ' + e.message;
+    status.textContent = 'â ' + e.message;
     status.className = 'gh-status err';
     btn.disabled = false;
-    btn.textContent = 'Uložit na GitHub';
+    btn.textContent = 'UloÅ¾it na GitHub';
   }
 }
 
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 // INIT
-// ════════════════════════════════════════════════════════
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 renderList();
 </script>
 </body>
