@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -11,47 +11,6 @@
 <link rel="manifest" href="manifest.json">
 <title>Zpěvník</title>
 <style>
-  /* ===== MOBILE OVERFLOW FIX ===== */
-
-html, body {
-  height: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-* {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-button,
-input,
-textarea {
-  max-width: 100%;
-}
-
-/* zalamování textu písní */
-.chord-row,
-.text-row {
-  white-space: pre-wrap !important;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-
-/* tlačítka místo scrollování zalomit */
-.ctrls {
-  flex-wrap: wrap !important;
-  overflow-x: hidden !important;
-}
-
-/* ochrana proti flex přetečení */
-.song-info {
-  min-width: 0;
-}
-
-.song-body {
-  overflow-x: hidden;
-}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --bg:#fff;--bg2:#f7f7f7;--bg3:#eeeeee;--border:#e0e0e0;
@@ -112,8 +71,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:system-
 .song-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 6px;-webkit-overflow-scrolling:touch}
 .line{margin-bottom:0;font-family:monospace}
 
-.chord-row{display:block;min-height:1.2em;line-height:1.3;white-space:pre;color:var(--chord);font-weight:800;font-size:1em}
-.text-row{display:block;line-height:1.6;white-space:pre}
+.chord-row{display:block;min-height:1.2em;line-height:1.3;white-space:pre;overflow:hidden;color:var(--chord);font-weight:800;font-size:1em}
+.text-row{display:block;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 .ch{display:inline;color:var(--chord);font-weight:800;cursor:pointer;touch-action:none;user-select:none}.ch.active{background:var(--chord-bg);border-radius:3px;outline:2px solid var(--accent)}
 .lyr{display:inline}.blank{height:10px}
 .scbar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1.5px solid var(--border);background:var(--bg);flex-shrink:0}
