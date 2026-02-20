@@ -894,7 +894,7 @@ function renderSong() {
 
     if (!hasChords) {
       const txt = tokens.filter(t => t.type === 'text').map(t => esc(t.val)).join('');
-      return `<div class="line-wrap" data-li="${li}"><span class="seg"><span class="seg-chord"> </span><span class="seg-text">${txt}</span></span></div>`;
+      return `<div class="line-wrap" data-li="${li}" style="font-family:inherit;white-space:normal;word-break:break-word;line-height:1.6">${txt}</div>`;
     }
 
     // Segments: each chord + text after it = one inline-block column
