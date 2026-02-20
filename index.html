@@ -300,6 +300,15 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
   </div>
   <div class="cnt" id="cnt"></div>
   <div class="list" id="list"></div>
+  <button class="tuner-fab" onclick="openTuner()" title="Ladička">
+    <svg viewBox="0 0 56 56" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="28" fill="#27ae60"/>
+      <!-- Treble clef SVG path -->
+      <g transform="translate(17, 5) scale(0.9)">
+        <path d="M12 2 C12 2 7 8 7 16 C7 20 9 23 12 25 C9 27 7 30 7 34 C7 40 11 45 17 45 C17 45 17 46 17 47 C17 49 15 50 13 50 L13 52 C13 52 22 52 22 46 C22 44 21 42 20 41 C22 39 24 36 24 32 C24 26 20 21 15 19 C18 17 20 14 20 10 C20 6 17 2 12 2 Z M12 5 C15 5 17 7 17 10 C17 13 15 16 13 18 C10 16 9 14 9 11 C9 7 11 5 12 5 Z M13 21 C17 23 21 27 21 32 C21 36 19 39 16 41 C14 39 10 36 10 32 C10 27 11 23 13 21 Z" fill="white"/>
+      </g>
+    </svg>
+  </button>
   <button class="nl-fab" onclick="openNL()" title="Nápojový lístek">🍺</button>
 </div>
 
@@ -620,6 +629,15 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
   z-index: 50;
 }
 .nl-fab:active { background: var(--accent2); }
+.tuner-fab {
+  position: fixed; bottom: 90px; right: 20px;
+  background: #27ae60; color: #fff; border: none;
+  border-radius: 50%; width: 56px; height: 56px;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  display: flex; align-items: center; justify-content: center; z-index: 50;
+  padding: 0;
+}
+.tuner-fab:active { background: #219a52; }
 </style>
 <!-- DEFAULTS: only used on first install to seed localStorage. After that ignored. -->
 <script id="defaults-data">
@@ -744,6 +762,9 @@ window.addEventListener('popstate', function(e) {
   else if (active.id === 'screen-add') { showHome(); }
   else if (active.id === 'screen-edit') { showHome(); }
   else { showHome(); }
+  // Close tuner if open
+  const tunerEl = document.getElementById('tuner-overlay');
+  if (tunerEl && tunerEl.style.display !== 'none') { closeTuner(); tunerEl.style.display = 'none'; }
 });
 function enterApp() {
   show('screen-home');
@@ -1486,7 +1507,7 @@ function renderDrinks() {
     let html = '';
     if (hasPrices) html += `Celková útrata: ${total} Kč`;
     if (hasPrices && noPriceDrinks.length > 0) html += ' + ';
-    if (noPriceDrinks.length > 0) html += noPriceDrinks.map(d => d.name).join(', ');
+    if (noPriceDrinks.length > 0) html += noPriceDrinks.map(d => `${d.name} × ${d.count}`).join(', ');
     html += '<br><span style="font-size:11px;font-weight:400;color:var(--text3)">(nejedná se o nutně reálnou cenu, známe svoje lidi!)</span>';
     totalEl.innerHTML = html;
     totalEl.style.display = '';
@@ -1707,5 +1728,311 @@ async function doGithubUpdate() {
 // ════════════════════════════════════════════════════════
 renderList();
 </script>
+
+<!-- TUNER -->
+<style>
+#tuner-overlay {
+  font-family: 'Georgia', serif;
+  background: #1a1008;
+}
+.tuner-neck { position: relative; width: 100%; max-width: 380px; margin: 0 auto; }
+.tuner-fret-board {
+  position: relative;
+  background: linear-gradient(90deg, #5c3a1e 0%, #7a4e2d 30%, #8b5e35 50%, #7a4e2d 70%, #5c3a1e 100%);
+  border-radius: 12px; border: 3px solid #3a2010;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.5), 0 4px 20px rgba(0,0,0,0.4);
+  padding: 12px 0; overflow: hidden;
+}
+.tuner-fret-board::before {
+  content:''; position:absolute; inset:0;
+  background: repeating-linear-gradient(90deg, transparent 0px, transparent calc(16.66% - 1px), rgba(200,180,120,0.4) calc(16.66% - 1px), rgba(200,180,120,0.4) calc(16.66% + 1px));
+  pointer-events:none;
+}
+.tuner-fret-board::after {
+  content:''; position:absolute; inset:0;
+  background: repeating-linear-gradient(180deg, transparent 0px, transparent 8px, rgba(0,0,0,0.06) 8px, rgba(0,0,0,0.06) 9px);
+  pointer-events:none;
+}
+.tuner-string-row {
+  display: flex; align-items: center; position: relative; z-index: 2;
+  margin: 6px 0; padding: 0 10px; gap: 8px;
+}
+.tuner-string-row::before {
+  content:''; position:absolute; left:0; right:0; top:50%; height:1.5px;
+  background: linear-gradient(90deg, #aaa, #eee 20%, #ccc 50%, #eee 80%, #aaa);
+  box-shadow: 0 0 3px rgba(255,255,255,0.3); pointer-events:none; z-index:0;
+}
+.tuner-string-label {
+  width: 36px; text-align: center; font-size: 14px; font-weight: 900;
+  font-family: monospace; color: #f0d080; background: #2a1508;
+  border: 1.5px solid #5a3a18; border-radius: 6px; padding: 4px 2px;
+  z-index: 1; flex-shrink: 0; cursor: pointer; transition: all 0.15s; position: relative;
+}
+.tuner-string-label.active { background:#e67e22; border-color:#f39c12; color:#fff; box-shadow:0 0 12px rgba(230,126,34,0.7); }
+.tuner-string-label.intune { background:#27ae60; border-color:#2ecc71; color:#fff; box-shadow:0 0 14px rgba(46,204,113,0.8); }
+.tuner-bar-bg {
+  flex: 1; height: 8px; background: rgba(0,0,0,0.4); border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.1); position: relative; z-index: 1; overflow: hidden;
+}
+.tuner-bar-fill { height:100%; border-radius:4px; background:#444; width:2px; transition:width 0.12s,background 0.15s,margin-left 0.12s; position:absolute; top:0; }
+.tuner-bar-center {
+  position:absolute; left:50%; top:-3px; width:2px; height:14px;
+  background:rgba(255,255,255,0.25); transform:translateX(-50%); z-index:2;
+}
+.tuner-cents-badge { width:52px; text-align:center; font-size:11px; font-weight:700; font-family:monospace; color:#999; z-index:1; flex-shrink:0; }
+#tuner-big-note {
+  font-size:72px; font-weight:900; font-family:monospace; color:#f0d080;
+  text-align:center; line-height:1; text-shadow:0 0 30px rgba(240,208,128,0.3);
+  transition:color 0.2s; min-height:80px; display:flex; align-items:center; justify-content:center;
+}
+.tuner-mode-btn {
+  background:rgba(255,255,255,0.08); border:1.5px solid rgba(255,255,255,0.15);
+  border-radius:10px; color:#ccc; padding:6px 14px; font-size:13px; font-weight:700;
+  cursor:pointer; font-family:inherit; transition:all 0.15s;
+}
+.tuner-mode-btn.on { background:#e67e22; border-color:#f39c12; color:#fff; }
+</style>
+
+<div id="tuner-overlay" style="display:none;position:fixed;inset:0;z-index:200;flex-direction:column;overflow-y:auto;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+    <span style="font-size:17px;font-weight:800;color:#f0d080;letter-spacing:1px;">🎸 LADIČKA</span>
+    <button onclick="closeTuner()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#aaa;">✕</button>
+  </div>
+  <div style="padding:16px 20px 8px;flex-shrink:0;">
+    <div id="tuner-big-note">–</div>
+    <div id="tuner-freq" style="text-align:center;font-size:14px;color:#888;font-family:monospace;margin-top:4px;">– Hz</div>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:center;padding:0 20px 16px;flex-shrink:0;">
+    <button class="tuner-mode-btn on" id="tm-guitar" onclick="setTunerMode('guitar')">🎸 Kytara</button>
+    <button class="tuner-mode-btn" id="tm-ukulele" onclick="setTunerMode('ukulele')">🎵 Ukulele</button>
+    <button class="tuner-mode-btn" id="tm-bass" onclick="setTunerMode('bass')">🎸 Baskyta</button>
+  </div>
+  <div style="padding:0 16px;flex:1;">
+    <div class="tuner-neck">
+      <div class="tuner-fret-board" id="tuner-strings-board"></div>
+    </div>
+  </div>
+  <div style="padding:20px;display:flex;justify-content:center;flex-shrink:0;">
+    <button id="tuner-btn" onclick="tunerToggle()"
+      style="background:#555;color:#fff;border:none;border-radius:14px;padding:14px 48px;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+      &#9203; Spouštím…
+    </button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+// TUNER
+// ════════════════════════════════════════════════════════
+const TUNER_MODES = {
+  guitar:  { strings: ['E2','A2','D3','G3','B3','E4'] },
+  ukulele: { strings: ['G4','C4','E4','A4'] },
+  bass:    { strings: ['E1','A1','D2','G2'] }
+};
+const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const STRING_FREQS = {
+  'E2':82.41,'A2':110.00,'D3':146.83,'G3':196.00,'B3':246.94,'E4':329.63,
+  'G4':392.00,'C4':261.63,'A4':440.00,
+  'E1':41.20,'A1':55.00,'D2':73.42,'G2':98.00
+};
+
+let tunerMode = 'guitar';
+let tunerRunning = false;
+let tunerAudioCtx = null;
+let tunerAnalyser = null;
+let tunerStream = null;
+let tunerRaf = null;
+
+function setTunerMode(mode) {
+  tunerMode = mode;
+  ['guitar','ukulele','bass'].forEach(m => {
+    document.getElementById('tm-'+m).classList.toggle('on', m === mode);
+  });
+  renderTunerStrings();
+  resetTunerBars();
+}
+
+function resetTunerBars() {
+  document.querySelectorAll('.tuner-bar-fill').forEach(b => {
+    b.style.width = '2px';
+    b.style.marginLeft = '49%';
+    b.style.background = '#444';
+    b.style.boxShadow = 'none';
+  });
+  document.querySelectorAll('.tuner-string-label').forEach(l => {
+    l.classList.remove('active','intune');
+  });
+  document.querySelectorAll('.tuner-cents-badge').forEach(b => b.textContent = '');
+}
+
+function renderTunerStrings() {
+  const strings = TUNER_MODES[tunerMode].strings;
+  const board = document.getElementById('tuner-strings-board');
+  board.innerHTML = strings.map(s => {
+    const sid = s.replace('#','s');
+    return `
+    <div class="tuner-string-row" id="trow-${sid}">
+      <div class="tuner-string-label" id="tlabel-${sid}">${s}</div>
+      <div class="tuner-bar-bg">
+        <div class="tuner-bar-center"></div>
+        <div class="tuner-bar-fill" id="tbar-${sid}" style="margin-left:49%;"></div>
+      </div>
+      <div class="tuner-cents-badge" id="tcents-${sid}"></div>
+    </div>`;
+  }).join('');
+}
+
+function openTuner() {
+  const el = document.getElementById('tuner-overlay');
+  el.style.display = 'flex';
+  history.pushState({screen:'tuner'}, '');
+  renderTunerStrings();
+  // Auto-start after short delay so DOM is ready
+  setTimeout(startTuner, 200);
+}
+
+function closeTuner() {
+  stopTuner();
+  document.getElementById('tuner-overlay').style.display = 'none';
+}
+
+function tunerToggle() {
+  if (tunerRunning) stopTuner();
+  else startTuner();
+}
+
+async function startTuner() {
+  try {
+    tunerStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    tunerAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    tunerAnalyser = tunerAudioCtx.createAnalyser();
+    tunerAnalyser.fftSize = 8192;
+    const src = tunerAudioCtx.createMediaStreamSource(tunerStream);
+    src.connect(tunerAnalyser);
+    tunerRunning = true;
+    const btn = document.getElementById('tuner-btn');
+    btn.textContent = '⏹ Stop';
+    btn.style.background = '#e74c3c';
+    btn.style.boxShadow = '0 4px 20px rgba(231,76,60,0.4)';
+    tunerLoop();
+  } catch(e) {
+    document.getElementById('tuner-freq').textContent = 'Chyba mikrofonu: ' + e.message;
+  }
+}
+
+function stopTuner() {
+  tunerRunning = false;
+  if (tunerRaf) cancelAnimationFrame(tunerRaf);
+  if (tunerStream) tunerStream.getTracks().forEach(t => t.stop());
+  if (tunerAudioCtx) { tunerAudioCtx.close(); tunerAudioCtx = null; }
+  const stopBtn = document.getElementById('tuner-btn');
+  stopBtn.textContent = '▶ Start';
+  stopBtn.style.background = '#e67e22';
+  stopBtn.style.boxShadow = '0 4px 20px rgba(230,126,34,0.4)';
+  document.getElementById('tuner-big-note').textContent = '–';
+  document.getElementById('tuner-big-note').style.color = '#f0d080';
+  document.getElementById('tuner-freq').textContent = '– Hz';
+  resetTunerBars();
+}
+
+function tunerLoop() {
+  if (!tunerRunning) return;
+  const buf = new Float32Array(tunerAnalyser.fftSize);
+  tunerAnalyser.getFloatTimeDomainData(buf);
+  const freq = autoCorrelate(buf, tunerAudioCtx.sampleRate);
+
+  if (freq > 0) {
+    const { note, octave, cents } = freqToNote(freq);
+    const noteStr = note + octave;
+    const detectedNote = document.getElementById('tuner-big-note');
+    detectedNote.textContent = noteStr;
+    document.getElementById('tuner-freq').textContent = freq.toFixed(1) + ' Hz';
+
+    const strings = TUNER_MODES[tunerMode].strings;
+    let closest = null, minDist = Infinity;
+    for (const s of strings) {
+      const targetFreq = STRING_FREQS[s];
+      const semitones = Math.abs(12 * Math.log2(freq / targetFreq));
+      if (semitones < minDist) { minDist = semitones; closest = s; }
+    }
+
+    for (const s of strings) {
+      const sid = s.replace('#','s');
+      const label = document.getElementById('tlabel-' + sid);
+      const bar = document.getElementById('tbar-' + sid);
+      const centsEl = document.getElementById('tcents-' + sid);
+      if (!label || !bar) continue;
+
+      if (s === closest && minDist < 1.5) {
+        const absC = Math.abs(cents);
+        const pct = Math.min(94, Math.max(5, 50 + cents));
+        bar.style.width = '10px';
+        bar.style.marginLeft = `calc(${pct}% - 5px)`;
+
+        if (absC < 8) {
+          bar.style.background = 'linear-gradient(90deg,#27ae60,#2ecc71)';
+          bar.style.boxShadow = '0 0 10px rgba(46,204,113,0.9)';
+          label.className = 'tuner-string-label intune';
+          detectedNote.style.color = '#2ecc71';
+        } else if (absC < 25) {
+          bar.style.background = 'linear-gradient(90deg,#e67e22,#f39c12)';
+          bar.style.boxShadow = '0 0 10px rgba(243,156,18,0.8)';
+          label.className = 'tuner-string-label active';
+          detectedNote.style.color = '#f39c12';
+        } else {
+          bar.style.background = 'linear-gradient(90deg,#c0392b,#e74c3c)';
+          bar.style.boxShadow = '0 0 8px rgba(231,76,60,0.7)';
+          label.className = 'tuner-string-label active';
+          detectedNote.style.color = '#e74c3c';
+        }
+        centsEl.textContent = (cents >= 0 ? '+' : '') + cents + 'ct';
+        centsEl.style.color = absC < 8 ? '#2ecc71' : absC < 25 ? '#f39c12' : '#e74c3c';
+      } else {
+        bar.style.width = '2px';
+        bar.style.marginLeft = '49%';
+        bar.style.background = '#444';
+        bar.style.boxShadow = 'none';
+        label.className = 'tuner-string-label';
+        centsEl.textContent = '';
+      }
+    }
+  }
+  tunerRaf = requestAnimationFrame(tunerLoop);
+}
+
+function autoCorrelate(buf, sampleRate) {
+  let rms = 0;
+  for (let i = 0; i < buf.length; i++) rms += buf[i] * buf[i];
+  rms = Math.sqrt(rms / buf.length);
+  if (rms < 0.012) return -1;
+  const SIZE = buf.length;
+  const corr = new Float32Array(SIZE);
+  for (let i = 0; i < SIZE; i++)
+    for (let j = 0; j < SIZE - i; j++) corr[i] += buf[j] * buf[j+i];
+  let d = 0;
+  while (d < SIZE && corr[d] > corr[d+1]) d++;
+  let maxVal = -1, maxPos = -1;
+  for (let i = d; i < SIZE; i++) {
+    if (corr[i] > maxVal) { maxVal = corr[i]; maxPos = i; }
+  }
+  if (maxPos < 1) return -1;
+  let T0 = maxPos;
+  if (maxPos > 0 && maxPos < SIZE-1) {
+    const x1=corr[maxPos-1], x2=corr[maxPos], x3=corr[maxPos+1];
+    T0 = maxPos + (x3-x1)/(2*(2*x2-x1-x3));
+  }
+  return sampleRate / T0;
+}
+
+function freqToNote(freq) {
+  const semitones = 12 * Math.log2(freq / 440);
+  const noteIdx = Math.round(semitones);
+  const cents = Math.round((semitones - noteIdx) * 100);
+  const noteNum = ((noteIdx % 12) + 12) % 12;
+  const octave = Math.floor(noteIdx / 12) + 4;
+  return { note: NOTE_NAMES[noteNum], octave, cents };
+}
+</script>
+
 </body>
 </html>
