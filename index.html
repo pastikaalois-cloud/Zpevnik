@@ -858,7 +858,7 @@ function renderSong() {
     const hasChords = showChords && tokens.some(t => t.type === 'chord');
 
     if (!hasChords) {
-      const txt = tokens.map(t => esc(t.val)).join('');
+      const txt = tokens.filter(t => t.type === 'text').map(t => esc(t.val)).join('');
       return `<div class="line-wrap" data-li="${li}"><span class="seg"><span class="seg-chord"> </span><span class="seg-text">${txt}</span></span></div>`;
     }
 
