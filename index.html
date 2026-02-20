@@ -1379,7 +1379,7 @@ function applyAdminUI() {
 // ════════════════════════════════════════════════════════
 // GITHUB UPDATE
 // ════════════════════════════════════════════════════════
-const GH_TOKEN = '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';
+const GH_TOKEN = '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';
 const GH_REPO = 'pastikaalois-cloud/Zpevnik';
 const GH_FILE = 'index.html';
 const GH_BRANCH = 'main';
@@ -1403,7 +1403,7 @@ async function doGithubUpdate() {
   status.className = 'gh-status';
   try {
     const getResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
-      headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+      headers: { 'Authorization': `Bearer ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
     });
     if (!getResp.ok) throw new Error('Chyba načtení: ' + getResp.status);
     const fileData = await getResp.json();
@@ -1421,7 +1421,7 @@ async function doGithubUpdate() {
     const putResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `token ${GH_TOKEN}`,
+        'Authorization': `Bearer ${GH_TOKEN}`,
         'Accept': 'application/vnd.github.v3+json',
         'Content-Type': 'application/json'
       },
