@@ -1,22 +1,6 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#ff6b00">
-
-  <link rel="icon" type="image/png" sizes="192x192" href="android-launchericon-192-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="android-launchericon-512-512.png">
-  <link rel="apple-touch-icon" href="android-launchericon-512-512.png">
-  <link rel="manifest" href="manifest.json">
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="mobile-web-app-capable" content="yes">
@@ -179,6 +163,54 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
   backdrop-filter: blur(4px);
 }
 .splash-btn:active { background: rgba(255,255,255,0.28); }
+
+/* ADMIN LOGIN MODAL */
+.admin-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); z-index: 200;
+  align-items: center; justify-content: center;
+}
+.admin-overlay.open { display: flex; }
+.admin-modal {
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 28px 24px 24px;
+  width: 88%; max-width: 340px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+}
+.admin-modal h3 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+.admin-modal p { color: var(--text3); font-size: 13px; margin-bottom: 18px; }
+.admin-modal .inp { margin-bottom: 14px; }
+.admin-modal-btns { display: flex; gap: 10px; }
+.admin-modal-btns .savebtn { flex: 1; height: 48px; }
+.admin-modal-btns .cancbtn { height: 48px; }
+.admin-badge {
+  background: var(--accent); color: #fff;
+  border-radius: 8px; font-size: 11px; font-weight: 800;
+  padding: 2px 8px; margin-left: 8px; vertical-align: middle;
+  letter-spacing: .04em;
+}
+/* GITHUB UPDATE MODAL */
+.gh-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); z-index: 200;
+  align-items: center; justify-content: center;
+}
+.gh-overlay.open { display: flex; }
+.gh-modal {
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 28px 24px 24px;
+  width: 88%; max-width: 360px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+}
+.gh-modal h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+.gh-modal p { color: var(--text2); font-size: 14px; line-height: 1.6; margin-bottom: 18px; }
+.gh-modal .savebtn { width: 100%; height: 52px; font-size: 16px; margin-bottom: 10px; }
+.gh-modal .cancbtn { width: 100%; height: 44px; }
+.gh-status { font-size: 13px; color: var(--text3); text-align: center; margin-top: 12px; min-height: 20px; }
+.gh-status.ok { color: #22a84a; font-weight: 700; }
+.gh-status.err { color: #e05a00; font-weight: 700; }
+.logo-clickable { cursor: pointer; user-select: none; }
+.logo-clickable:active { opacity: 0.7; }
 </style>
 </head>
 <body>
@@ -252,10 +284,11 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 <!-- HOME -->
 <div class="screen" id="screen-home">
   <div class="home-top">
-    <div class="logo">♪ Zpěvník</div>
+    <div class="logo logo-clickable" onclick="logoClick()" title="Admin přihlášení">♪ Zpěvník<span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span></div>
     <div class="hdr-r">
       <button class="ibtn" id="theme-btn" onclick="toggleTheme()">🌙</button>
-      <button class="add-btn" onclick="showAdd()">+ Přidat</button>
+      <button class="add-btn" id="add-btn" onclick="showAdd()" style="display:none">+ Přidat</button>
+      <button class="add-btn" id="update-btn" onclick="showGithubUpdate()" style="display:none;background:#333;border:none;margin-left:4px">☁️ Uložit</button>
     </div>
   </div>
   <div class="srch">
@@ -284,7 +317,7 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
       <button class="cbtn" onclick="changeFontSize(-2)">A−</button>
       <button class="cbtn" onclick="changeFontSize(2)">A+</button>
       <button class="cbtn on" id="chord-btn" onclick="toggleChords()">Akordy ✓</button>
-      <button class="cbtn" onclick="showEdit()">✏️ Upravit</button>
+      <button class="cbtn" id="edit-btn" onclick="showEdit()" style="display:none">✏️ Upravit</button>
       <button class="cbtn" onclick="transposeAll(-1)">♭ −1</button>
       <button class="cbtn" onclick="transposeAll(1)">♯ +1</button>
     </div>
@@ -343,7 +376,35 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
   </div>
   <div class="nl-body" id="nl-body"></div>
   <div class="nl-footer">
+    <div id="nl-total" style="text-align:center;font-size:15px;font-weight:700;color:var(--accent);padding:6px 0 10px;display:none"></div>
     <button class="nl-resetbtn" onclick="resetAll()">Vynulovat vše</button>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="admin-overlay" id="admin-overlay" onclick="closeAdminModal()"></div>
+<div class="admin-overlay" id="admin-modal-wrap" style="display:none">
+  <div class="admin-modal" onclick="event.stopPropagation()">
+    <h3>🔐 Admin přihlášení</h3>
+    <p>Zadej heslo pro přístup k admin funkcím.</p>
+    <input class="inp" id="admin-pwd" type="password" placeholder="Heslo…" autocomplete="off">
+    <div class="admin-modal-btns">
+      <button class="savebtn" onclick="doAdminLogin()">Přihlásit</button>
+      <button class="cancbtn" onclick="closeAdminModal()">Zrušit</button>
+    </div>
+    <div id="admin-err" style="color:#e05a00;font-size:13px;margin-top:10px;text-align:center;min-height:18px"></div>
+  </div>
+</div>
+
+<!-- GITHUB UPDATE MODAL -->
+<div class="gh-overlay" id="gh-overlay" onclick="closeGhModal()"></div>
+<div class="gh-overlay" id="gh-modal-wrap" style="display:none">
+  <div class="gh-modal" onclick="event.stopPropagation()">
+    <h3>☁️ Aktualizovat zpěvník</h3>
+    <p>Tato akce uloží aktuální seznam písní na GitHub. Po ~1–2 minutách uvidí změny všichni uživatelé.</p>
+    <button class="savebtn" id="gh-confirm-btn" onclick="doGithubUpdate()">Uložit na GitHub</button>
+    <button class="cancbtn" onclick="closeGhModal()">Zrušit</button>
+    <div class="gh-status" id="gh-status"></div>
   </div>
 </div>
 
@@ -363,8 +424,9 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
     <button class="qbtn" onclick="quickDrink('Slivovice malá')">🥃 Slivka malá</button>
     <button class="qbtn" onclick="quickDrink('Slivovice velká')">🥃 Slivka velká</button>
   </div>
-  <div class="modal-divider">nebo vlastní</div>
-  <input class="inp" id="drink-inp" type="text" placeholder="Název nápoje…" style="margin-bottom:12px">
+  <div class="modal-divider" id="modal-divider-or">nebo vlastní</div>
+  <input class="inp" id="drink-inp" type="text" placeholder="Název nápoje…" style="margin-bottom:8px">
+  <input class="inp" id="drink-price" type="number" min="0" step="1" placeholder="Cena (Kč) — nepovinné" style="margin-bottom:12px">
   <div style="display:flex;gap:8px">
     <button class="savebtn" style="flex:1" onclick="addDrink()">Přidat</button>
     <button class="cancbtn" onclick="closeDrinkModal()">Zrušit</button>
@@ -711,6 +773,8 @@ function openSong(id) {
   renderSong();
   show('screen-song');
   document.getElementById('song-body').scrollTop = 0;
+  const eb = document.getElementById('edit-btn');
+  if (eb) eb.style.display = isAdmin ? '' : 'none';
 }
 function showEdit() {
   if (!cur) return;
@@ -769,6 +833,7 @@ function renderList() {
       </div>
       <div class="card-r">
         ${s.key ? `<span class="kbdg">${esc(s.key)}</span>` : ''}
+        ${isAdmin ? `<button class="delbtn" onclick="event.stopPropagation();deleteSong(${s.id})">🗑</button>` : ''}
       </div>
     </div>`).join('');
 }
@@ -1098,6 +1163,15 @@ function saveEdit() {
   openSong(cur.id);
 }
 
+function deleteSong(id) {
+  const s = songs.find(s => s.id === id);
+  if (!s) return;
+  if (!confirm(`Smazat píseň "${s.title}"?`)) return;
+  songs = songs.filter(s => s.id !== id);
+  persist();
+  renderList();
+}
+
 // ════════════════════════════════════════════════════════
 // NÁPOJOVÝ LÍSTEK
 // ════════════════════════════════════════════════════════
@@ -1150,14 +1224,16 @@ function renderDrinks() {
   const el = document.getElementById('nl-body');
   if (!drinks.length) {
     el.innerHTML = '<div class="nl-empty">Žádné nápoje.<br>Přidej první! 🍺</div>';
+    document.getElementById('nl-total').style.display = 'none';
     return;
   }
   el.innerHTML = drinks.map((d,i) => `
     <div class="nl-item">
       <div style="flex:1;min-width:0">
-        <div class="nl-item-name">${esc(d.name)}</div>
+        <div class="nl-item-name">${esc(d.name)}${d.price ? `<span style="color:var(--text3);font-size:12px;font-weight:500;margin-left:6px">${d.price} Kč/ks</span>` : ''}</div>
         ${d.lastAt ? `<div class="nl-time">${timeAgo(d.lastAt)}</div>` : ''}
         <div class="nl-tally">${tally(d.count)}</div>
+        ${d.price && d.count ? `<div style="font-size:12px;color:var(--accent);font-weight:700">${d.count * d.price} Kč</div>` : ''}
       </div>
       <div style="display:flex;align-items:center;gap:4px;margin-left:8px">
         <button class="nl-btn" onclick="changeDrink(${i},-1)">−</button>
@@ -1166,6 +1242,15 @@ function renderDrinks() {
         <button class="nl-delbtn" onclick="deleteDrink(${i})">🗑</button>
       </div>
     </div>`).join('');
+  const total = drinks.reduce((sum, d) => sum + (d.price ? d.count * d.price : 0), 0);
+  const totalEl = document.getElementById('nl-total');
+  const hasPrices = drinks.some(d => d.price);
+  if (hasPrices) {
+    totalEl.textContent = `Celková útrata: ${total} Kč`;
+    totalEl.style.display = '';
+  } else {
+    totalEl.style.display = 'none';
+  }
 }
 
 function changeDrink(i, d) {
@@ -1204,16 +1289,21 @@ function scheduleDrinkTimer() {
 }
 
 function quickDrink(name) {
-  // If already exists, just close modal — user can tap + on existing item
-  if (!drinks.find(d => d.name === name)) {
-    drinks.push({name, count:0});
-    persistDrinks();
+  if (drinks.find(d => d.name === name)) {
+    // Nápoj už existuje — jen zavři modal
+    closeDrinkModal();
+    return;
   }
-  closeDrinkModal();
-  renderDrinks();
+  // Nápoj neexistuje — předvyplň název a nech zadat cenu
+  document.getElementById('drink-inp').value = name;
+  document.getElementById('drink-price').value = '';
+  document.getElementById('modal-divider-or').style.display = 'none';
+  setTimeout(() => document.getElementById('drink-price').focus(), 100);
 }
 function showAddDrink() {
   document.getElementById('drink-inp').value = '';
+  document.getElementById('drink-price').value = '';
+  document.getElementById('modal-divider-or').style.display = '';
   document.getElementById('drink-overlay').classList.add('open');
   document.getElementById('drink-modal').classList.add('open');
   setTimeout(() => document.getElementById('drink-inp').focus(), 100);
@@ -1225,7 +1315,9 @@ function closeDrinkModal() {
 function addDrink() {
   const name = document.getElementById('drink-inp').value.trim();
   if (!name) return;
-  drinks.push({name, count:0});
+  const priceRaw = parseInt(document.getElementById('drink-price').value, 10);
+  const price = (!isNaN(priceRaw) && priceRaw > 0) ? priceRaw : undefined;
+  drinks.push({name, count:0, price});
   persistDrinks();
   closeDrinkModal();
   renderDrinks();
@@ -1233,6 +1325,123 @@ function addDrink() {
 document.getElementById('drink-inp').addEventListener('keydown', e => {
   if (e.key === 'Enter') addDrink();
 });
+
+// ════════════════════════════════════════════════════════
+// ADMIN AUTH
+// ════════════════════════════════════════════════════════
+const ADMIN_PWD = 'Zpevnik1.!:::';
+let isAdmin = false;
+
+function logoClick() {
+  if (isAdmin) {
+    if (confirm('Jsi přihlášen jako admin. Chceš se odhlásit?')) {
+      isAdmin = false;
+      applyAdminUI();
+    }
+    return;
+  }
+  openAdminModal();
+}
+function openAdminModal() {
+  document.getElementById('admin-modal-wrap').style.display = 'flex';
+  document.getElementById('admin-pwd').value = '';
+  document.getElementById('admin-err').textContent = '';
+  setTimeout(() => document.getElementById('admin-pwd').focus(), 100);
+}
+function closeAdminModal() {
+  document.getElementById('admin-modal-wrap').style.display = 'none';
+}
+function doAdminLogin() {
+  const pwd = document.getElementById('admin-pwd').value;
+  if (pwd === ADMIN_PWD) {
+    isAdmin = true;
+    closeAdminModal();
+    applyAdminUI();
+  } else {
+    document.getElementById('admin-err').textContent = '❌ Špatné heslo';
+    document.getElementById('admin-pwd').value = '';
+    document.getElementById('admin-pwd').focus();
+  }
+}
+document.getElementById('admin-pwd').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doAdminLogin();
+});
+function applyAdminUI() {
+  document.getElementById('add-btn').style.display = isAdmin ? '' : 'none';
+  document.getElementById('update-btn').style.display = isAdmin ? '' : 'none';
+  document.getElementById('admin-badge').style.display = isAdmin ? '' : 'none';
+  const eb = document.getElementById('edit-btn');
+  if (eb) eb.style.display = isAdmin ? '' : 'none';
+  renderList();
+}
+
+// ════════════════════════════════════════════════════════
+// GITHUB UPDATE
+// ════════════════════════════════════════════════════════
+const GH_TOKEN = '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';
+const GH_REPO = 'pastikaalois-cloud/zpevnik';
+const GH_FILE = 'index.html';
+const GH_BRANCH = 'main';
+
+function showGithubUpdate() {
+  document.getElementById('gh-modal-wrap').style.display = 'flex';
+  document.getElementById('gh-status').textContent = '';
+  document.getElementById('gh-status').className = 'gh-status';
+  document.getElementById('gh-confirm-btn').disabled = false;
+  document.getElementById('gh-confirm-btn').textContent = 'Uložit na GitHub';
+}
+function closeGhModal() {
+  document.getElementById('gh-modal-wrap').style.display = 'none';
+}
+async function doGithubUpdate() {
+  const btn = document.getElementById('gh-confirm-btn');
+  const status = document.getElementById('gh-status');
+  btn.disabled = true;
+  btn.textContent = '⏳ Nahrávám…';
+  status.textContent = 'Načítám soubor z GitHubu…';
+  status.className = 'gh-status';
+  try {
+    const getResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
+      headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!getResp.ok) throw new Error('Chyba načtení: ' + getResp.status);
+    const fileData = await getResp.json();
+    const sha = fileData.sha;
+    const currentContent = atob(fileData.content.replace(/\n/g,''));
+    status.textContent = 'Aktualizuji písně…';
+    const newDefaults = JSON.stringify(songs, null, 2).replace(/</g,'\\u003c').replace(/>/g,'\\u003e');
+    const newContent = currentContent.replace(
+      /const DEFAULTS = \[[\s\S]*?\];\s*\n<\/script>/,
+      `const DEFAULTS = ${newDefaults};\n<\/script>`
+    );
+    if (newContent === currentContent) throw new Error('Nepodařilo se najít sekci DEFAULTS.');
+    const encoded = btoa(unescape(encodeURIComponent(newContent)));
+    status.textContent = 'Nahrávám na GitHub…';
+    const putResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${GH_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Zpěvník: aktualizace písní (${new Date().toLocaleDateString('cs-CZ')})`,
+        content: encoded,
+        sha,
+        branch: GH_BRANCH
+      })
+    });
+    if (!putResp.ok) { const err = await putResp.json(); throw new Error('GitHub: ' + (err.message || putResp.status)); }
+    status.textContent = '✅ Hotovo! Za 1–2 min uvidí změny všichni.';
+    status.className = 'gh-status ok';
+    btn.textContent = '✅ Uloženo';
+  } catch(e) {
+    status.textContent = '❌ ' + e.message;
+    status.className = 'gh-status err';
+    btn.disabled = false;
+    btn.textContent = 'Uložit na GitHub';
+  }
+}
 
 // ════════════════════════════════════════════════════════
 // INIT
