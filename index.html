@@ -403,6 +403,7 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
   <div class="gh-modal" onclick="event.stopPropagation()">
     <h3>☁️ Aktualizovat zpěvník</h3>
     <p>Tato akce uloží aktuální seznam písní na GitHub. Po ~1–2 minutách uvidí změny všichni uživatelé.</p>
+    <input class="inp" id="gh-token-inp" type="password" placeholder="GitHub token (ghp_...)" autocomplete="off" style="margin-bottom:12px">
     <button class="savebtn" id="gh-confirm-btn" onclick="doGithubUpdate()">Uložit na GitHub</button>
     <button class="cancbtn" onclick="closeGhModal()">Zrušit</button>
     <div class="gh-status" id="gh-status"></div>
@@ -1379,7 +1380,7 @@ function applyAdminUI() {
 // ════════════════════════════════════════════════════════
 // GITHUB UPDATE
 // ════════════════════════════════════════════════════════
-const GH_TOKEN = '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';
+const GH_TOKEN = '';
 const GH_REPO = 'pastikaalois-cloud/Zpevnik';
 const GH_FILE = 'index.html';
 const GH_BRANCH = 'main';
@@ -1390,20 +1391,29 @@ function showGithubUpdate() {
   document.getElementById('gh-status').className = 'gh-status';
   document.getElementById('gh-confirm-btn').disabled = false;
   document.getElementById('gh-confirm-btn').textContent = 'Uložit na GitHub';
+  document.getElementById('gh-token-inp').value = '';
+  setTimeout(() => document.getElementById('gh-token-inp').focus(), 100);
 }
 function closeGhModal() {
   document.getElementById('gh-modal-wrap').style.display = 'none';
+  document.getElementById('gh-token-inp').value = '';
 }
 async function doGithubUpdate() {
   const btn = document.getElementById('gh-confirm-btn');
   const status = document.getElementById('gh-status');
+  const token = document.getElementById('gh-token-inp').value.trim();
+  if (!token) {
+    status.textContent = '❌ Zadej GitHub token!';
+    status.className = 'gh-status err';
+    return;
+  }
   btn.disabled = true;
   btn.textContent = '⏳ Nahrávám…';
   status.textContent = 'Načítám soubor z GitHubu…';
   status.className = 'gh-status';
   try {
     const getResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
-      headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
     if (!getResp.ok) throw new Error('Chyba načtení: ' + getResp.status);
     const fileData = await getResp.json();
@@ -1421,7 +1431,7 @@ async function doGithubUpdate() {
     const putResp = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `token ${GH_TOKEN}`,
+        'Authorization': `token ${token}`,
         'Accept': 'application/vnd.github.v3+json',
         'Content-Type': 'application/json'
       },
