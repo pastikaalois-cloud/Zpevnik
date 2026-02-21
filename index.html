@@ -302,7 +302,6 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
     <div class="logo logo-clickable" onclick="logoClick()" title="Admin přihlášení">♪ Zpěvník<span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span></div>
     <div class="hdr-r">
       <button class="ibtn" id="theme-btn" onclick="toggleTheme()">🌙</button>
-      <button class="ibtn" id="refresh-btn" onclick="refreshData()" title="Načíst aktuální písničky">🔄</button>
       <button class="add-btn" id="add-btn" onclick="showAdd()" style="display:none">+ Přidat</button>
       <button class="add-btn" id="update-btn" onclick="showGithubUpdate()" style="display:none;background:#333;border:none;margin-left:4px">☁️ Uložit</button>
     </div>
@@ -767,20 +766,6 @@ window.addEventListener('popstate', function(e) {
 function enterApp() {
   show('screen-home');
   renderList();
-}
-function refreshData() {
-  if (!confirm('Načíst aktuální písničky? Tvé vlastní přidané písničky zůstanou.')) return;
-  try {
-    const maxDefaultId = (typeof DEFAULTS !== 'undefined') ? Math.max(...DEFAULTS.map(s => s.id)) : 0;
-    const userSongs = songs.filter(s => s.id > maxDefaultId);
-    const fresh = (typeof DEFAULTS !== 'undefined') ? DEFAULTS.map(s=>({...s})) : [];
-    songs = [...fresh, ...userSongs];
-    persist();
-    renderList();
-    alert('✓ Hotovo!');
-  } catch(e) {
-    alert('Chyba: ' + e.message);
-  }
 }
 
 function showHome() { stopScroll(); if(selectedChord){selectedChord.classList.remove("active");selectedChord=null;hideMoveBar();} show('screen-home'); renderList(); }
