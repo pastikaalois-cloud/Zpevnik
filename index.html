@@ -777,7 +777,7 @@ function refreshData() {
     songs = [...fresh, ...userSongs];
     localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
     localStorage.removeItem('zp_cksum');
-    location.reload();
+    window.location.href = window.location.href.split('?')[0] + '?r=' + Date.now();
   } catch(e) {
     alert('Chyba: ' + e.message);
   }
