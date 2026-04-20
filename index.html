@@ -312,6 +312,7 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
   </div>
   <div class="cnt" id="cnt"></div>
   <div class="list" id="list"></div>
+  <button class="metro-fab" id="metro-fab" onclick="toggleMetronome()" title="Metronom">♩</button>
   <button class="nl-fab" onclick="openNL()" title="Nápojový lístek">🍺</button>
 </div>
 
@@ -1735,9 +1736,253 @@ async function doGithubUpdate() {
 renderList();
 </script>
 
+
+<!-- METRONOME FLASH BAR -->
+<div id="metro-flash"></div>
+
+<!-- METRONOME PANEL -->
+<div id="metro-panel">
+  <div style="font-size:13px;font-weight:800;color:var(--text3);text-align:center;letter-spacing:1px;">METRONOM</div>
+  <div class="metro-bpm-row">
+    <button class="metro-bpm-btn" onclick="changeBpm(-5)">−</button>
+    <input id="metro-bpm-input" type="number" min="20" max="300" value="120" oninput="bpmFromInput()">
+    <button class="metro-bpm-btn" onclick="changeBpm(+5)">+</button>
+  </div>
+  <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:-4px;">BPM</div>
+  <input id="metro-slider" type="range" min="20" max="300" value="120" oninput="bpmFromSlider()">
+  <button class="metro-tap-btn" onclick="tapTempo()">👆 Tap tempo</button>
+</div>
+<script>
+// ════════════════════════════════════════════════════════
+// METRONOME
+// ════════════════════════════════════════════════════════
+let metroBpm = 120;
+let metroRunning = false;
+let metroInterval = null;
+let metroPanel = false;
+let tapTimes = [];
+
+function toggleMetronome() {
+  const fab = document.getElementById('metro-fab');
+  if (!metroPanel) {
+    // Open panel
+    metroPanel = true;
+    document.getElementById('metro-panel').classList.add('open');
+  } else if (!metroRunning) {
+    // Start
+    startMetronome();
+  } else {
+    // Stop
+    stopMetronome();
+    metroPanel = false;
+    document.getElementById('metro-panel').classList.remove('open');
+  }
+}
+
+function startMetronome() {
+  metroRunning = true;
+  document.getElementById('metro-fab').classList.add('running');
+  scheduleMetronome();
+}
+
+function stopMetronome() {
+  metroRunning = false;
+  clearTimeout(metroInterval);
+  document.getElementById('metro-fab').classList.remove('running');
+}
+
+function scheduleMetronome() {
+  if (!metroRunning) return;
+  flash();
+  metroInterval = setTimeout(scheduleMetronome, 60000 / metroBpm);
+}
+
+function flash() {
+  const bar = document.getElementById('metro-flash');
+  bar.classList.add('beat');
+  setTimeout(() => bar.classList.remove('beat'), 80);
+}
+
+function changeBpm(delta) {
+  metroBpm = Math.min(300, Math.max(20, metroBpm + delta));
+  updateBpmUI();
+  if (metroRunning) { clearTimeout(metroInterval); scheduleMetronome(); }
+}
+
+function bpmFromSlider() {
+  metroBpm = parseInt(document.getElementById('metro-slider').value);
+  document.getElementById('metro-bpm-input').value = metroBpm;
+  if (metroRunning) { clearTimeout(metroInterval); scheduleMetronome(); }
+}
+
+function bpmFromInput() {
+  const val = parseInt(document.getElementById('metro-bpm-input').value);
+  if (!isNaN(val) && val >= 20 && val <= 300) {
+    metroBpm = val;
+    document.getElementById('metro-slider').value = metroBpm;
+    if (metroRunning) { clearTimeout(metroInterval); scheduleMetronome(); }
+  }
+}
+
+function updateBpmUI() {
+  document.getElementById('metro-bpm-input').value = metroBpm;
+  document.getElementById('metro-slider').value = metroBpm;
+}
+
+let tapLast = 0;
+function tapTempo() {
+  const now = Date.now();
+  if (tapLast && now - tapLast < 3000) {
+    tapTimes.push(now - tapLast);
+    if (tapTimes.length > 6) tapTimes.shift();
+    const avg = tapTimes.reduce((a, b) => a + b) / tapTimes.length;
+    metroBpm = Math.round(Math.min(300, Math.max(20, 60000 / avg)));
+    updateBpmUI();
+    if (metroRunning) { clearTimeout(metroInterval); scheduleMetronome(); }
+    flash();
+  } else {
+    tapTimes = [];
+  }
+  tapLast = now;
+}
+
+// Close panel when clicking outside
+document.addEventListener('pointerdown', function(e) {
+  if (!metroPanel) return;
+  const panel = document.getElementById('metro-panel');
+  const fab = document.getElementById('metro-fab');
+  if (!panel.contains(e.target) && !fab.contains(e.target)) {
+    metroPanel = false;
+    panel.classList.remove('open');
+    if (!metroRunning) stopMetronome();
+  }
+});
+</script>
 </body>
 </html>
 
+</script>
+
+<!-- METRONOME FLASH BAR -->
+<div id="metro-flash"></div>
+
+<!-- METRONOME PANEL -->
+<div id="metro-panel">
+  <div style="font-size:13px;font-weight:800;color:var(--text3);text-align:center;letter-spacing:1px;">METRONOM</div>
+  <div class="metro-bpm-row">
+    <button class="metro-bpm-btn" onclick="changeBpm(-5)">−</button>
+    <input id="metro-bpm-input" type="number" min="20" max="300" value="120" oninput="bpmFromInput()">
+    <button class="metro-bpm-btn" onclick="changeBpm(+5)">+</button>
+  </div>
+  <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:-4px;">BPM</div>
+  <input id="metro-slider" type="range" min="20" max="300" value="120" oninput="bpmFromSlider()">
+  <button class="metro-tap-btn" onclick="tapTempo()">👆 Tap tempo</button>
+</div>
+<script>
+// ════════════════════════════════════════════════════════
+// METRONOME
+// ════════════════════════════════════════════════════════
+let metroBpm = 120;
+let metroRunning = false;
+let metroInterval = null;
+let metroPanel = false;
+let tapTimes = [];
+
+function toggleMetronome() {
+  const fab = document.getElementById('metro-fab');
+  if (!metroPanel) {
+    // Open panel
+    metroPanel = true;
+    document.getElementById('metro-panel').classList.add('open');
+  } else if (!metroRunning) {
+    // Start
+    startMetronome();
+  } else {
+    // Stop
+    stopMetronome();
+    metroPanel = false;
+    document.getElementById('metro-panel').classList.remove('open');
+  }
+}
+
+function startMetronome() {
+  metroRunning = true;
+  document.getElementById('metro-fab').classList.add('running');
+  scheduleMetronome();
+}
+
+function stopMetronome() {
+  metroRunning = false;
+  clearTimeout(metroInterval);
+  document.getElementById('metro-fab').classList.remove('running');
+}
+
+function scheduleMetronome() {
+  if (!metroRunning) return;
+  flash();
+  metroInterval = setTimeout(scheduleMetronome, 60000 / metroBpm);
+}
+
+function flash() {
+  const bar = document.getElementById('metro-flash');
+  bar.classList.add('beat');
+  setTimeout(() => bar.classList.remove('beat'), 80);
+}
+
+function changeBpm(delta) {
+  metroBpm = Math.min(300, Math.max(20, metroBpm + delta));
+  updateBpmUI();
+  if (metroRunning) { clearTimeout(metroInterval); scheduleMetronome(); }
+}
+
+function bpmFromSlider() {
+  metroBpm = parseInt(document.getElementById('metro-slider').value);
+  document.getElementById('metro-bpm-input').value = metroBpm;
+  if (metroRunning) { clearTimeout(metroInterval); scheduleMetronome(); }
+}
+
+function bpmFromInput() {
+  const val = parseInt(document.getElementById('metro-bpm-input').value);
+  if (!isNaN(val) && val >= 20 && val <= 300) {
+    metroBpm = val;
+    document.getElementById('metro-slider').value = metroBpm;
+    if (metroRunning) { clearTimeout(metroInterval); scheduleMetronome(); }
+  }
+}
+
+function updateBpmUI() {
+  document.getElementById('metro-bpm-input').value = metroBpm;
+  document.getElementById('metro-slider').value = metroBpm;
+}
+
+let tapLast = 0;
+function tapTempo() {
+  const now = Date.now();
+  if (tapLast && now - tapLast < 3000) {
+    tapTimes.push(now - tapLast);
+    if (tapTimes.length > 6) tapTimes.shift();
+    const avg = tapTimes.reduce((a, b) => a + b) / tapTimes.length;
+    metroBpm = Math.round(Math.min(300, Math.max(20, 60000 / avg)));
+    updateBpmUI();
+    if (metroRunning) { clearTimeout(metroInterval); scheduleMetronome(); }
+    flash();
+  } else {
+    tapTimes = [];
+  }
+  tapLast = now;
+}
+
+// Close panel when clicking outside
+document.addEventListener('pointerdown', function(e) {
+  if (!metroPanel) return;
+  const panel = document.getElementById('metro-panel');
+  const fab = document.getElementById('metro-fab');
+  if (!panel.contains(e.target) && !fab.contains(e.target)) {
+    metroPanel = false;
+    panel.classList.remove('open');
+    if (!metroRunning) stopMetronome();
+  }
+});
 </script>
 </body>
 </html>
