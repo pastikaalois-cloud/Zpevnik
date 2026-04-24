@@ -1389,28 +1389,135 @@ function mvChord(li, ci, dir) {
 const CHROMATIC = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const ENHARMONIC = {'Db':'C#','Eb':'D#','Gb':'F#','Ab':'G#','Bb':'A#'};
 // Česká notace pro zobrazení basových tónů (B→H, A#→B)
-const CHROMATIC_CZ = ['C','C#','D','D#','E','F','F#','G','G#','A','B','H'];
-
-function toBassDisplay(note) {
-  // Převede notu do české notace pro zobrazení
-  const n = ENHARMONIC[note] || note;
-  const idx = CHROMATIC.indexOf(n);
-  if (idx === -1) return note;
-  return CHROMATIC_CZ[idx];
-}
+const BASS_TABLE = {
+  // C
+  'C':      'C–e–g',
+  'Cm':     'C–es–g',
+  'Cdim':   'C–es–ges',
+  'Cdim7':  'C–es–ges–a',
+  'Caug':   'C–e–gis',
+  'Csus4':  'C–f–g',
+  'Csus2':  'C–d–g',
+  'C7':     'C–e–g–b',
+  'Cmaj7':  'C–e–g–h',
+  'Cm7':    'C–es–g–b',
+  'Cadd9':  'C–e–g–d',
+  'C9':     'C–e–g–b–d',
+  'C6':     'C–e–g–a',
+  // C# / Db
+  'C#':     'C#–eis–gis',
+  'C#m':    'C#–e–gis',
+  'C#dim':  'C#–e–g',
+  'C#7':    'C#–eis–gis–h',
+  'Db':     'Db–f–as',
+  'Dbm':    'Db–fes–as',
+  'Dbdim':  'Db–fes–ases',
+  'Dbmaj7': 'Db–f–as–c',
+  // D
+  'D':      'D–fis–a',
+  'Dm':     'D–f–a',
+  'Ddim':   'D–f–as',
+  'Daug':   'D–fis–ais',
+  'Dsus4':  'D–g–a',
+  'Dsus2':  'D–e–a',
+  'D7':     'D–fis–a–c',
+  'Dmaj7':  'D–fis–a–cis',
+  'Dm7':    'D–f–a–c',
+  'Dadd9':  'D–fis–a–e',
+  'D6':     'D–fis–a–h',
+  // Eb / D#
+  'Eb':     'Eb–g–b',
+  'Ebm':    'Eb–ges–b',
+  'Ebdim':  'Eb–ges–heses',
+  'Eb7':    'Eb–g–b–des',
+  'Ebmaj7': 'Eb–g–b–d',
+  'D#':     'Eb–g–b',
+  'D#m':    'Eb–ges–b',
+  // E
+  'E':      'E–gis–h',
+  'Em':     'E–g–h',
+  'Edim':   'E–g–b',
+  'Eaug':   'E–gis–his',
+  'Esus4':  'E–a–h',
+  'E7':     'E–gis–h–d',
+  'Emaj7':  'E–gis–h–dis',
+  'Em7':    'E–g–h–d',
+  'Eadd9':  'E–gis–h–fis',
+  // F
+  'F':      'F–a–c',
+  'Fm':     'F–as–c',
+  'Fdim':   'F–as–ces',
+  'Faug':   'F–a–cis',
+  'Fsus4':  'F–b–c',
+  'F7':     'F–a–c–es',
+  'Fmaj7':  'F–a–c–e',
+  'Fm7':    'F–as–c–es',
+  'Fadd9':  'F–a–c–g',
+  // F# / Gb
+  'F#':     'F#–ais–cis',
+  'F#m':    'F#–a–cis',
+  'F#dim':  'F#–a–c',
+  'F#7':    'F#–ais–cis–e',
+  'Gb':     'Gb–b–des',
+  'Gbm':    'Gb–hes–des',
+  'Gbdim':  'Gb–hes–deses',
+  // G
+  'G':      'G–h–d',
+  'Gm':     'G–b–d',
+  'Gdim':   'G–b–des',
+  'Gaug':   'G–h–dis',
+  'Gsus4':  'G–c–d',
+  'G7':     'G–h–d–f',
+  'Gmaj7':  'G–h–d–fis',
+  'Gm7':    'G–b–d–f',
+  'Gadd9':  'G–h–d–a',
+  'G6':     'G–h–d–e',
+  // Ab / G#
+  'Ab':     'Ab–c–es',
+  'Abm':    'Ab–ces–es',
+  'Abdim':  'Ab–ces–eses',
+  'Ab7':    'Ab–c–es–ges',
+  'Abmaj7': 'Ab–c–es–g',
+  'G#':     'Ab–c–es',
+  'G#m':    'Ab–ces–es',
+  // A
+  'A':      'A–cis–e',
+  'Am':     'A–c–e',
+  'Adim':   'A–c–es',
+  'Aaug':   'A–cis–eis',
+  'Asus4':  'A–d–e',
+  'A7':     'A–cis–e–g',
+  'Amaj7':  'A–cis–e–gis',
+  'Am7':    'A–c–e–g',
+  'Aadd9':  'A–cis–e–h',
+  'A6':     'A–cis–e–fis',
+  // B (hes) / Bb
+  'B':      'B–d–f',
+  'Bm':     'B–des–f',
+  'Bdim':   'B–des–fes',
+  'B7':     'B–d–f–as',
+  'Bmaj7':  'B–d–f–a',
+  'Bb':     'B–d–f',
+  'Bbm':    'B–des–f',
+  // H
+  'H':      'H–dis–fis',
+  'Hm':     'H–d–fis',
+  'Hdim':   'H–d–f',
+  'Haug':   'H–dis–fisis',
+  'H7':     'H–dis–fis–a',
+  'Hmaj7':  'H–dis–fis–ais',
+  'Hm7':    'H–d–fis–a',
+  'Hadd9':  'H–dis–fis–cis',
+};
 
 function bassNotes(chord) {
-  // Extrahuje root a kvintu z akordu, vrátí "root–kvinta" v české notaci
-  const m = chord.match(/^([A-G][#b]?)(.*)/);
-  if (!m) return chord;
-  const rawRoot = m[1];
-  const n = ENHARMONIC[rawRoot] || rawRoot;
-  const rootIdx = CHROMATIC.indexOf(n);
-  if (rootIdx === -1) return toBassDisplay(rawRoot);
-  const quintIdx = (rootIdx + 7) % 12; // čistá kvinta = 7 půltónů
-  const rootCz = CHROMATIC_CZ[rootIdx];
-  const quintCz = CHROMATIC_CZ[quintIdx];
-  return rootCz + '–' + quintCz;
+  // Odstraní basový tón za lomítkem (Am/E → Am)
+  const clean = chord.replace(/\/[A-Za-z#b]+$/, '').trim();
+  if (BASS_TABLE[clean]) return BASS_TABLE[clean];
+  // Fallback: zkusit jen root
+  const m = clean.match(/^([A-GH][#b]?)/);
+  if (m && BASS_TABLE[m[1]]) return BASS_TABLE[m[1]];
+  return chord;
 }
 
 function transposeNote(note, steps) {
