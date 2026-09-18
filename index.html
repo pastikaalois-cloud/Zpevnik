@@ -506,21 +506,22 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
 </div>
 
 <!-- PRINT MODAL -->
-<dialog id="print-modal-wrap" style="border:none;border-radius:18px;padding:28px 24px 20px;width:min(92vw,420px);box-shadow:0 8px 40px rgba(0,0,0,.3);background:var(--card);color:var(--text1)">
-  <h3 style="font-size:19px;font-weight:800;margin:0 0 6px">🖨 Tisk zpěvníku</h3>
-  <p style="color:var(--text3);font-size:13px;margin:0 0 18px">Vyber režim a písničky které chceš vytisknout</p>
-  <div class="print-mode-btns">
-    <div class="print-mode-btn sel" id="pm-normal" onclick="setPrintMode('normal')">🎸 Normální<br><span style="font-weight:400;font-size:11px">klasické akordy</span></div>
-    <div class="print-mode-btn" id="pm-bass" onclick="setPrintMode('bass')">🎸 Baskytara<br><span style="font-weight:400;font-size:11px">basové noty</span></div>
-    <div class="print-mode-btn" id="pm-text" onclick="setPrintMode('text')">📄 Jen text<br><span style="font-weight:400;font-size:11px">bez akordů</span></div>
+<div id="print-wrap" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center" onclick="if(event.target===this)closePrintDialog()">
+  <div style="background:var(--card);color:var(--text1);border-radius:18px;padding:24px;width:min(92vw,400px);max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.4)">
+    <h3 style="margin:0 0 6px;font-size:18px">🖨 Tisk zpěvníku</h3>
+    <p style="margin:0 0 14px;font-size:13px;color:var(--text3)">Vyber režim a písničky</p>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <div id="pm-normal" onclick="setPrintMode('normal')" style="flex:1;padding:10px 6px;border-radius:10px;border:2px solid var(--accent);background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer;text-align:center">🎸 Normální</div>
+      <div id="pm-bass" onclick="setPrintMode('bass')" style="flex:1;padding:10px 6px;border-radius:10px;border:2px solid var(--border);background:var(--bg2);color:var(--text1);font-size:12px;font-weight:700;cursor:pointer;text-align:center">🎸 Baskytara</div>
+      <div id="pm-text" onclick="setPrintMode('text')" style="flex:1;padding:10px 6px;border-radius:10px;border:2px solid var(--border);background:var(--bg2);color:var(--text1);font-size:12px;font-weight:700;cursor:pointer;text-align:center">📄 Jen text</div>
+    </div>
+    <div id="print-songs-list" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;margin-bottom:14px"></div>
+    <div style="display:flex;gap:10px">
+      <button onclick="closePrintDialog()" style="flex:1;height:44px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg2);color:var(--text1);font-size:14px;font-weight:700;cursor:pointer">Zrušit</button>
+      <button onclick="doPrint()" style="flex:2;height:44px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:700;cursor:pointer">Tisknout</button>
+    </div>
   </div>
-  <span class="print-sel-all" id="print-sel-all-btn" onclick="toggleSelectAll()">✓ Vybrat vše</span>
-  <div class="print-songs-list" id="print-songs-list"></div>
-  <div class="print-btns">
-    <button class="cancbtn" onclick="closePrintDialog()">Zrušit</button>
-    <button class="savebtn" onclick="doPrint()">Tisknout</button>
-  </div>
-</dialog>
+</div>
 <div class="admin-overlay" id="admin-overlay" onclick="closeAdminModal()"></div>
 <div class="admin-overlay" id="admin-modal-wrap" style="display:none">
   <div class="admin-modal" onclick="event.stopPropagation()">
@@ -978,9 +979,7 @@ function renderList() {
     }, []);
   }
   const n = f.length;
-  document.getElementById('cnt').innerHTML =
-    (n===0 ? 'Žádné výsledky' : n===1 ? '1 píseň' : n<5 ? n+' písně' : n+' písní') +
-    ' &nbsp;<button style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:4px 12px;font-size:13px;font-weight:700;cursor:pointer" onclick="openPrintDialog()">🖨 Tisknout</button>';
+  document.getElementById('cnt').textContent = n===0 ? 'Žádné výsledky' : n===1 ? '1 píseň' : n<5 ? n+' písně' : n+' písní';
   const el = document.getElementById('list');
   if (!f.length) { el.innerHTML = '<div class="empty">Nic nenalezeno 🔍</div>'; return; }
   el.innerHTML = f.map(({song: s, snippet}) => `
@@ -2152,6 +2151,99 @@ document.addEventListener('pointerdown', function(e) {
     panel.classList.remove('open');
   }
 });
+
+// ── PRINT ─────────────────────────────────────────────────
+let printMode = 'normal';
+let printSelected = new Set();
+
+function openPrintDialog() {
+  printSelected = new Set(songs.map(s => s.id));
+  printMode = 'normal';
+  ['normal','bass','text'].forEach(m => {
+    document.getElementById('pm-'+m).classList.toggle('sel', m === printMode);
+  });
+  document.getElementById('print-songs-list').innerHTML = songs.map(s =>
+    '<label style="display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--border);font-size:14px;cursor:pointer">' +
+    '<input type="checkbox" checked onchange="togglePrintSong('+s.id+',this.checked)" style="width:17px;height:17px;accent-color:var(--accent)">' +
+    '<span>' + esc(s.title) + (s.artist ? '<br><span style="font-size:11px;color:var(--text3)">' + esc(s.artist) + '</span>' : '') + '</span>' +
+    '</label>'
+  ).join('');
+  document.getElementById('print-wrap').style.display = 'flex';
+}
+
+function closePrintDialog() {
+  document.getElementById('print-wrap').style.display = 'none';
+}
+
+function setPrintMode(mode) {
+  printMode = mode;
+  ['normal','bass','text'].forEach(m => {
+    document.getElementById('pm-'+m).classList.toggle('sel', m === mode);
+  });
+}
+
+function togglePrintSong(id, checked) {
+  if (checked) printSelected.add(id); else printSelected.delete(id);
+}
+
+function doPrint() {
+  const toPrint = songs.filter(s => printSelected.has(s.id));
+  if (!toPrint.length) { alert('Vyber aspoň jednu píseň'); return; }
+  closePrintDialog();
+  const isBass = printMode === 'bass';
+  const noChords = printMode === 'text';
+  let html = '<h2 style="font-family:sans-serif;margin-bottom:1em">' +
+    (isBass ? '🎸 Baskytara' : noChords ? '📄 Jen text' : '🎸 Normální akordy') + '</h2>';
+  for (const song of toPrint) {
+    html += '<div style="page-break-inside:avoid;margin-bottom:2em">';
+    html += '<div style="font-size:1.1em;font-weight:bold;margin-bottom:0.1em">' + esc(song.title) + '</div>';
+    if (song.artist) html += '<div style="font-size:0.85em;color:#666;margin-bottom:0.4em">' + esc(song.artist) + '</div>';
+    html += renderSongForPrint(song, isBass, noChords);
+    html += '</div>';
+  }
+  document.getElementById('print-area').innerHTML = html;
+  window.print();
+}
+
+function renderSongForPrint(song, isBass, noChords) {
+  return song.content.split('\n').map(line => {
+    if (!line.trim()) return '<div style="height:0.5em"></div>';
+    const tokens = [];
+    let i = 0;
+    while (i < line.length) {
+      const ob = line.indexOf('[', i);
+      if (ob === -1) { tokens.push({type:'text', val:line.slice(i)}); break; }
+      if (ob > i) tokens.push({type:'text', val:line.slice(i, ob)});
+      const cb = line.indexOf(']', ob);
+      if (cb === -1) { tokens.push({type:'text', val:line.slice(ob)}); break; }
+      tokens.push({type:'chord', val:line.slice(ob+1, cb)});
+      i = cb + 1;
+    }
+    const hasChords = !noChords && tokens.some(t => t.type === 'chord');
+    if (!hasChords) {
+      return '<div style="font-family:monospace;white-space:pre-wrap">' + esc(tokens.map(t=>t.val).join('')) + '</div>';
+    }
+    let chordLine = '', textLine = '';
+    for (const t of tokens) {
+      if (t.type === 'chord') {
+        const disp = isBass ? bassNotes(t.val) : t.val;
+        const w = disp.length + 1;
+        chordLine += disp + ' ';
+        textLine  += ' '.repeat(w);
+      } else {
+        const v = t.val;
+        const cl = chordLine.length, tl = textLine.length;
+        if (cl > tl) textLine += ' '.repeat(cl - tl);
+        if (tl > cl) chordLine += ' '.repeat(tl - cl);
+        chordLine += ' '.repeat(v.length);
+        textLine  += v;
+      }
+    }
+    return '<div style="font-family:monospace;white-space:pre;line-height:1.1">' +
+      '<span style="color:#c06000;font-weight:bold">' + esc(chordLine) + '</span>\n' +
+      esc(textLine) + '</div>';
+  }).join('');
+}
 </script>
 <div id="print-area"></div>
 </body>
