@@ -320,13 +320,17 @@ textarea.inp{font-family:monospace;font-size:14px;line-height:1.8;resize:none;mi
     line-height: 1.4;
   }
   #print-area > div {
+    display: block;
+    min-height: 100vh;
     page-break-after: always;
     break-after: page;
-    page-break-inside: avoid;
+    box-sizing: border-box;
+    padding-bottom: 1cm;
   }
   #print-area > div:last-child {
     page-break-after: auto;
     break-after: auto;
+    min-height: 0;
   }
   @page { size: A4 portrait; margin: 1.5cm; }
 }
